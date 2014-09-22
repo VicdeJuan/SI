@@ -6,48 +6,40 @@
  * C13100
  */
 
- html, body {
+ html,body {
  	height: 100%;
  	margin: 0px;
  }
 
  header{
  	background: #C60;
- 	height: 100px;
+ 	height: 15%;
  }
+
+ aside{
+	padding-top: 20px;
+	padding-left: 50px;
+ 	width: 170px;
+ 	height: 100%-20px;
+ 	float: left;
+ }
+
  footer{
- 	height: 50px;
+ 	height: 15%;
  	background: #C60;
  	clear: both;
  }
- aside{
- 	width: 170px;
- 	height: 100%;
- 	float: left;
- 	padding: 12px;
- 	box-sizing: border-box;
- }
+
 
  .body-container{
- 	height: 100%;
- 	padding-top: 100px;
+ 	height: 70%;
  	background: #FFFBD0;
  }
 
  .main-container{
- 	padding: 12px;
  	max-width: 650px;
- 	height: 100%;
+ 	padding: 30px;
+ 	height: 100%-30px;
  	float: left;
  	box-sizing: border-box;
- }
-
- .wrapper {
- 	min-height: 100%;
- 	height: auto !important;
- 	height: 100%;
- 	margin: 0 auto -50px;
- }
- .push {
- 	height: 50px;
  }
