@@ -17,10 +17,10 @@
  }
 
  aside{
-	padding-top: 20px;
+	padding-top: 80px;
 	padding-left: 50px;
  	width: 170px;
- 	height: 100%-20px;
+ 	max-height: 100%-80px;
  	float: left;
  }
 
@@ -32,14 +32,20 @@
 
 
  .body-container{
- 	height: 70%;
+ 	max-height: 70%;
+ 	min-height: 70%;
  	background: #FFFBD0;
  }
 
- .main-container{
- 	max-width: 650px;
+.scroller{
+	overflow: scroll;
+	max-height: 350px;
  	padding: 30px;
- 	height: 100%-30px;
+}
+
+ .main-container{
+ 	padding: 30px;
+ 	max-width: 650px;
+ 	height: 100%;
  	float: left;
- 	box-sizing: border-box;
  }
