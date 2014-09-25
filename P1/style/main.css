@@ -1,0 +1,141 @@
+/**
+ * Paleta de colores
+ * C60
+ * FFFBD0
+ * F90
+ * C13100
+ */
+
+ html,body {
+ 	height: 100%;
+ 	margin: 0px;
+ }
+
+ header{
+ 	background: #C60;
+ 	height: 15%;
+ }
+
+ aside{
+	padding-top: 80px;
+	padding-left: 50px;
+ 	width: 170px;
+ 	max-height: 100%-80px;
+ 	float: left;
+ }
+
+ footer{
+ 	height: 15%;
+ 	background: #C60;
+ 	clear: both;
+ }
+
+
+ .body-container{
+ 	background: #FFFBD0;
+ }
+
+.inner-scroll{
+	overflow: scroll;
+	max-height: 350px;
+ 	padding: 30px;
+}
+
+ .main-container{
+ 	padding: 30px;
+ 	overflow: hidden;
+ 	max-width: 650px;
+ 	height: 100%;
+ 	float: left;
+ }
+
+ .scroller {
+ 	height: 100%;
+ 	padding: 30px;
+ }
+
+
+ .movies{
+ 	border: solid;
+ 	padding: 15px;
+ 	border-width: 1px;
+ 	margin: 5px;
+ 	position:relative;
+ }
+
+#img_01{
+	height: 80px;
+	width: 80px;
+	display: inline;
+	border-radius: 15px;
+}
+
+#movie_01_title{
+	display: inline;
+	font-size: 30px;
+	margin-left: 30%;
+	display: inline-block;
+	margin-bottom: 0;
+	
+	vertical-align: top;
+
+	/*TODO: Centrar el título bien*/
+
+}
+
+#movie_01_description{
+	display:block;
+}
+
+
+
+/*
+		Left Menu
+ */
+
+#menu {
+	width: 150px;
+	font-family: Arial;
+	font-size: 0.8em;
+	padding-top: 50px;
+	margin: 0;
+}
+
+
+#menu ul {
+	margin: 0;
+	padding: 0;
+}
+
+#menu li {
+	list-style-type: none;
+	border: 1px solid #F90;
+}
+
+#menu a {
+	text-decoration: none;
+	color: #C13100;
+	padding: 0px;
+	padding-left: 15px; 
+}
+
+
+.filter-title{
+	display: inline;
+	font-size: 20px;
+	font-family: comic;
+	margin-left: 0.7em;
+}
+
+.filter ul{
+	display: none;
+}
+
+.filter:hover ul{
+	display: inline;
+}
+
+.filter-genre{
+	font-size: 15px;
+	margin-left: 2em;
+}
