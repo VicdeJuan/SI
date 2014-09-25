@@ -32,12 +32,10 @@
 
 
  .body-container{
- 	max-height: 70%;
- 	min-height: 70%;
  	background: #FFFBD0;
  }
 
-.scroller{
+.inner-scroll{
 	overflow: scroll;
 	max-height: 350px;
  	padding: 30px;
@@ -45,9 +43,15 @@
 
  .main-container{
  	padding: 30px;
+ 	overflow: hidden;
  	max-width: 650px;
  	height: 100%;
  	float: left;
+ }
+
+ .scroller {
+ 	height: 100%;
+ 	padding: 30px;
  }
 
 
@@ -109,7 +113,6 @@
 }
 
 #menu a {
-	display: block;
 	text-decoration: none;
 	color: #C13100;
 	padding: 0px;
@@ -121,7 +124,7 @@
 	display: inline;
 	font-size: 20px;
 	font-family: comic;
-	margin: 10px;
+	margin-left: 0.7em;
 }
 
 .filter ul{
@@ -129,9 +132,10 @@
 }
 
 .filter:hover ul{
-	display: block;
+	display: inline;
 }
 
 .filter-genre{
-	font-size: 15px;	
+	font-size: 15px;
+	margin-left: 2em;
 }
