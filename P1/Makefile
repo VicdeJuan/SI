@@ -1,2 +1,2 @@
-%.html: header.html %.base.html footer.html
+%.html: base/header.html %.base.html base/footer.html
 	cat $^ > $@	
