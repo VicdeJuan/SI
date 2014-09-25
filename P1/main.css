@@ -63,6 +63,7 @@
  	padding: 15px;
  	border-width: 1px;
  	margin: 5px;
+ 	position:relative;
  }
 
 #img_01{
@@ -76,7 +77,11 @@
 	display: inline;
 	font-size: 30px;
 	margin-left: 30%;
-	vertical-align: center;
+	display: inline-block;
+	margin-bottom: 0;
+	
+	vertical-align: top;
+
 	/*TODO: Centrar el título bien*/
 
 }
