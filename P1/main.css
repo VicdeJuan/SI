@@ -49,3 +49,38 @@
  	height: 100%;
  	float: left;
  }
+
+.genre{
+	display: inline;
+	font-size: 20px;
+	/*TODO: una fuente chula*/
+	font-family: comic;
+	margin: 10px;
+}
+
+ .movies{
+ 	border: solid;
+ 	padding: 15px;
+ 	border-width: 1px;
+ 	margin: 5px;
+ }
+
+#img_01{
+	height: 80px;
+	width: 80px;
+	display: inline;
+	border-radius: 15px;
+}
+
+#movie_01_title{
+	display: inline;
+	font-size: 30px;
+	margin-left: 30%;
+	vertical-align: center;
+	/*TODO: Centrar el título bien*/
+
+}
+
+#movie_01_description{
+	display:block;
+}
