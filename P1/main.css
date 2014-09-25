@@ -116,18 +116,22 @@
 	padding-left: 15px; 
 }
 
-#menu a:hover {
-	background: #d6ccff;
-}
 
-
-.filter{
+.filter-title{
 	display: inline;
 	font-size: 20px;
 	font-family: comic;
 	margin: 10px;
 }
 
-.filter-genre{
+.filter ul{
+	display: none;
+}
 
+.filter:hover ul{
+	display: block;
+}
+
+.filter-genre{
+	font-size: 15px;	
 }
