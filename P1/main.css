@@ -8,7 +8,7 @@
 
  html,body {
  	height: 100%;
- 	margin: 0px;
+ 	margin: 0;
  	font-family: Helvetica, Verdana, Arial;
  }
 
@@ -21,7 +21,7 @@
 	padding-top: 80px;
 	padding-left: 50px;
  	width: 170px;
- 	max-height: 100%-80px;
+ 	max-height: calc(100%-80px);
  	float: left;
  }
 
