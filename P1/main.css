@@ -50,13 +50,6 @@
  	float: left;
  }
 
-.genre{
-	display: inline;
-	font-size: 20px;
-	/*TODO: una fuente chula*/
-	font-family: comic;
-	margin: 10px;
-}
 
  .movies{
  	border: solid;
@@ -88,4 +81,53 @@
 
 #movie_01_description{
 	display:block;
+}
+
+
+
+/*
+		Left Menu
+ */
+
+#menu {
+	width: 150px;
+	font-family: Arial;
+	font-size: 0.8em;
+	padding-top: 50px;
+	margin: 0;
+}
+
+
+#menu ul {
+	margin: 0;
+	padding: 0;
+}
+
+#menu li {
+	list-style-type: none;
+	border: 1px solid #F90;
+}
+
+#menu a {
+	display: block;
+	text-decoration: none;
+	color: #C13100;
+	padding: 0px;
+	padding-left: 15px; 
+}
+
+#menu a:hover {
+	background: #d6ccff;
+}
+
+
+.filter{
+	display: inline;
+	font-size: 20px;
+	font-family: comic;
+	margin: 10px;
+}
+
+.filter-genre{
+
 }
