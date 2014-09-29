@@ -30,6 +30,10 @@
  	clear: both;
  }
 
+.whitespace_10{
+	margin:0;
+	margin-left: 18px;
+}
 
  .body-container{
  	background: #FFFBD0;
