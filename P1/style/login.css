@@ -59,13 +59,21 @@
  }
 
 form{
-	padding: 150px;
-	padding-left: 0;
+	padding-top: 7%;
 	margin-left: 40%;
+	padding-bottom: 0;
+	vertical-align: middle;
+	max-width: 250px;
 }
 
 input{
 	font-size: 18px;
+}
+
+#WelcomeMsg{
+	text-align: center;
+	margin-right: 10px;
+	font-size: 20px;
 }
 
 #login-body-container{
@@ -75,4 +83,5 @@ input{
 
 #NewRegister{
 	font-size: 10px;
+	margin-left: 50px;
 }
