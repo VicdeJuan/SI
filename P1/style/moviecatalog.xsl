@@ -17,21 +17,20 @@
 
   <div class="body-container">
   <!-- Left Menu-->
-    <aside id="menu">
+    <aside class="menu">
       <ul>
-        <li class="filter"><a href="index.html" class="filter-title">Inicio</a></li>
-        <li class="filter"> <p class="filter-title"> Género</p>
-          <ul>
-            <li><a href="pages/error.html" class="filter-genre">Comedia</a></li>
-            <li><a href="pages/error.html" class="filter-genre">Drama</a></li>
-            <li><a href="pages/error.html" class="filter-genre">Etc</a></li>
+        <li><a href="index.html" class="filter-title">Inicio</a></li>
+        <li class="filter"><a href="" class="filter-title">Género</a>
+          <ul class="filter-items">
+            <li><a href="error.html" class="filter-genre">Comedia</a></li>
+            <li><a href="error.html" class="filter-genre">Drama</a></li>
+            <li><a href="error.html" class="filter-genre">Etc</a></li>
           </ul>
         </li>
-        <li class="filter"> <p class="filter-title"> Año </p></li>
-        <li class="filter"> <p class="filter-title"> Etc </p></li>  
+        <li><a href="" class="filter-title">Año</a></li>
+        <li><a href="" class="filter-title">Etc</a></li>  
       </ul>
-    </aside>
-
+    </aside> 
     <!-- End left menu-->
 
 
