@@ -64,28 +64,34 @@
  	position:relative;
  }
 
-#img_01{
+.movie_img{
 	height: 80px;
 	width: 80px;
 	display: inline;
 	border-radius: 15px;
 }
 
-#movie_01_title{
-	display: inline;
+.movie_title{
 	font-size: 30px;
 	margin-left: 30%;
 	display: inline-block;
 	margin-bottom: 0;
-	
 	vertical-align: top;
+}
 
-	/*TODO: Centrar el título bien*/
+.movie_genre{
+	display: inline-block;
+ 	border: solid;
+ 	padding: 15px;
+ 	border-width: 1px;
+ 	border-radius: 200px;
+ 	margin: 5px;
 
 }
 
-#movie_01_description{
+.movie_description{
 	display:block;
+
 }
 
 
