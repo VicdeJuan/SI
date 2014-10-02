@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-<xsl:template match="/">
+  <xsl:template match="/">
 
-<html lang="en">
-<head>
-	<link rel="stylesheet" type="text/css" href="style/main.css" />
-	<meta charset="utf-8" />
-	<title>Ola k ase</title>
-</head>
-<body>
-	<header>
-		<div class="header-logo">
-			<p>Olakase</p>
-		</div>
+    <html lang="en">
+      <head>
+       <link rel="stylesheet" type="text/css" href="style/main.css" />
+       <meta charset="utf-8" />
+       <title>Ola k ase</title>
+     </head>
+     <body>
+       <header>
+        <div class="header-logo">
+         <p>Olakase</p>
+       </div>
 
-		<div class="header-options">
-			<ul>
-			<li><a href="">Usuario</a></li>
-			<li><a href="">Carrito</a></li>
-			<li><a href="">Salir</a></li>
-			</ul>
-		</div>
-	</header>
-  <div class="body-container">
-    <aside id="menu">
-      <ul>
-        <li class="filter"><a href="index.html" class="filter-title">Inicio</a></li>
-        <li class="filter"> <p class="filter-title"> Género</p>
+       <div class="header-options">
+         <ul>
+           <li><a href="">Usuario</a></li>
+           <li><a href="">Carrito</a></li>
+           <li><a href="">Salir</a></li>
+         </ul>
+       </div>
+     </header>
+     <div class="body-container">
+      <aside id="menu">
+        <ul>
+          <li class="filter"><a href="index.html" class="filter-title">Inicio</a></li>
+          <li class="filter"> <p class="filter-title"> Género</p>
           <ul>
             <li><a href="pages/error.html" class="filter-genre">Comedia</a></li>
             <li><a href="pages/error.html" class="filter-genre">Drama</a></li>
@@ -40,30 +40,30 @@
     </aside>
     <div class="scroller">
       <div class="inner-scroll">
-      <div class="main-container">
+        <div class="main-container">
 
-<xsl:for-each select="catalog/movie">
-  <div class="movies">   
-    <xsl:element name="img">
-      <xsl:attribute name="src">
-        <xsl:value-of select="img"/>
-      </xsl:attribute>
-      <xsl:attribute name="class">movie_img</xsl:attribute>
-    </xsl:element>    
-    <p class="movie_title"> <xsl:value-of select="title"/></p>
-      <p class="movie_description">
-        <p class="movie_genre"> <xsl:value-of select="genre"/> </p>
-        <xsl:value-of select="description"/><br />
-      </p>
-  </div>
-</xsl:for-each>
-      </div>
+          <xsl:for-each select="catalog/movie">
+            <div class="movies">   
+              <xsl:element name="img">
+                <xsl:attribute name="src">
+                  <xsl:value-of select="img"/>
+                </xsl:attribute>
+                <xsl:attribute name="class">movie_img</xsl:attribute>
+              </xsl:element>    
+              <p class="movie_title"> <xsl:value-of select="title"/></p>
+              <p class="movie_description">
+                <p class="movie_genre"> <xsl:value-of select="genre"/> </p>
+                <xsl:value-of select="description"/><br />
+              </p>
+            </div>
+          </xsl:for-each>
+        </div>
       </div>
     </div>
   </div>
 
-	<footer>
-		<p class="footer-text">Olakase - Víctor de Juan Sanz - Guillermo Julián Moreno</p>
-	</footer>
+  <footer>
+    <p class="footer-text">Olakase - Víctor de Juan Sanz - Guillermo Julián Moreno</p>
+  </footer>
 </body>
 </html>
