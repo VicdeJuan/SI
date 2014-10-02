@@ -49,6 +49,34 @@
 	margin-top: -30px;
 	margin-left: 40px;
 }
+
+.header-options {
+	position: absolute;
+	right: 0;
+	padding-right: 20px;
+	padding-bottom: 5px;
+	bottom: 0;
+	height: 30px;
+	vertical-align: center;
+	font-size: 13px;
+}
+
+.header-options a {
+	text-decoration: none;
+	color: rgba(228, 228, 228, 1);
+	border-bottom: 1px dotted #BBB;
+}
+
+.header-options ul li {
+	display: inline;
+}
+
+.header-options li:after{
+    content: " | ";
+}
+.header-options li:last-child:after{
+    content: "";
+}
 /** End Header **/
 
  .body-container{
