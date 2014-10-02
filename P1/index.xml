@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="style/moviecatalog.xsl"?>
- <!DOCTYPE note SYSTEM "data/catalog.dtd">
+<!DOCTYPE note SYSTEM "data/catalog.dtd">
 
 <catalog>
 	<movie>
