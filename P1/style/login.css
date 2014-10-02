@@ -1,0 +1,87 @@
+/**
+ * Paleta de colores
+ * C60
+ * FFFBD0
+ * F90
+ * C13100
+ */
+
+ html,body {
+ 	height: 100%;
+ 	margin: 0px;
+ }
+
+ header{
+ 	background: #C60;
+ 	height: 15%;
+ }
+
+ aside{
+	padding-top: 80px;
+	padding-left: 50px;
+ 	width: 170px;
+ 	max-height: 100%-80px;
+ 	float: left;
+ }
+
+ footer{
+ 	height: 15%;
+ 	background: #C60;
+ 	clear: both;
+ }
+
+.whitespace_10{
+	margin:0;
+	margin-left: 18px;
+}
+
+ .body-container{
+ 	background: #FFFBD0;
+ }
+
+.inner-scroll{
+	overflow: scroll;
+	max-height: 350px;
+ 	padding: 30px;
+}
+
+ .main-container{
+ 	padding: 30px;
+ 	overflow: hidden;
+ 	max-width: 650px;
+ 	height: 100%;
+ 	float: left;
+ }
+
+ .scroller {
+ 	height: 100%;
+ 	padding: 30px;
+ }
+
+form{
+	padding-top: 7%;
+	margin-left: 40%;
+	padding-bottom: 0;
+	vertical-align: middle;
+	max-width: 250px;
+}
+
+input{
+	font-size: 18px;
+}
+
+#WelcomeMsg{
+	text-align: center;
+	margin-right: 10px;
+	font-size: 20px;
+}
+
+#login-body-container{
+	height: 70%;
+}
+
+
+#NewRegister{
+	font-size: 10px;
+	margin-left: 50px;
+}
