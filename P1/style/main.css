@@ -59,7 +59,7 @@
  	vertical-align: top;
  	overflow: scroll;
  }
- 
+
 /** Header **/
 .header-logo {
 	font-family: "American Typewriter";
@@ -221,4 +221,11 @@
 .filter-items li {
 	padding-left: 15px;
 	margin-bottom: 0;
+}
+
+.footer-text {
+	text-align: center;
+	font-size: 12px;
+	margin-top: 15px;
+	font-weight: lighter;
 }
