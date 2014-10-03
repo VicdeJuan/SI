@@ -5,10 +5,10 @@
 	<title>Servicio</title>
 </head>
 <body>
-	<? if($_POST["accept"]) { ?>
+	<?php if($_POST["accept"]) { ?>
 	<p>Bienvenido <?= $_COOKIE["name_title"] ?> a nuestro servicio.</p>
-	<? } else { ?>
+	<?php } else { ?>
 	<p>Lamentamos su decisión porque entonces no podremos ofrecerle el servicio.</p>
-	<? } ?>
+	<?php } ?>
 </body>
 </html>
