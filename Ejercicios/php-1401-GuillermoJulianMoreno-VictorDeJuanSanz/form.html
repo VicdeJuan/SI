@@ -4,16 +4,33 @@
 		<meta charset="UTF-8">
 		<title>Servicio</title>
 	</head>
+	<script type="text/javascript">
+
+	function isFormValid()
+	{
+		var nameField = document.getElementById('name');
+		var ageField = document.getElementById('age');
+
+		if(!(nameField.value && ageField.value && !isNaN(ageField.value)))
+		{
+			alert("Rellene todos los campos correctamente.");
+			return false;
+		}
+
+		return true;
+	}
+
+	</script>
 	<body>
-		<form action="/conditions.php" method="post">
+		<form action="/conditions.php" method="post" onsubmit="return isFormValid()">
 			<label for="name">Nombre</label><br />
 			<input type="text" name="name" id="name" /><br /><br />
 
 			<label for="age">Edad</label><br />
-			<input type="text" name="age" id="age" /><br /><br />
+			<input type="number" name="age" id="age" /><br /><br />
 			
 			<label for="sex">Sexo</label><br />
-			<input type="radio" name="sex" value="male" />Hombre<br />
+			<input type="radio" name="sex" value="male" checked="checked" />Hombre<br />
 			<input type="radio" name="sex" value="female" />Mujer<br />
 
 			<input type="submit" value="Enviar" />
