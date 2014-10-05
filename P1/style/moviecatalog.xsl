@@ -3,7 +3,7 @@
 
   <xsl:template match="/">
 
-    <html lang="en">
+    <html>
       <head>
        <link rel="stylesheet" type="text/css" href="style/main.css" />
        <meta charset="utf-8" />
@@ -67,3 +67,6 @@
   </footer>
 </body>
 </html>
+
+</xsl:template>
+</xsl:stylesheet>
