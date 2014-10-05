@@ -6,30 +6,6 @@
  * C13100
  */
 
- html,body {
- 	height: 100%;
- 	margin: 0px;
- }
-
- header{
- 	background: #C60;
- 	height: 15%;
- }
-
- aside{
-	padding-top: 80px;
-	padding-left: 50px;
- 	width: 170px;
- 	max-height: 100%-80px;
- 	float: left;
- }
-
- footer{
- 	height: 15%;
- 	background: #C60;
- 	clear: both;
- }
-
 .whitespace_10{
 	margin:0;
 	margin-left: 18px;
@@ -61,9 +37,11 @@
 form{
 	padding-top: 7%;
 	margin-left: 40%;
+	position: center;
 	padding-bottom: 0;
 	vertical-align: middle;
 	max-width: 250px;
+	min-width: 250px;
 }
 
 input{
@@ -83,5 +61,5 @@ input{
 
 #NewRegister{
 	font-size: 10px;
-	margin-left: 50px;
+	margin-left: 20px;
 }

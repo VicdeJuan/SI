@@ -1,0 +1,19 @@
+.error-main-container{
+	height: 70%;
+	position: center;
+	padding: 150px;
+	margin-left: 150px;
+	
+}
+
+#error-page{
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 27px;
+	margin-top: 10%;
+}
+
+#error-img{
+	width: 400px;
+	float: right;
+}

@@ -12,6 +12,8 @@
  	width: 100%;
  	font-family: Helvetica, Verdana, Arial;
  	position: absolute;
+ 	background: #FFFBD0;
+
  }
 
  header {
@@ -45,7 +47,6 @@
  }
 
  .body-container{
- 	background: #FFFBD0;
  	width: 100%;
 	overflow: hidden;
  	position: absolute;
