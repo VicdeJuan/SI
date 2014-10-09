@@ -24,7 +24,7 @@
        </div>
      </header>
      <div class="body-container">
-      <aside id="menu">
+      <aside class="menu">
         <ul>
           <li class="filter"><a href="index.html" class="filter-title">Inicio</a></li>
           <li class="filter"> <p class="filter-title"> Género</p>
