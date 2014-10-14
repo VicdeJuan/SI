@@ -20,13 +20,41 @@
 		</div>
 	</header>
 	<div class="body-container" id="login-body-container">
-		<form action="index.xml">
+		<form action="register.php" method="post">
 			<p id="WelcomeMsg">¡Bienvenido!</p>
-			E-mail: <span class="whitespace_10"> </span> <input type="email" name="email" autocomplete="off"><br>
-  			Contraseña: <input type="password" name="password" autocomplete="off"><br>
-  			<input type="submit" name="Login" value="Register">
+       <table>
+				<!--Con javascript hacer dinámico que aparezcan más campos si quieres regstrate. De momento aparecen por defecto.
+				-->
+				<tr>
+					<td class="default_hidden">
+							<td>Nombre:</td><td> <input type="text" name="name" pattern="[a-zA-Z]+" required title="Los nombres solo tienen letras, ¿no?" >
+					</td>
+					<td class="defalut_hidden">
+							<td>Tarjeta de crédto:</td><td> <input type="text" name="creditCard" required pattern="\d{16}" title="Introduzca un número de tarjeta de crédito válido."></span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<td>E-mail:</td><td> <input type="email" name="email" autocomplete="off" required title="Introduzca una dirección de correo válida">
+					</td>
+					<td class="default_hidden">
+						<td>Fecha de caducidad:</td><td> <input type="text" name="expireDate" required pattern="\d{1,2}/\d{4}" title="Introduzca el mes y el año (completo) de caducidad de su tarjeta"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<td>Contraseña:</td><td> <input type="password" name="password" autocomplete="off" required>
+					</td>
+					<td class="defalut_hidden">
+							<td>Codigo de seguridad:</td><td> <input type="text" name="CSV" required pattern="\d\d\d"></span>
+					</td>
+				</tr>
+			</table>
+			<p id=WelcomeMsg>
+				<input type="submit" name="Login" value="Registrarme">
+				<input type="button" id="NewRegister" value="¿Sin cuenta todavía?" onclick="alert('Ya si eso con más calma');">
+			</p>
 
-  			<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>
 		</form>
 	</div>
 	</div>	<footer>
