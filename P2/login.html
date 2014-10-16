@@ -1,10 +1,10 @@
-<html lang="en">
+<html lang="en" xmlns:ng="http://angularjs.org" ng-app="mainApp">
 <head>
 	<link rel="stylesheet" type="text/css" href="style/main.css" />
-	<link rel="stylesheet" type="text/css" href="style/login.css" />
 	<meta charset="utf-8" />
 	<title>Ola k ase</title>
-</head>
+	<script src="lib/angular.min.js" type="text/javascript"></script>
+	<script src="js/controllers.js" type="text/javascript"></script>
 <body>
 	<header>
 		<div class="header-logo">
@@ -13,14 +13,16 @@
 
 		<div class="header-options">
 			<ul>
-			<li><a href="">Usuario</a></li>
-			<li><a href="">Carrito</a></li>
-			<li><a href="">Salir</a></li>
+				<li><a href="">Usuario</a></li>
+				<li><a href="">Carrito</a></li>
+				<li><a href="">Salir</a></li>
 			</ul>
 		</div>
 	</header>
+
+	<!-- header.html end -->
 	<div class="body-container" id="login-body-container">
-		<form action="index.xml">
+		<form action="index.html">
 			<p id="WelcomeMsg">¡Bienvenido!</p>
 			E-mail: <span class="whitespace_10"> </span> <input type="email" name="email" autocomplete="off"><br>
   			Contraseña: <input type="password" name="password" autocomplete="off"><br>
@@ -28,9 +30,13 @@
 
   			<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>
 		</form>
-	</div>
-	</div>	<footer>
-		<p class="footer-text">Olakase - Víctor de Juan Sanz - Guillermo Julián Moreno</p>
+	</div>	<!-- footer.html begin -->
+
+	<footer>
+		<p class="footer-text">
+			Olakase - Víctor de Juan Sanz - Guillermo Julián Moreno
+		</p>
 	</footer>
+
 </body>
 </html>
