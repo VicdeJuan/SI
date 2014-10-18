@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="style/moviecatalog.xsl"?>
+<?xml-stylesheet type="text/xsl" href="../style/moviecatalog.xsl"?>
 <!DOCTYPE note SYSTEM "data/catalog.dtd">
 
 <catalog>
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -12,7 +12,7 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -20,7 +20,7 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -29,7 +29,7 @@
 
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -37,7 +37,7 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -45,7 +45,7 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -54,7 +54,7 @@
 
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -62,7 +62,7 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -71,7 +71,7 @@
 
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<img>../img/movie.jpg</img>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>

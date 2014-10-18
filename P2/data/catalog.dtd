@@ -1,6 +1,6 @@
 <!DOCTYPE catalog[
 
-<!ENTITY COMPANY "JD Power Tools, Inc.">
+<!ENTITY COMPANY "Ola k ase, Inc.">
 
 <!ELEMENT catalog (movies+)>
 <!ELEMENT movie (img,score,genre+,title,description)>
