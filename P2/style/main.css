@@ -105,9 +105,11 @@
 /** End Header **/
 
 #moviecatalog{
-  padding:30px;
-  width: 650px;
-  height: 450px;
+  padding:0px;
+  padding-left:60px;
+  margin:0px;
+  width: 750px;
+  height: 100%;
   overflow:hidden;
   border: none;
 }
