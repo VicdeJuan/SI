@@ -5,7 +5,6 @@
 
 <html>
 <head>
-  <link rel="stylesheet" href="../style/main.css" />
   <link rel="stylesheet" href="../style/movie.css" />
   <meta charset="utf-8" />
 </head>

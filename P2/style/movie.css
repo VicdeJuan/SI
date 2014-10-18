@@ -1,4 +1,21 @@
 
+ html,body {
+   height: 100%;
+   margin: 0;
+   width: 100%;
+   font-family: Helvetica, Verdana, Arial;
+   position: absolute;
+   background: #FFFBD0;
+
+ }
+
+.body-container{
+  width: 100%;
+  position: absolute;
+  overflow: scroll;
+  padding-top:0px;
+}
+
  .movies{
    border: solid;
    padding: 15px;
