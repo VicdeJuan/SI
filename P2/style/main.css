@@ -105,7 +105,11 @@
 /** End Header **/
 
 #moviecatalog{
-  
+  padding:0px;
+  margin: 0px;
+  width: 650px;
+  height: 100%;
+  border: none;
 }
 
 .inner-scroll{
@@ -120,46 +124,6 @@
  	height: 100%;
  	float: left;
  }
-
- .movies{
- 	border: solid;
- 	padding: 15px;
- 	border-width: 1px;
- 	margin: 5px;
- 	position:relative;
- }
-
-.movie_img{
-	height: 80px;
-	width: 80px;
-	display: inline;
-	border-radius: 15px;
-}
-
-.movie_title{
-	font-size: 30px;
-	margin-left: 30%;
-	display: inline-block;
-	margin-bottom: 0;
-	vertical-align: top;
-}
-
-.movie_genre{
-	display: inline-block;
- 	border: solid;
- 	padding: 15px;
- 	border-width: 1px;
- 	border-radius: 200px;
- 	margin: 5px;
-
-}
-
-.movie_description{
-	display:block;
-
-}
-
-
 
 /*
 		Left Menu

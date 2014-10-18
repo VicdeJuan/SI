@@ -87,13 +87,9 @@
         <li class="filter"> <p class="filter-title"> Etc </p></li>
       </ul>
     </aside>
-    <div class="scroller">
-      <div class="inner-scroll">
         <div class="main-container">
-          <iframe src="data/movies.xml" id="moviecatalog"></iframe> 
+          <iframe src="data/movies.xml" id="moviecatalog"></iframe>
         </div>
-      </div>
-    </div>
   </div>
   <footer>
     <p class="footer-text">Olakase - Víctor de Juan Sanz - Guillermo Julián Moreno</p>

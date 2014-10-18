@@ -5,6 +5,8 @@
 
 <html>
 <head>
+  <link rel="stylesheet" href="../style/main.css" />
+  <link rel="stylesheet" href="../style/movie.css" />
   <meta charset="utf-8" />
 </head>
 <body>
@@ -32,10 +34,6 @@
       </div>
     </div>
   </div>
-
-  <footer>
-    <p class="footer-text">Olakase - Víctor de Juan Sanz - Guillermo Julián Moreno</p>
-  </footer>
 </body>
 </html>
 
