@@ -12,8 +12,7 @@
 .body-container{
   width: 100%;
   position: absolute;
-  overflow: scroll;
-  padding-top:0px;
+  overflow: hidden;
 }
 
  .movies{
