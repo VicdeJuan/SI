@@ -1,0 +1,16 @@
+
+./data:
+catalog.dtd
+--
+./users:
+example.dat
+victor@segunda
+--
+./users/victor@segunda:
+datos.dat
+
+./users/victor@segundo:
+datos.dat
+
+./users/victor@victor.buena:
+datos.dat
