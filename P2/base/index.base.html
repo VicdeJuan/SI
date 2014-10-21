@@ -1,12 +1,13 @@
- <div class="body-container">
+ <div class="body-container" ng-controller="movieListController">
  	<aside class="menu">
  		<ul>
  			<li class="filter"><a href="index.html" class="filter-title">Inicio</a></li>
- 			<li class="filter"><span class="filter-title">Género</span>
- 				<ul>
- 					<li><a href="pages/error.html" class="filter-genre">Comedia</a></li>
- 					<li><a href="pages/error.html" class="filter-genre">Drama</a></li>
- 					<li><a href="pages/error.html" class="filter-genre">Etc</a></li>
+ 			<li class="filter">
+ 				<span class="filter-title">Género</span>
+ 				<ul class="filter-items">
+ 					<li ng-repeat="genre in genres">
+ 						<a href="pages/error.html" class="filter-genre">{{genre}}</a>
+ 					</li>
  				</ul>
  			</li>
  			<li class="filter"><span class="filter-title">Año</span></li>
