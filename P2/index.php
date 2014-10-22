@@ -14,7 +14,10 @@
   $dir = "users/".$_POST['email'];
   $filename = $dir."/"."datos.dat";
   if (!is_dir($dir)){        /*User does not exist so we create it.*/
-    mkdir($dir,0777);
+    if (!mkdir($dir,0777)){
+      header("Location: pages/error.html");
+      die();
+    }
     $myfile = fopen($filename, "w");
     $txt = $_POST['name']."\n";
     $txt = $txt.$_POST['email']."\n";
