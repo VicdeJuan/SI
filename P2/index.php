@@ -60,7 +60,7 @@
     <div class="header-options">
       <ul>
         <?php
-        if($_COOKIE['name'] != "" && $name=""){
+        if($_COOKIE['name'] == "" and  $name=""){
           $link = "register.html";
         }else{
           $link = "error.html";
