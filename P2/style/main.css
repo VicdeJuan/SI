@@ -284,6 +284,30 @@
 	font-size: 80%;
 }
 
+.deleteButton {
+	float:left;
+	position: relative;
+	margin-top: 13px;
+	display: table-cell;
+	vertical-align: middle;
+	margin-right: 8px;
+	margin-left: 4px;
+	text-decoration: none;
+	color: #C60;
+	height: 12px;
+	width: 12px;
+}
+
+.deleteButton img {
+	height: 100%;
+	width: 100%;
+	fill: #C60;
+}
+
+.deletButton img .closePath {
+	fill: #C60;
+}
+
 .footer-text {
 	text-align: center;
 	font-size: 12px;

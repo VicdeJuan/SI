@@ -12,11 +12,35 @@ function unique(arr) {
 }
 
 var cart = [
-	
+	{ 
+			'image' : 'img/movie.jpg',
+			'title' : 'Título',
+			'description': "Patatas fritsa",
+			'genre': 'Terror',
+			'price': 4
+		},{ 
+			'image' : 'img/movie.jpg',
+			'title' : 'Título',
+			'description': "Patatas fritsa",
+			'genre': 'Terror',
+			'price': 4
+		}		
 ];
+
+function remove(arr, item) {
+      for(var i = arr.length; i--;) {
+          if(arr[i] === item) {
+              arr.splice(i, 1);
+          }
+      }
+  }
 
 mainApp.controller('headerController', function($scope) {
 	$scope.cartItems = cart;
+
+	$scope.removeFromCart = function(item) {
+		remove(cart, item);
+	};
 });
 
 mainApp.controller('movieListController', function($scope){
