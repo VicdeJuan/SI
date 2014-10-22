@@ -1,4 +1,4 @@
-var mainApp = angular.module('mainApp', []);
+var mainApp = angular.module('mainApp', ['ngAnimate']);
 
 function unique(arr) {
     var u = {}, a = [];
@@ -10,6 +10,67 @@ function unique(arr) {
     }
     return a;
 }
+
+mainApp.controller('headerController', function($scope) {
+	$scope.cartItems = [
+		{
+			'image': 'img/movie.jpg',
+			'title' : 'Pulp Fiction',
+			'description': "Muere gente",
+			'genre': 'Terror',
+			'price': 3,
+			'quantity': 2
+		},
+		{
+			'image': 'img/movie.jpg',
+			'title' : 'Pulp Foction',
+			'description': "Patatas fritsa",
+			'genre': 'Terror',
+			'price': 3,
+			'quantity': 2
+		},
+		{
+			'image': 'img/movie.jpg',
+			'title' : 'Pelp Foction',
+			'description': "Patatas fritsa",
+			'genre': 'Terror',
+			'price': 28,
+			'quantity': 2
+		},
+		{
+			'image': 'img/movie.jpg',
+			'title' : 'Pilp Foction',
+			'description': "Patatas fritsa",
+			'genre': 'Terror',
+			'price': 5,
+			'quantity': 2
+		},
+		{
+			'image': 'img/movie.jpg',
+			'title' : 'Pilp Fuction',
+			'description': "Patatas fritsa",
+			'genre': 'Terror',
+			'price': 4,
+			'quantity': 1
+		},
+		{
+			'image': 'img/movie.jpg',
+			'title' : 'Polo Fusión',
+			'description': "Patatas fritsa",
+			'genre': 'Terror',
+			'price': 4,
+			'quantity': 1
+		},
+		{
+			'image': 'img/movie.jpg',
+			'title' : 'Pelé Fashion',
+			'description': "Patatas fritsa",
+			'genre': 'Terror',
+			'price': 4,
+			'quantity': 1
+		},
+	];
+});
 
 mainApp.controller('movieListController', function($scope){
 	$scope.movies = [
