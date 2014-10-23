@@ -45,6 +45,15 @@ var cart = {
 
 		if(existing['quantity'] <= 0)
 			remove(this.items, existing);
+	},
+
+	fetch: function($http) {
+		$http.get('/php/cart.php')
+			.success(function(data, status) {
+				for (var i = data.length - 1; i >= 0; i--) {
+					cart.items.push(data[i]);
+				}
+			});
 	}
 }
 
@@ -56,13 +65,15 @@ function remove(arr, item) {
 	}
 }
 
-mainApp.controller('headerController', function($scope) {
+mainApp.controller('headerController', ['$scope', '$http', function($scope, $http) {
 	$scope.cartItems = cart.items;
+
+	cart.fetch($http);
 
 	$scope.removeFromCart = function(item) {
 		cart.remove(item);
 	};
-});
+}]);
 
 mainApp.controller('movieListController', ['$scope', '$http', function($scope, $http) {
 	$scope.movies = [];
@@ -77,6 +88,12 @@ mainApp.controller('movieListController', ['$scope', '$http', function($scope, $
 	}));
 
 	$scope.addToCart = function(movie) {
-		cart.add(movie);
+		$http.post('/php/cart.php', { 'item': movie })
+			.success(function(data, status) {
+				cart.add(movie);
+			})
+			.error(function(data, status) {
+				alert("No se ha podido añadir al carrito.");
+			});
 	}
 }]);

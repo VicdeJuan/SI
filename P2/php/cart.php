@@ -12,7 +12,7 @@ function save_cart($cart)
 
 function get_cart()
 {
-	return json_decode($_SESSION['cart']);
+	return json_decode($_SESSION['cart'], true);
 }
 
 function get()
@@ -23,11 +23,12 @@ function get()
 function post()
 {
 	$cart = get_cart();
-	$toAdd = json_decode($_POST['item']);
+	$json = file_get_contents('php://input');
+	$toAdd = json_decode($json, true)['item'];
 	$found = false;
 
-	foreach ($cart as $item) {
-		if($item['id'] == $toAdd['id'])
+	foreach ($cart as &$item) {
+		if($item['title'] === $toAdd['title'])
 		{
 			$item['quantity'] += 1;
 			$found = true;
@@ -36,7 +37,10 @@ function post()
 	}
 
 	if(!$found)
+	{
+		$toAdd['quantity'] = 1;
 		array_push($cart, $toAdd);
+	}
 
 	save_cart($cart);
 }
