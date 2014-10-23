@@ -88,7 +88,7 @@ mainApp.controller('movieListController', ['$scope', '$http',
         $scope.movies = [];
 
         $http.get('/php/movies.php', {
-            'count': 2
+            'count': 4
         })
             .success(function(data, status) {
                 $scope.movies = data['movies'];

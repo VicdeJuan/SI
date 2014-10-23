@@ -4,7 +4,8 @@
 
 <catalog>
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>1</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -12,7 +13,8 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>2</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -20,7 +22,8 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>3</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -29,7 +32,8 @@
 
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>4</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -37,7 +41,8 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>5</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -45,7 +50,8 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>6</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -54,7 +60,8 @@
 
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>7</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -62,7 +69,8 @@
 	</movie>
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>8</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
@@ -71,7 +79,8 @@
 
 
 	<movie>
-		<img>img/movie.jpg</img>
+		<id>9</id>
+		<image>img/movie.jpg</image>
 		<score>5</score>
 		<genre>Comedia</genre>
 		<title> Titulo </title>
