@@ -8,3 +8,6 @@ style/%.xsl: base/%.base.xsl base/header.html base/footer.html
 
 %.html: base/header.html base/%.base.html base/footer.html
 	cat $^ > $@	
+
+%.php: base/header.html base/%.base.html base/footer.html
+	cat $^ > $@	
