@@ -17,7 +17,7 @@
       $myfile = fopen($filename, "w");
       $txt = $_POST['name']."\n";
       $txt = $txt.$_POST['email']."\n";
-      $txt = $txt.$_POST['password']."\n";
+      $txt = $txt.md5($_POST['password'])."\n";
       $txt = $txt.$_POST['creditCard']."\n";
       $txt = $txt.$_POST['CSV']."\n";
       $txt = $txt.$_POST['expireDate']."\n";
@@ -40,22 +40,17 @@
         $email = fgets($myfile);
         $password = strstr(fgets($myfile),"\n",true);
 
-        if (0 == strcmp($password,$_POST['password'])){
-          /* Correct
-          TODO: md5
-          */
+        if (0 == strcmp($password,md5($_POST['password']))){
           $_SESSION['ses'] = $name;
           $_SESSION['name'] = $name;
           $_SESSION['email'] = $email;
         } else{
-          session_start();
           $_SESSION['ses'] = "MISMATCH: ".$_POST['password']." & ".$password;
           $name="";
           /* Mismatch */
         }
         fclose($myfile);
       } else{
-        session_start();
         $_SESSION['ses'] = "Registrarse";
       }
     }

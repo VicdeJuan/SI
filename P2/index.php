@@ -17,12 +17,14 @@
     <div class="header-options">
       <ul>
         <?php
-        if($_SESSION['name'] == ""){
+        if($_SESSION['name'] == "" && $_SESSION['ses'] == ""){
           $link = "register.html";
+          $ses = "Registrarse";
         }else{
+          $ses = $_SESSION['ses'];
           $link = "pages/error.html";
         }
-        print("<li><a href=".$link.">".$_SESSION['ses']."</a></li>");
+        print("<li><a href=".$link.">".$ses."</a></li>");
         ?>
         <li><a href="">Carrito</a></li>
         <li><a href="php/exit.php">Salir</a></li>
