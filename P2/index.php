@@ -7,7 +7,6 @@
   <meta charset="utf-8" />
   <title>Ola k ase</title>
 </head>
-</head>
 <body>
   <?php
   /*  If we come from a registration  */
@@ -25,11 +24,17 @@
     $txt = $txt.$_POST['creditCard']."\n";
     $txt = $txt.$_POST['CSV']."\n";
     $txt = $txt.$_POST['expireDate']."\n";
-    $txt = $txt.date('d/m/Y\0', time())."\n
-    ";
+    $txt = $txt.date('d/m/Y\0', time())."\n";
     fwrite($myfile, $txt);
     fclose($myfile);
-    $ses = "Created";
+    session_start();
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+
+    $_SESSION['name'] = $name;
+    $_SESSION['email'] = $email;
+
+    $ses = $name;
   }else{      /* Now, if we come from a login */
     $myfile = fopen($filename, "r");
     if ($myfile){
@@ -42,8 +47,9 @@
         TODO: md5
         */
         $ses = $name;
-        setcookie("name", $name);
-        setcookie("email", $email);
+        session_start();
+        $_SESSION["name"] = $name;
+        $_SESSION["email"] = $email;
       } else{
         $ses = "MISMATCH: ".$_POST['password']." & ".$password;
         $name="";
@@ -63,15 +69,15 @@
     <div class="header-options">
       <ul>
         <?php
-        if($_COOKIE['name'] == "" and  $name=""){
+        if($_SESSION['name'] == "" and  $name == ""){
           $link = "register.html";
         }else{
-          $link = "error.html";
+          $link = "pages/error.html";
         }
         print("<li><a href=".$link.">".$ses."</a></li>");
         ?>
         <li><a href="">Carrito</a></li>
-        <li><a href="">Salir</a></li>
+        <li><a href="php/exit.php">Salir</a></li>
       </ul>
     </div>
   </header>
