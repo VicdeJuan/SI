@@ -20,7 +20,7 @@
  			<div class="main-container" 
  				ng-controller="movieListController">
  				<div class="movies" ng-repeat="movie in movies">
- 					<img src="{{movie.image}}" class="movie_img">
+ 					<img ng-src="{{movie.image}}" class="movie_img">
  					<p class="movie_title">{{movie.title}}</p>
  					<p class="movie_description">
  						{{movie.description}}
