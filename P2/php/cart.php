@@ -47,9 +47,7 @@ function post()
 
 function remove_from_array($array, $item)
 {
-	if (($key = array_search($item, $array)) !== false) {
-		unset($array[$key]);
-	}
+	
 }
 
 function delete()
@@ -64,10 +62,10 @@ function delete()
 	$itemId = $_GET['itemId'];
 	$found = null;
 
-	foreach ($cart as $item) {
-		if($item['id'] == $itemId)
+	foreach ($cart as &$item) {
+		if($item['title'] == $itemId)
 		{
-			$found = $item;
+			$found = &$item;
 			break;
 		}
 	}
@@ -77,8 +75,12 @@ function delete()
 		$item['quantity'] -= 1;
 
 		if($item['quantity'] <= 0)
-			remove_from_array($cart, $item);
+		{
+			if (($key = array_search($item, $cart)) !== false)
+				unset($cart[$key]);
+		}
 
+		echo var_dump($cart);
 		save_cart($cart);
 	}
 	else
