@@ -8,59 +8,7 @@
   <title>Ola k ase</title>
 </head>
 <body>
-  <?php
-  /*  If we come from a registration  */
-  $dir = "users/".$_POST['email'];
-  $filename = $dir."/"."datos.dat";
-  if (!is_dir($dir)){        /*User does not exist so we create it.*/
-    if (!mkdir($dir,0777)){
-      header("Location: pages/error.html");
-      die();
-    }
-    $myfile = fopen($filename, "w");
-    $txt = $_POST['name']."\n";
-    $txt = $txt.$_POST['email']."\n";
-    $txt = $txt.$_POST['password']."\n";
-    $txt = $txt.$_POST['creditCard']."\n";
-    $txt = $txt.$_POST['CSV']."\n";
-    $txt = $txt.$_POST['expireDate']."\n";
-    $txt = $txt.date('d/m/Y\0', time())."\n";
-    fwrite($myfile, $txt);
-    fclose($myfile);
-    session_start();
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-
-    $_SESSION['name'] = $name;
-    $_SESSION['email'] = $email;
-
-    $ses = $name;
-  }else{      /* Now, if we come from a login */
-    $myfile = fopen($filename, "r");
-    if ($myfile){
-      $name=fgets($myfile);
-      $email = fgets($myfile);
-      $password = strstr(fgets($myfile),"\n",true);
-
-      if (0 == strcmp($password,$_POST['password'])){
-        /* Correct
-        TODO: md5
-        */
-        $ses = $name;
-        session_start();
-        $_SESSION["name"] = $name;
-        $_SESSION["email"] = $email;
-      } else{
-        $ses = "MISMATCH: ".$_POST['password']." & ".$password;
-        $name="";
-        /* Mismatch */
-      }
-      fclose($myfile);
-    } else{
-      $ses = "Registrarse";
-    }
-  }
-  ?>
+<?php session_start();?>
   <header>
     <div class="header-logo">
       <p>Olakase</p>
@@ -69,12 +17,12 @@
     <div class="header-options">
       <ul>
         <?php
-        if($_SESSION['name'] == "" and  $name == ""){
+        if($_SESSION['name'] == ""){
           $link = "register.html";
         }else{
           $link = "pages/error.html";
         }
-        print("<li><a href=".$link.">".$ses."</a></li>");
+        print("<li><a href=".$link.">".$_SESSION['ses']."</a></li>");
         ?>
         <li><a href="">Carrito</a></li>
         <li><a href="php/exit.php">Salir</a></li>
