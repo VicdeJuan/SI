@@ -62,6 +62,22 @@ mainApp.controller('headerController', function($scope) {
 	$scope.removeFromCart = function(item) {
 		cart.remove(item);
 	};
+
+	$scope.loginHandler = function(show){
+		if (show) {
+			document.getElementById("login-div").style.zIndex = 3;
+			document.getElementById("login-div").style.background = "rgba(245,221,222,0.65)";
+			document.getElementById("login-form").style.opacity = 1;
+			document.getElementById("body-container").style.opacity = 0;
+			document.getElementById("login-form").style.background = "rgba(204,102,0,1)";
+		}else{
+			document.getElementById("body-container").style.opacity = 1;
+			document.getElementById("login-div").style.zIndex = 0;
+			document.getElementById("login-div").style.background = "rgba(245,221,222,0)";
+			document.getElementById("login-form").style.background = "rgba(204,102,0,0)";
+			document.getElementById("login-form").style.opacity = 0;
+		};	
+	};
 });
 
 mainApp.controller('movieListController', ['$scope', '$http', function($scope, $http) {

@@ -7,21 +7,21 @@
 	<script src="lib/angular-animate.min.js" type="text/javascript"></script>
 	<script src="js/controllers.js" type="text/javascript"></script>
 	<body>
-		<header ng-controller="headerController" ng-init="showCart = false">
+		<header ng-controller="headerController" ng-init="showCart = false; showLogin = false">
 			<div class="header-logo">
 				<p>Olakase</p>
 			</div>
 			<div class="header-options">
 				<ul>
 					<?php
-					if($_SESSION['name'] == "" && $_SESSION['ses'] == ""){
-						$link = "register.html";
-						$ses = "Registrarse";
+					if($_SESSION['name'] == "" ){
+						$link = "javascript:void()";
+						$text = "Login";
 					}else{
-						$ses = $_SESSION['ses'];
-						$link = "pages/error.html";
+						$text = 'asdf';
+						$link = "/pages/error.html";
 					}
-					print("<li><a href=".$link.">".$ses."</a></li>");
+					print("<li><a ng-click='loginHandler(true)' href=".$link." >".$text."</a></li>");
 					?>
 					<li>
 						<a href="" ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>
@@ -46,7 +46,7 @@
 		</header>
 
 		<!-- header.html end -->
- <div class="body-container" ng-controller="movieListController">
+ <div class="body-container" id="body-container" ng-controller="movieListController">
  	<aside class="menu">
  		<ul>
  			<li class="filter"><a href="index.html" class="filter-title">Inicio</a></li>
@@ -80,10 +80,10 @@
  	</div>
  </div>
 
- 	<div class="login">
+ 	<div id="login-div">
  	<!-- TODO:  petición http y procesar código de error -->
 
- 		<form action="/php/login_register.php" class="login-form" method="post">
+ 		<form action="/php/login_register.php" id="login-form" method="post">
  			<table>
 				<tr>
 					<td>
