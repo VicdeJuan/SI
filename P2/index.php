@@ -101,9 +101,9 @@
 				</tr>
 			</table>
  			<p>
-  			<input type="submit" name="Login" value="Login" id="login-button">
-  			<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>			</p>
-			
+	  			<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>		
+  				<input type="submit" name="Login" value="Login" id="login-button">
+			</p>			
  		</form>
  	</div>
  	<!-- footer.html begin -->
