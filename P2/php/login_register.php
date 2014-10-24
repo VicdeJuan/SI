@@ -31,7 +31,6 @@
 
       $_SESSION['name'] = $name;
       $_SESSION['email'] = $email;
-      $_SESSION['ses'] = $name;
 
     }else{      /* Now, if we come from a login */
       $myfile = fopen($filename, "r");
@@ -41,20 +40,20 @@
         $password = strstr(fgets($myfile),"\n",true);
 
         if (0 == strcmp($password,md5($_POST['password']))){
-          $_SESSION['ses'] = $name;
           $_SESSION['name'] = $name;
           $_SESSION['email'] = $email;
         } else{
-          $_SESSION['ses'] = "MISMATCH: ".$_POST['password']." & ".$password;
-          $name="";
           /* Mismatch */
+          $_SESSION['name'] = "";
+          $_SESSION['email'] = "";
+          $name="";
         }
         fclose($myfile);
       } else{
-        $_SESSION['ses'] = "Registrarse";
+        /* Return 404 */
       }
     }
-    header("Location: ../index.php");
+    header("Location: /index.php");
     ?>
   </body>
   </html>
