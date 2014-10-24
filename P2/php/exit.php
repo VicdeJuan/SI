@@ -3,9 +3,14 @@
 <head>
 <body>
   <?php
+  	session_start();
      session_unset();
-     session_destroy();
-     header("Location: ../index.php");
+
+
+     if (session_destroy())
+     	header("Location: /index.php");
+     else
+     	header("Location: /pages/error.html")
   ?>
 </body>
 </html>

@@ -14,14 +14,17 @@
 			<div class="header-options">
 				<ul>
 					<?php
+					session_start();
 					if($_SESSION['name'] == "" ){
-						$link = "javascript:void()";
+						$link = "''";
 						$text = "Login";
+						$show = "true";
 					}else{
 						$text = 'asdf';
 						$link = "/pages/error.html";
+						$show = "false";
 					}
-					print("<li><a ng-click='loginHandler(true)' href=".$link." >".$text."</a></li>");
+					print("<li><a ng-click='loginHandler(".$show.")' href=".$link." >".$text."</a></li>");
 					?>
 					<li>
 						<a href="" ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>

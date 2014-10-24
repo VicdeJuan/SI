@@ -4,7 +4,11 @@ Cosas que hacer:
 	· Memoria.	
 
 VdJ:
-	· Login con ventanita y fortaleza de la contraseña.
+	· Login con ventanita JS: OK
+	· Login con ventanita PHP: falta login con http request  (utilizar log).
+
+
+	· Fortaleza de la contraseña.
 	· Finalizar compra desde el carrito 
 	· Historial de compra.
 	· Cookies para último usuario.

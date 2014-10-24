@@ -35,16 +35,16 @@
     }else{      /* Now, if we come from a login */
       $myfile = fopen($filename, "r");
       if ($myfile){
-        $name=fgets($myfile);
+        $name = fgets($myfile);
         $email = fgets($myfile);
         $password = strstr(fgets($myfile),"\n",true);
 
         if (0 == strcmp($password,md5($_POST['password']))){
-          $_SESSION['name'] = $name;
+          $_SESSION['name'] = $name."olakase";
           $_SESSION['email'] = $email;
         } else{
           /* Mismatch */
-          $_SESSION['name'] = "";
+          $_SESSION['name'] = "Mismatch";
           $_SESSION['email'] = "";
           $name="";
         }
