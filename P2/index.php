@@ -79,8 +79,34 @@
  		</div>
  	</div>
  </div>
- 	<!-- footer.html begin -->
 
+ 	<div class="login">
+ 	<!-- TODO:  petición http y procesar código de error -->
+
+ 		<form action="/php/login_register.php" class="login-form" method="post">
+ 			<table>
+				<tr>
+					<td>
+							<td>Email:</td>
+							<td> <input type="email" name="name" ></td>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<td>Contraseña:</td>
+						<td> <input type="password" name="password" autocomplete="off" required pattern="[a-zA-Z0-9]+" id="passwordfield"></td>
+					</td>
+
+				</td>	
+				</tr>
+			</table>
+ 			<p>
+  			<input type="submit" name="Login" value="Login" id="login-button">
+  			<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>			</p>
+			
+ 		</form>
+ 	</div>
+ 	<!-- footer.html begin -->
 	<footer>
 		<p class="footer-text">
 			Olakase - Víctor de Juan Sanz - Guillermo Julián Moreno

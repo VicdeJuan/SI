@@ -22,7 +22,7 @@
  	box-shadow: 0px 5px 5px rgba(0,0,0,0.1);
  	position: relative;
  	width: 100%;
- 	z-index: 1;
+ 	z-index: 2;
  }
 
  aside {
@@ -33,6 +33,7 @@
  	position: relative;
  	display: inline-block;
  	vertical-align: top;
+	 z-index:1;
  }
 
  footer{
@@ -43,7 +44,7 @@
  	clear: both;
  	position: absolute;
  	box-shadow: 0px -5px 5px rgba(0,0,0,0.1);
- 	z-index: 1;
+ 	z-index: 2;
  }
 
  .body-container{
@@ -52,7 +53,51 @@
  	position: absolute;
  	top: 100px;
  	bottom: 40px;
+	z-index: 1px;
+	opacity: 1;
  }
+
+
+.login{
+	position: absolute;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	vertical-align: middle;
+	display: block;
+	font-size: 30px;
+	opacity: 0.85; /* set to 0.5 when login active, 0 when not login*/
+	background: beige;
+	z-index: 3; /* set to 3 when login active, 0 when not login*/
+}
+
+
+.login-form{
+	opacity: 2;
+	margin: 250 0 0 350px;
+	margin: 15% 0 0 40%;
+	height: 22%;
+	width: 28%;
+	padding: 30px 0 0 10px;
+	background: red;
+	border: 2px;
+	border-radius: 5px;
+	display: block;
+
+}
+
+#login-button{
+	margin-top: -20px;
+	margin-left: 50%;
+	display: inline-block;
+}
+
+#NewRegister{
+	font-size: 15px;
+	text-align: left;
+	display: block;
+}
 
  .scroller {
  	height: 100%;
