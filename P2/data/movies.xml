@@ -4,87 +4,513 @@
 
 <catalog>
 	<movie>
-		<id>1</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Comedia</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates nisi iure maxime. Omnis voluptate amet, ullam, minus architecto vitae doloremque, sunt aperiam dolorum quod tempora eaque fugit dignissimos facere est.</description>
+		<id>0</id>
+		<image>img/tt0133093.jpg</image>
+		<score>8.7</score>
+		<genre>Action</genre>
+		<title>The Matrix</title>
+		<year>1999</year>
+		<description>A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.</description>
+		<price>3</price>
 	</movie>
-
+	<movie>
+		<id>1</id>
+		<image>img/tt0111161.jpg</image>
+		<score>9.3</score>
+		<genre>Crime</genre>
+		<title>The Shawshank Redemption</title>
+		<year>1994</year>
+		<description>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</description>
+		<price>2</price>
+	</movie>
 	<movie>
 		<id>2</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Comedia</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit quos ad laborum, facere quasi amet officiis dolores odit maxime, ipsam corporis magni asperiores fuga eum soluta labore. Eveniet, beatae, ipsa!</description>
+		<image>img/tt0068646.jpg</image>
+		<score>9.2</score>
+		<genre>Crime</genre>
+		<title>The Godfather</title>
+		<year>1972</year>
+		<description>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.</description>
+		<price>8</price>
 	</movie>
-
 	<movie>
 		<id>3</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Drama</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem nisi est inventore, vitae nemo iste non quisquam aspernatur similique unde itaque repellendus corrupti blanditiis necessitatibus quod a beatae commodi ratione!</description>
+		<image>img/tt0071562.jpg</image>
+		<score>9.1</score>
+		<genre>Crime</genre>
+		<title>The Godfather: Part II</title>
+		<year>1974</year>
+		<description>The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.</description>
+		<price>3</price>
 	</movie>
-
-
 	<movie>
 		<id>4</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Acción</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum architecto inventore, eveniet aspernatur consequuntur vero dolor tempore vitae quibusdam repellendus, sit, velit optio quidem, praesentium hic facere nemo laudantium non.</description>
+		<image>img/tt0468569.jpg</image>
+		<score>9</score>
+		<genre>Action</genre>
+		<title>The Dark Knight</title>
+		<year>2008</year>
+		<description>When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.</description>
+		<price>2</price>
 	</movie>
-
 	<movie>
 		<id>5</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Ciencia ficción</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima, iusto culpa molestias necessitatibus quisquam explicabo fugiat cumque vitae. Velit molestias nesciunt, ullam obcaecati numquam doloribus tenetur illo dolorum natus facilis.</description>
+		<image>img/tt0110912.jpg</image>
+		<score>9</score>
+		<genre>Crime</genre>
+		<title>Pulp Fiction</title>
+		<year>1994</year>
+		<description>The lives of two mob hit men, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.</description>
+		<price>4</price>
 	</movie>
-
 	<movie>
 		<id>6</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Documental</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, necessitatibus reprehenderit. Magnam ratione facilis commodi sapiente consequuntur, saepe, dolorum, sed placeat dolore pariatur inventore laboriosam minus autem soluta sit architecto!</description>
+		<image>img/tt0060196.jpg</image>
+		<score>9</score>
+		<genre>Western</genre>
+		<title>The Good, the Bad and the Ugly</title>
+		<year>1966</year>
+		<description>A bounty hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold buried in a remote cemetery.</description>
+		<price>2</price>
 	</movie>
-
-
 	<movie>
 		<id>7</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Otro</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos itaque, officia pariatur nulla repellendus aspernatur! Labore, ut temporibus animi omnis officiis non libero nostrum deleniti quisquam voluptatem rem ducimus commodi?</description>
+		<image>img/tt0108052.jpg</image>
+		<score>8.9</score>
+		<genre>Biography</genre>
+		<title>Schindler's List</title>
+		<year>1993</year>
+		<description>In Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.</description>
+		<price>4</price>
 	</movie>
-
 	<movie>
 		<id>8</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Zoofilia</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus perspiciatis, tempore excepturi pariatur accusamus nobis eos iure sed ipsum necessitatibus consequuntur, numquam, assumenda. Odit ipsam quod molestiae nesciunt perspiciatis, placeat.</description>
+		<image>img/tt0050083.jpg</image>
+		<score>8.9</score>
+		<genre>Drama</genre>
+		<title>12 Angry Men</title>
+		<year>1957</year>
+		<description>A dissenting juror in a murder trial slowly manages to convince the others that the case is not as obviously clear as it seemed in court.</description>
+		<price>6</price>
 	</movie>
-
-
 	<movie>
 		<id>9</id>
-		<image>img/movie.jpg</image>
-		<score>5</score>
-		<genre>Comedia</genre>
-		<title> Titulo </title>
-		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo libero odio mollitia perspiciatis minima cum praesentium earum nisi, aliquid quos aperiam ullam labore doloremque, nemo optio consequatur temporibus, quibusdam, numquam.</description>
+		<image>img/tt0167260.jpg</image>
+		<score>8.9</score>
+		<genre>Action</genre>
+		<title>The Lord of the Rings: The Return of the King</title>
+		<year>2003</year>
+		<description>Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.</description>
+		<price>1</price>
 	</movie>
-
+	<movie>
+		<id>10</id>
+		<image>img/tt0137523.jpg</image>
+		<score>8.9</score>
+		<genre>Drama</genre>
+		<title>Fight Club</title>
+		<year>1999</year>
+		<description>An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker and they form an underground fight club that evolves into something much, much more...</description>
+		<price>8</price>
+	</movie>
+	<movie>
+		<id>11</id>
+		<image>img/tt0120737.jpg</image>
+		<score>8.8</score>
+		<genre>Action</genre>
+		<title>The Lord of the Rings: The Fellowship of the Ring</title>
+		<year>2001</year>
+		<description>A meek hobbit of the Shire and eight companions set out on a journey to Mount Doom to destroy the One Ring and the dark lord Sauron.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>12</id>
+		<image>img/tt0080684.jpg</image>
+		<score>8.8</score>
+		<genre>Action</genre>
+		<title>Star Wars: Episode V - The Empire Strikes Back</title>
+		<year>1980</year>
+		<description>After the rebels have been brutally overpowered by the Empire on their newly established base, Luke Skywalker takes advanced Jedi training with Master Yoda, while his friends are pursued by Darth Vader as part of his plan to capture Luke.</description>
+		<price>4</price>
+	</movie>
+	<movie>
+		<id>13</id>
+		<image>img/tt1375666.jpg</image>
+		<score>8.8</score>
+		<genre>Action</genre>
+		<title>Inception</title>
+		<year>2010</year>
+		<description>A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>14</id>
+		<image>img/tt0109830.jpg</image>
+		<score>8.8</score>
+		<genre>Drama</genre>
+		<title>Forrest Gump</title>
+		<year>1994</year>
+		<description>Forrest Gump, while not intelligent, has accidentally been present at many historic moments, but his true love, Jenny Curran, eludes him.</description>
+		<price>8</price>
+	</movie>
+	<movie>
+		<id>15</id>
+		<image>img/tt0073486.jpg</image>
+		<score>8.8</score>
+		<genre>Drama</genre>
+		<title>One Flew Over the Cuckoo's Nest</title>
+		<year>1975</year>
+		<description>Upon admittance to a mental institution, a brash rebel rallies the patients to take on the oppressive head nurse.</description>
+		<price>8</price>
+	</movie>
+	<movie>
+		<id>16</id>
+		<image>img/tt0167261.jpg</image>
+		<score>8.8</score>
+		<genre>Action</genre>
+		<title>The Lord of the Rings: The Two Towers</title>
+		<year>2002</year>
+		<description>While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.</description>
+		<price>1</price>
+	</movie>
+	<movie>
+		<id>17</id>
+		<image>img/tt0099685.jpg</image>
+		<score>8.7</score>
+		<genre>Biography</genre>
+		<title>Goodfellas</title>
+		<year>1990</year>
+		<description>Henry Hill and his friends work their way up through the mob hierarchy.</description>
+		<price>7</price>
+	</movie>
+	<movie>
+		<id>18</id>
+		<image>img/tt0133093.jpg</image>
+		<score>8.7</score>
+		<genre>Action</genre>
+		<title>The Matrix</title>
+		<year>1999</year>
+		<description>A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.</description>
+		<price>5</price>
+	</movie>
+	<movie>
+		<id>19</id>
+		<image>img/tt0076759.jpg</image>
+		<score>8.7</score>
+		<genre>Action</genre>
+		<title>Star Wars</title>
+		<year>1977</year>
+		<description>Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a wookiee and two droids to save the universe from the Empire's world-destroying battle-station, while also attempting to rescue Princess Leia from the evil Darth Vader.</description>
+		<price>1</price>
+	</movie>
+	<movie>
+		<id>20</id>
+		<image>img/tt0047478.jpg</image>
+		<score>8.7</score>
+		<genre>Drama</genre>
+		<title>Seven Samurai</title>
+		<year>1954</year>
+		<description>A poor village under attack by bandits recruits seven unemployed samurai to help them defend themselves.</description>
+		<price>1</price>
+	</movie>
+	<movie>
+		<id>21</id>
+		<image>img/tt0317248.jpg</image>
+		<score>8.7</score>
+		<genre>Crime</genre>
+		<title>City of God</title>
+		<year>2002</year>
+		<description>Two boys growing up in a violent neighborhood of Rio de Janeiro take different paths: one becomes a photographer, the other a drug dealer.</description>
+		<price>5</price>
+	</movie>
+	<movie>
+		<id>22</id>
+		<image>img/tt0114369.jpg</image>
+		<score>8.7</score>
+		<genre>Drama</genre>
+		<title>Se7en</title>
+		<year>1995</year>
+		<description>Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his modus operandi.</description>
+		<price>8</price>
+	</movie>
+	<movie>
+		<id>23</id>
+		<image>img/tt0114814.jpg</image>
+		<score>8.7</score>
+		<genre>Crime</genre>
+		<title>The Usual Suspects</title>
+		<year>1995</year>
+		<description>A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>24</id>
+		<image>img/tt0102926.jpg</image>
+		<score>8.6</score>
+		<genre>Crime</genre>
+		<title>The Silence of the Lambs</title>
+		<year>1991</year>
+		<description>A young F.B.I. cadet must confide in an incarcerated and manipulative killer to receive his help on catching another serial killer who skins his victims.</description>
+		<price>5</price>
+	</movie>
+	<movie>
+		<id>25</id>
+		<image>img/tt0038650.jpg</image>
+		<score>8.7</score>
+		<genre>Drama</genre>
+		<title>It's a Wonderful Life</title>
+		<year>1946</year>
+		<description>An angel helps a compassionate but despairingly frustrated businessman by showing what life would have been like if he never existed.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>26</id>
+		<image>img/tt0064116.jpg</image>
+		<score>8.7</score>
+		<genre>Western</genre>
+		<title>Once Upon a Time in the West</title>
+		<year>1968</year>
+		<description>Epic story of a mysterious stranger with a harmonica who joins forces with a notorious desperado to protect a beautiful widow from a ruthless assassin working for the railroad.</description>
+		<price>7</price>
+	</movie>
+	<movie>
+		<id>27</id>
+		<image>img/tt0110413.jpg</image>
+		<score>8.6</score>
+		<genre>Crime</genre>
+		<title>Léon: The Professional</title>
+		<year>1994</year>
+		<description>A professional assassin rescues a young girl whose family were killed in a police raid.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>28</id>
+		<image>img/tt0118799.jpg</image>
+		<score>8.6</score>
+		<genre>Comedy</genre>
+		<title>Life Is Beautiful</title>
+		<year>1997</year>
+		<description>A Jewish man has a wonderful romance with the help of his humour, but must use that same quality to protect his son in a Nazi death camp.</description>
+		<price>3</price>
+	</movie>
+	<movie>
+		<id>29</id>
+		<image>img/tt0034583.jpg</image>
+		<score>8.6</score>
+		<genre>Drama</genre>
+		<title>Casablanca</title>
+		<year>1942</year>
+		<description>Set in unoccupied Africa during the early days of World War II: An American expatriate meets a former lover, with unforeseen complications.</description>
+		<price>3</price>
+	</movie>
+	<movie>
+		<id>30</id>
+		<image>img/tt0082971.jpg</image>
+		<score>8.6</score>
+		<genre>Action</genre>
+		<title>Raiders of the Lost Ark</title>
+		<year>1981</year>
+		<description>Archeologist and adventurer Indiana Jones is hired by the US government to find the Ark of the Covenant before the Nazis.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>31</id>
+		<image>img/tt0120586.jpg</image>
+		<score>8.6</score>
+		<genre>Crime</genre>
+		<title>American History X</title>
+		<year>1998</year>
+		<description>A former neo-nazi skinhead tries to prevent his younger brother from going down the same wrong path that he did.</description>
+		<price>6</price>
+	</movie>
+	<movie>
+		<id>32</id>
+		<image>img/tt0054215.jpg</image>
+		<score>8.6</score>
+		<genre>Horror</genre>
+		<title>Psycho</title>
+		<year>1960</year>
+		<description>A Phoenix secretary steals $40,000 from her employer's client, goes on the run and checks into a remote motel run by a young man under the domination of his mother.</description>
+		<price>1</price>
+	</movie>
+	<movie>
+		<id>33</id>
+		<image>img/tt0120815.jpg</image>
+		<score>8.6</score>
+		<genre>Action</genre>
+		<title>Saving Private Ryan</title>
+		<year>1998</year>
+		<description>Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.</description>
+		<price>4</price>
+	</movie>
+	<movie>
+		<id>34</id>
+		<image>img/tt0047396.jpg</image>
+		<score>8.6</score>
+		<genre>Mystery</genre>
+		<title>Rear Window</title>
+		<year>1954</year>
+		<description>A wheelchair bound photographer spies on his neighbours from his apartment window and becomes convinced one of them has committed murder.</description>
+		<price>4</price>
+	</movie>
+	<movie>
+		<id>35</id>
+		<image>img/tt0021749.jpg</image>
+		<score>8.6</score>
+		<genre>Comedy</genre>
+		<title>City Lights</title>
+		<year>1931</year>
+		<description>The Tramp struggles to help a blind flower girl he has fallen in love with.</description>
+		<price>7</price>
+	</movie>
+	<movie>
+		<id>36</id>
+		<image>img/tt0245429.jpg</image>
+		<score>8.6</score>
+		<genre>Animation</genre>
+		<title>Spirited Away</title>
+		<year>2001</year>
+		<description>In the middle of her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and monsters; where humans are changed into animals; and a bathhouse for these creatures.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>37</id>
+		<image>img/tt1675434.jpg</image>
+		<score>8.6</score>
+		<genre>Biography</genre>
+		<title>The Intouchables</title>
+		<year>2011</year>
+		<description>After he becomes a quadriplegic from a paragliding accident, an aristocrat hires a young man from the projects to be his caretaker.</description>
+		<price>3</price>
+	</movie>
+	<movie>
+		<id>38</id>
+		<image>img/tt0027977.jpg</image>
+		<score>8.6</score>
+		<genre>Comedy</genre>
+		<title>Modern Times</title>
+		<year>1936</year>
+		<description>The Tramp struggles to live in modern industrial society with the help of a young homeless woman.</description>
+		<price>1</price>
+	</movie>
+	<movie>
+		<id>39</id>
+		<image>img/tt0103064.jpg</image>
+		<score>8.5</score>
+		<genre>Action</genre>
+		<title>Terminator 2: Judgment Day</title>
+		<year>1991</year>
+		<description>A cyborg, identical to the one who failed to kill Sarah Connor, must now protect her ten-year-old son, John, from a more advanced cyborg, made out of liquid metal.</description>
+		<price>5</price>
+	</movie>
+	<movie>
+		<id>40</id>
+		<image>img/tt0209144.jpg</image>
+		<score>8.5</score>
+		<genre>Mystery</genre>
+		<title>Memento</title>
+		<year>2000</year>
+		<description>A man, suffering from short-term memory loss, uses notes and tattoos to hunt for the man he thinks killed his wife.</description>
+		<price>1</price>
+	</movie>
+	<movie>
+		<id>41</id>
+		<image>img/tt0253474.jpg</image>
+		<score>8.5</score>
+		<genre>Biography</genre>
+		<title>The Pianist</title>
+		<year>2002</year>
+		<description>A Polish Jewish musician struggles to survive the destruction of the Warsaw ghetto of World War II.</description>
+		<price>1</price>
+	</movie>
+	<movie>
+		<id>42</id>
+		<image>img/tt0120689.jpg</image>
+		<score>8.5</score>
+		<genre>Crime</genre>
+		<title>The Green Mile</title>
+		<year>1999</year>
+		<description>The lives of guards on Death Row are affected by one of their charges: a black man accused of child murder and rape, yet who has a mysterious gift.</description>
+		<price>7</price>
+	</movie>
+	<movie>
+		<id>43</id>
+		<image>img/tt0043014.jpg</image>
+		<score>8.6</score>
+		<genre>Drama</genre>
+		<title>Sunset Blvd.</title>
+		<year>1950</year>
+		<description>A hack screenwriter writes a screenplay for a former silent-film star who has faded into Hollywood obscurity.</description>
+		<price>1</price>
+	</movie>
+	<movie>
+		<id>44</id>
+		<image>img/tt0078788.jpg</image>
+		<score>8.5</score>
+		<genre>Drama</genre>
+		<title>Apocalypse Now</title>
+		<year>1979</year>
+		<description>During the Vietnam War, Captain Willard is sent on a dangerous mission into Cambodia to assassinate a renegade colonel who has set himself up as a god among a local tribe.</description>
+		<price>7</price>
+	</movie>
+	<movie>
+		<id>45</id>
+		<image>img/tt0057012.jpg</image>
+		<score>8.5</score>
+		<genre>Comedy</genre>
+		<title>Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb</title>
+		<year>1964</year>
+		<description>An insane general triggers a path to nuclear holocaust that a war room full of politicians and generals frantically try to stop.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>46</id>
+		<image>img/tt0407887.jpg</image>
+		<score>8.5</score>
+		<genre>Crime</genre>
+		<title>The Departed</title>
+		<year>2006</year>
+		<description>An undercover state cop who has infiltrated an Irish gang and a mole in the police force working for the same mob race to track down and identify each other before being exposed to the enemy, after both sides realize their outfit has a rat.</description>
+		<price>2</price>
+	</movie>
+	<movie>
+		<id>47</id>
+		<image>img/tt0172495.jpg</image>
+		<score>8.5</score>
+		<genre>Action</genre>
+		<title>Gladiator</title>
+		<year>2000</year>
+		<description>When a Roman general is betrayed and his family murdered by an emperor's corrupt son, he comes to Rome as a gladiator to seek revenge.</description>
+		<price>8</price>
+	</movie>
+	<movie>
+		<id>48</id>
+		<image>img/tt0088763.jpg</image>
+		<score>8.5</score>
+		<genre>Adventure</genre>
+		<title>Back to the Future</title>
+		<year>1985</year>
+		<description>A young man is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his friend, Dr. Emmett Brown, and must make sure his high-school-age parents unite in order to save his own existence.</description>
+		<price>4</price>
+	</movie>
+	<movie>
+		<id>49</id>
+		<image>img/tt0078748.jpg</image>
+		<score>8.5</score>
+		<genre>Horror</genre>
+		<title>Alien</title>
+		<year>1979</year>
+		<description>The commercial vessel Nostromo receives a distress call from an unexplored planet. After searching for survivors, the crew heads home only to realize that a deadly bioform has joined them.</description>
+		<price>4</price>
+	</movie>
+	<movie>
+		<id>50</id>
+		<image>img/tt1065073.jpg</image>
+		<score>8.7</score>
+		<genre>Drama</genre>
+		<title>Boyhood</title>
+		<year>2014</year>
+		<description>The life of a young man, Mason, from age 5 to age 18.</description>
+		<price>4</price>
+	</movie>
 </catalog>
