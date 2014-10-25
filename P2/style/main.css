@@ -75,7 +75,7 @@
 #login-form{
 	margin: 15% 0 0 40%;
 	/* TODO: estilo para pantallas más grandes.*/
-	height: 22%;
+	height: 23%;
 	width: 28%;
 	min-width: 350px;
 	min-height: 135px;
@@ -98,6 +98,11 @@
 #NewRegister{
 	font-size: 15px;
 	text-align: left;
+}
+
+#login-err-msg{
+	visibility: hidden;
+	color: red;
 }
 
  .scroller {

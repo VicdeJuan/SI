@@ -20,7 +20,7 @@
 						$text = "Login";
 						$show = "true";
 					}else{
-						$text = 'asdf';
+						$text = $_SESSION['name'];
 						$link = "/pages/error.html";
 						$show = "false";
 					}
@@ -86,27 +86,31 @@
  	<div id="login-div">
  	<!-- TODO:  petición http y procesar código de error -->
 
- 		<form action="/php/login_register.php" id="login-form" method="post">
+ 		<form ng-controller="loginSubmitController" ng-submit="loginSubmit();" name="login-form"  id="login-form">
  			<table>
 				<tr>
 					<td>
 							<td>Email:</td>
-							<td> <input type="email" name="name" ></td>
+							<td> <input type="email" name="email" ng-model="email" ></td>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<td>Contraseña:</td>
-						<td> <input type="password" name="password" autocomplete="off" required pattern="[a-zA-Z0-9]+" id="passwordfield"></td>
+						<td> <input type="password" name="password" ng-model="password" autocomplete="off" required pattern="[a-zA-Z0-9]+" id="passwordfield"></td>
 					</td>
 
 				</td>	
+				<td>
+					<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages" ></div>
+				</td>
 				</tr>
 			</table>
  			<p>
 	  			<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>		
-  				<input type="submit" name="Login" value="Login" id="login-button">
+	  			<input type="submit" value="login" name="login" id="login-button">
 			</p>			
+			<pre> http status code: {{status}}
  		</form>
  	</div>
  	<!-- footer.html begin -->
