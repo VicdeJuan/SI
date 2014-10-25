@@ -1,16 +1,25 @@
 var mainApp = angular.module('mainApp', ['ngAnimate']);
 
-function unique(arr) {
-    var u = {},
-        a = [];
-    for (var i = 0, l = arr.length; i < l; ++i) {
-        if (!u.hasOwnProperty(arr[i])) {
-            a.push(arr[i]);
-            u[arr[i]] = 1;
-        }
+var s = JSON.stringify;
+
+var unique = function(arr, field) {
+    var values = {}, result = [];
+    var l = arr.length, i = 0;
+
+    for (i = 0; i < l; i += 1) {
+        values[arr[i][field]] = arr[i];
     }
-    return a;
-}
+
+    for (i in values) {
+        result.push(values[i]);
+    }
+
+    return result;
+};
+
+mainApp.filter('unique', function() {
+    return unique;
+});
 
 var cart = {
     items: [],
@@ -93,10 +102,6 @@ mainApp.controller('movieListController', ['$scope', '$http',
             .success(function(data, status) {
                 $scope.movies = data['movies'];
             });
-
-        $scope.genres = unique($scope.movies.map(function(movie) {
-            return movie['genre'];
-        }));
 
         $scope.addToCart = function(movie) {
             $http.post('/php/cart.php', {

@@ -45,8 +45,8 @@
  			<li class="filter">
  				<span class="filter-title">Género</span>
  				<ul class="filter-items">
- 					<li ng-repeat="genre in genres">
- 						<a href="pages/error.html" class="filter-genre">{{genre}}</a>
+ 					<li ng-repeat="movie in movies | unique:'genre'">
+ 						<a href="pages/error.html" class="filter-genre">{{movie.genre}}</a>
  					</li>
  				</ul>
  			</li>
@@ -60,7 +60,7 @@
  			<div class="main-container" 
  				ng-controller="movieListController">
  				<div class="movies" ng-repeat="movie in movies track by $index">
- 					<img src="{{movie.image}}" class="movie_img" />
+ 					<img src="{{movie.image}}" class="movie_img">
  					<p class="movie_title">{{movie.title}}</p>
  					<p class="movie_description">
  						{{movie.description}}

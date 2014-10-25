@@ -25,7 +25,7 @@
 		<id>3</id>
 		<image>img/movie.jpg</image>
 		<score>5</score>
-		<genre>Comedia</genre>
+		<genre>Drama</genre>
 		<title> Titulo </title>
 		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem nisi est inventore, vitae nemo iste non quisquam aspernatur similique unde itaque repellendus corrupti blanditiis necessitatibus quod a beatae commodi ratione!</description>
 	</movie>
@@ -35,7 +35,7 @@
 		<id>4</id>
 		<image>img/movie.jpg</image>
 		<score>5</score>
-		<genre>Comedia</genre>
+		<genre>Acción</genre>
 		<title> Titulo </title>
 		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum architecto inventore, eveniet aspernatur consequuntur vero dolor tempore vitae quibusdam repellendus, sit, velit optio quidem, praesentium hic facere nemo laudantium non.</description>
 	</movie>
@@ -44,7 +44,7 @@
 		<id>5</id>
 		<image>img/movie.jpg</image>
 		<score>5</score>
-		<genre>Comedia</genre>
+		<genre>Ciencia ficción</genre>
 		<title> Titulo </title>
 		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima, iusto culpa molestias necessitatibus quisquam explicabo fugiat cumque vitae. Velit molestias nesciunt, ullam obcaecati numquam doloribus tenetur illo dolorum natus facilis.</description>
 	</movie>
@@ -53,7 +53,7 @@
 		<id>6</id>
 		<image>img/movie.jpg</image>
 		<score>5</score>
-		<genre>Comedia</genre>
+		<genre>Documental</genre>
 		<title> Titulo </title>
 		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, necessitatibus reprehenderit. Magnam ratione facilis commodi sapiente consequuntur, saepe, dolorum, sed placeat dolore pariatur inventore laboriosam minus autem soluta sit architecto!</description>
 	</movie>
@@ -63,7 +63,7 @@
 		<id>7</id>
 		<image>img/movie.jpg</image>
 		<score>5</score>
-		<genre>Comedia</genre>
+		<genre>Otro</genre>
 		<title> Titulo </title>
 		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos itaque, officia pariatur nulla repellendus aspernatur! Labore, ut temporibus animi omnis officiis non libero nostrum deleniti quisquam voluptatem rem ducimus commodi?</description>
 	</movie>
@@ -72,7 +72,7 @@
 		<id>8</id>
 		<image>img/movie.jpg</image>
 		<score>5</score>
-		<genre>Comedia</genre>
+		<genre>Zoofilia</genre>
 		<title> Titulo </title>
 		<description> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus perspiciatis, tempore excepturi pariatur accusamus nobis eos iure sed ipsum necessitatibus consequuntur, numquam, assumenda. Odit ipsam quod molestiae nesciunt perspiciatis, placeat.</description>
 	</movie>

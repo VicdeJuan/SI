@@ -5,8 +5,8 @@
  			<li class="filter">
  				<span class="filter-title">Género</span>
  				<ul class="filter-items">
- 					<li ng-repeat="genre in genres">
- 						<a href="pages/error.html" class="filter-genre">{{genre}}</a>
+ 					<li ng-repeat="movie in movies | unique:'genre'">
+ 						<a href="pages/error.html" class="filter-genre">{{movie.genre}}</a>
  					</li>
  				</ul>
  			</li>
