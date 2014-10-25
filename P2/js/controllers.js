@@ -96,8 +96,16 @@ mainApp.controller('movieListController', ['$scope', '$http',
     function($scope, $http) {
         $scope.movies = [];
 
+        $scope.search = {
+            genre: $scope.searchGenre
+        }
+
+        $scope.$watchGroup(['searchGenre'], function(searchGenre) {
+            $scope.search.genre = searchGenre[0];
+        }); 
+
         $http.get('/php/movies.php', {
-            'count': 4
+            'count': 10
         })
             .success(function(data, status) {
                 $scope.movies = data['movies'];

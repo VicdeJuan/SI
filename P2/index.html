@@ -46,7 +46,14 @@
  				<span class="filter-title">Género</span>
  				<ul class="filter-items">
  					<li ng-repeat="movie in movies | unique:'genre'">
- 						<a href="pages/error.html" class="filter-genre">{{movie.genre}}</a>
+ 						<input 
+ 							type="radio" 
+ 							value="{{movie.genre}}" 
+ 							class="filter-genre" 
+ 							ng-model="$parent.searchGenre" 
+ 							name="searchGenre">
+ 								{{movie.genre}}
+ 						</input>
  					</li>
  				</ul>
  			</li>
@@ -56,22 +63,21 @@
  	</aside>
 
  	<div class="scroller">
- 		<div class="inner-scroll">
- 			<div class="main-container" 
- 				ng-controller="movieListController">
- 				<div class="movies" ng-repeat="movie in movies track by $index">
- 					<img src="{{movie.image}}" class="movie_img">
- 					<p class="movie_title">{{movie.title}}</p>
- 					<p class="movie_description">
- 						{{movie.description}}
- 					</p>
- 					<a ng-click="addToCart(movie)" href="">Añadir al carrito</a>
- 				</div>
- 			</div>
+ 		<div class="main-container" 
+ 		ng-controller="movieListController">
+ 		<p>Mostrando {{movies.length}} películas del género {{search.genre}}.</p>
+ 		<div class="movies" ng-repeat="movie in movies | filter:searchGenre">
+ 			<img src="{{movie.image}}" class="movie_img">
+ 			<p class="movie_title">{{movie.title}}</p>
+ 			<p class="movie_description">
+ 				{{movie.description}}
+ 			</p>
+ 			<a ng-click="addToCart(movie)" href="">Añadir al carrito</a>
  		</div>
  	</div>
  </div>
- 	<!-- footer.html begin -->
+</div>
+	<!-- footer.html begin -->
 
 	<footer>
 		<p class="footer-text">
