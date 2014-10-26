@@ -32,9 +32,9 @@ mainApp.filter('slice', function() {
 var cart = {
     items: [],
 
-    find: function(title) {
+    find: function(id) {
         for (var i = this.items.length; i--;) {
-            if (this.items[i]['title'] === title) {
+            if (this.items[i]['id'] === id) {
                 return this.items[i];
             }
         }
@@ -42,7 +42,7 @@ var cart = {
     },
 
     add: function(toAdd) {
-        var existing = this.find(toAdd['title']);
+        var existing = this.find(toAdd['id']);
 
         if (existing != null)
             existing['quantity'] += 1;
@@ -53,7 +53,7 @@ var cart = {
     },
 
     remove: function(toRemove) {
-        var existing = this.find(toRemove['title']);
+        var existing = this.find(toRemove['id']);
 
         if (existing == null)
             return;
@@ -89,7 +89,7 @@ mainApp.controller('headerController', ['$scope', '$http',
         cart.fetch($http);
 
         $scope.removeFromCart = function(item) {
-            $http.delete('/php/cart.php?itemId=' + item['title'])
+            $http.delete('/php/cart.php?itemId=' + item['id'])
                 .success(function(data, status) {
                     cart.remove(item);
                 })
@@ -173,7 +173,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         {
             if (isFinite($scope.serverMovieCountLimit))
                 $scope.filterMovieCountLimit = $filter('filter')($scope.movies, $scope.search).length;
-        }
+        };
 
         $scope.$watch('serverMovieCountLimit', $scope.updateMovieCountLimit);
 

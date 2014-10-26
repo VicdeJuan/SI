@@ -28,7 +28,7 @@ function post()
 	$found = false;
 
 	foreach ($cart as &$item) {
-		if($item['title'] === $toAdd['title'])
+		if($item['id'] === $toAdd['id'])
 		{
 			$item['quantity'] += 1;
 			$found = true;
@@ -63,7 +63,7 @@ function delete()
 	$found = null;
 
 	foreach ($cart as &$item) {
-		if($item['title'] == $itemId)
+		if($item['id'] == $itemId)
 		{
 			$found = &$item;
 			break;
