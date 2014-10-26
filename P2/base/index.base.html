@@ -41,6 +41,17 @@
  						</input>
  					</li>
  					<li>
+ 						<input ng-init="customYearRange = {}"
+ 							type="radio" 
+ 							value="customYearRange"
+ 							class="filter-genre" 
+ 							ng-model="yearRange" 
+ 							name="yearRange">
+ 								Personalizado: 
+ 								<input type="number" ng-model="customYearRange.min" /> hasta <input type="number" ng-model="customYearRange.max" />.
+ 						</input>
+ 					</li>
+ 					<li>
  						<input 
  							type="radio" 
  							value='{"min":0,"max":5000}'

@@ -208,7 +208,11 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
         $scope.$watchGroup(['searchGenre', 'yearRange'], function(params) {
             var searchGenre = params[0];
-            var yearRange = JSON.parse(params[1]) || { min: 0, max: Infinity };
+
+            if (params[1] == "customYearRange")
+                var yearRange = $scope.customYearRange;
+            else
+                var yearRange = JSON.parse(params[1]) || { min: 0, max: Infinity };
 
             $scope.search.genre = searchGenre;
             $scope.search.year = yearRange;
