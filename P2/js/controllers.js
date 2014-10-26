@@ -24,9 +24,9 @@ mainApp.filter('unique', function() {
 });
 
 mainApp.filter('slice', function() {
-  return function(arr, start) {
-    return (arr || []).slice(start);
-  };
+    return function(arr, start) {
+        return (arr || []).slice(start);
+    };
 });
 
 var cart = {
@@ -110,36 +110,37 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
             $scope.fetching = true;
 
-            $http.get('/api/movies.php', { params: {
-                'count': $scope.pageLength,
-                'from': $scope.lastRetrieved
-            }})
-            .success(function(data, status) {
-                var movies = data['movies'];
-
-                for (var i = 0; i < movies.length; i++) {
-                    var movie = movies[i];
-
-                    if (!$scope.movieIds[movie['id']])
-                    {
-                        $scope.movieIds[movie['id']] = true;
-                        $scope.movies.push(movie);
-                    }
+            $http.get('/api/movies.php', {
+                params: {
+                    'count': $scope.pageLength,
+                    'from': $scope.lastRetrieved
                 }
+            })
+                .success(function(data, status) {
+                    var movies = data['movies'];
 
-                $scope.lastRetrieved = data['next'];
+                    for (var i = 0; i < movies.length; i++) {
+                        var movie = movies[i];
 
-                if ($scope.lastRetrieved == -1)
-                    $scope.serverMovieCountLimit = $scope.movies.length;
+                        if (!$scope.movieIds[movie['id']]) {
+                            $scope.movieIds[movie['id']] = true;
+                            $scope.movies.push(movie);
+                        }
+                    }
 
-                $scope.fetching = false;
+                    $scope.lastRetrieved = data['next'];
 
-                $scope.fetchIfNeeded();
-            });
+                    if ($scope.lastRetrieved == -1)
+                        $scope.serverMovieCountLimit = $scope.movies.length;
+
+                    $scope.fetching = false;
+
+                    $scope.fetchIfNeeded();
+                });
         };
 
         $scope.fetchIfNeeded = function() {
-             if ($scope.filtered && $scope.filtered.length < $scope.pageLength)
+            if ($scope.filtered && $scope.filtered.length < $scope.pageLength)
                 $scope.fetchMovies();
         };
 
@@ -169,8 +170,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
             $scope.updateMovieCountLimit();
         });
 
-        $scope.updateMovieCountLimit = function() 
-        {
+        $scope.updateMovieCountLimit = function() {
             if (isFinite($scope.serverMovieCountLimit))
                 $scope.filterMovieCountLimit = $filter('filter')($scope.movies, $scope.search).length;
         };
@@ -193,7 +193,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
             if (newIndex < $scope.filterMovieCountLimit)
                 $scope.startIndex = newIndex;
-       };
+        };
 
         $scope.addToCart = function(movie) {
             $http.post('/php/cart.php', {
