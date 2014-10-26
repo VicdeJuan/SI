@@ -204,11 +204,8 @@
 	font-weight: normal;
 }
 
-.filter ul{
-	display: none;
-}
-
 .filter-items {
+	display: none;
 	margin-right: 15px !important;
 	margin-top: 4px !important;
 	font-size: 10pt;

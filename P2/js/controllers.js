@@ -49,12 +49,23 @@ var checkBounds = function(item, field, bounds) {
     return value >= min && value <= max;
 };
 
+var stringFilter = function(item, filter, onlyContain) {
+    if (!filter)
+        return true;
+
+    if (onlyContain)
+        return (item && item.toLowerCase().indexOf(filter.toLowerCase()) > -1);
+    else
+        return filter === item;
+}
+
 mainApp.filter('movieFilter', function() {
     return function(movies, filter) {
         var filtered = [];
 
         angular.forEach(movies, function(movie) {
-            if ((!filter.genre || movie['genre'] === filter.genre) &&
+            if (stringFilter(movie['title'], filter.title, true) &&
+                stringFilter(movie['genre'], filter.genre) &&
                 checkBounds(movie, 'year', filter.year) &&
                 checkBounds(movie, 'price', filter.price) &&
                 checkBounds(movie, 'score', filter.score))
@@ -221,7 +232,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
             genre: $scope.searchGenre
         };
 
-        $scope.$watchGroup(['searchGenre', 'yearRange', 'priceRange'], function(params) {
+        $scope.$watchGroup(['searchGenre', 'yearRange', 'priceRange', 'searchTitle'], function(params) {
             var searchGenre = params[0];
 
             if (params[1] == 'custom')
@@ -234,9 +245,12 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
             else if (params[2])
                 var priceRange = JSON.parse(params[2]) || { min: 0, max: Infinity };
 
+            var searchTitle = params[3];
+
             $scope.search.genre = searchGenre;
             $scope.search.year = yearRange;
             $scope.search.price = priceRange;
+            $scope.search.title = searchTitle;
             $scope.startIndex = 0;
 
             $scope.updateMovieCountLimit();
