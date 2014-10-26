@@ -7,24 +7,22 @@
 	<script src="lib/angular-animate.min.js" type="text/javascript"></script>
 	<script src="js/controllers.js" type="text/javascript"></script>
 	<body>
-		<header ng-controller="headerController" ng-init="showCart = false; showLogin = false">
+		<header ng-controller="headerController" ng-init="showCart = false">
 			<div class="header-logo">
 				<p>Olakase</p>
 			</div>
 			<div class="header-options">
-				<ul>
+				<ul ng-controller="loginSubmitController" ng-init="showLogin = false">
 					<?php
 					session_start();
 					if($_SESSION['name'] == "" ){
 						$link = "''";
 						$text = "Login";
-						$show = "true";
 					}else{
 						$text = $_SESSION['name'];
 						$link = "/pages/error.html";
-						$show = "false";
 					}
-					print("<li><a ng-click='loginHandler(".$show.")' href=".$link." >".$text."</a></li>");
+					print("<li><a ng-click=loginHandler(true); href=".$link." >".$text."</a></li>");
 					?>
 					<li>
 						<a href="" ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>
@@ -83,10 +81,10 @@
  	</div>
  </div>
 
- 	<div id="login-div">
+ 	<div ng-controller="loginSubmitController" class="login-div" ng-class="{true: 'show-login-div', false : 'notshow-login-div'}[showLogin == true]" >
  	<!-- TODO:  petición http y procesar código de error -->
 
- 		<form ng-controller="loginSubmitController" ng-submit="loginSubmit();" name="login-form"  id="login-form">
+ 		<form  ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-class="{true: 'show-login-form', false : 'notshow-login-form'}[showLogin == true]">
  			<table>
 				<tr>
 					<td>
@@ -102,7 +100,7 @@
 
 				</td>	
 				<td>
-					<div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages" ></div>
+					<div id="messages" class="login-err-msg" > El email y la contraseña no se encuentran en la base de datos. </div>
 				</td>
 				</tr>
 			</table>
@@ -110,7 +108,6 @@
 	  			<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>		
 	  			<input type="submit" value="login" name="login" id="login-button">
 			</p>			
-			<pre> http status code: {{status}}
  		</form>
  	</div>
  	<!-- footer.html begin -->

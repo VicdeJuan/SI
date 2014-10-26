@@ -5,18 +5,27 @@
 
     <?php
     /*  If we come from a registration  */
-    if (empty($_GET)) {
-      http_response_code(402);
+
+    $log = fopen("log", "w");
+    if (isset($_POST['email'])) {
+      $input = $_POST;
+      fwrite($log, "_POST\n");
+    }else{
+      $json = file_get_contents('php://input');
+      $input = json_decode($json, true);      
+      fwrite($log, "json\n");
     }
 
-
-    $dir = "../users/".$_GET['email'];
-    $log = fopen("log", "w");
-    fwrite($log,$_GET['email']."\n");
-    fwrite($log,$_GET['password']."\n");
+    
+    $dir = "../users/".$input['email'];
+    fwrite($log,$input['email']."\n");
+    fwrite($log,$input['password']."\n");
     $filename = $dir."/"."datos.dat";
+
     if (!session_start())
       header("Location: exit.html");
+
+    header("Location: exit.html");
     if (!is_dir($dir)){        /*User does not exist so we create it.*/
       if (!mkdir($dir,0777)){
         header("Location: /pages/error.html");
@@ -26,34 +35,34 @@
         die();
       }
       $myfile = fopen($filename, "w");
-      $txt = $_GET['name']."\n";
-      $txt = $txt.$_GET['email']."\n";
-      $txt = $txt.md5($_GET['password'])."\n";
-      $txt = $txt.$_GET['creditCard']."\n";
-      $txt = $txt.$_GET['CSV']."\n";
-      $txt = $txt.$_GET['expireDate']."\n";
+      $txt = $input['name']."\n";
+      $txt = $txt.$input['email']."\n";
+      $txt = $txt.md5($input['password'])."\n";
+      $txt = $txt.$input['creditCard']."\n";
+      $txt = $txt.$input['CSV']."\n";
+      $txt = $txt.$input['expireDate']."\n";
       $txt = $txt.date('d/m/Y', time())."\n";
       fwrite($myfile, $txt);
       fclose($myfile);
       fclose($log);
 
 
-      $name = $_GET['name'];
-      $email = $_GET['email'];
+      $name = $input['name'];
+      $email = $input['email'];
 
       $_SESSION['name'] = $name;
       $_SESSION['email'] = $email;
 
       header("Location: /index.php");
     }else{      /* Now, if we come from a login */
-      fwrite($log, "recibido: \n\tname:  ".$_GET['name']."\temail:  ".$_GET['email']."\tpassword:  ".$_GET['password']);
+      fwrite($log, "recibido: \n\tname:  ".$input['name']."\temail:  ".$input['email']."\tpassword:  ".$input['password']);
       $myfile = fopen($filename, "r");
       if ($myfile){
         $name = fgets($myfile);
         $email = fgets($myfile);
         $password = strstr(fgets($myfile),"\n",true);
 
-        if (0 == strcmp($password,md5($_GET['password']))){
+        if (0 == strcmp($password,md5($input['password']))){
           $_SESSION['name'] = $name;
           $_SESSION['email'] = $email;
           http_response_code(202);

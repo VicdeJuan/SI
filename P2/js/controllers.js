@@ -63,113 +63,55 @@ mainApp.controller('headerController', function($scope) {
 		cart.remove(item);
 	};
 
+
+});
+
+mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', function($scope,$http) {
+
 	/* Utilizar angular para lo que sirve y no hacerlo así.*/
-	$scope.loginHandler = function(show){
+	/*$scope.loginHandler = function(show){
 		if (show) {
 			document.getElementById("login-div").style.zIndex = 3;
 			document.getElementById("login-div").style.background = "rgba(245,221,222,0.65)";
 			document.getElementById("login-form").style.opacity = 1;
-			document.getElementById("body-container").style.opacity = 0;
 			document.getElementById("login-form").style.background = "rgba(204,102,0,1)";
 		}else{
-			document.getElementById("body-container").style.opacity = 1;
 			document.getElementById("login-div").style.zIndex = 0;
 			document.getElementById("login-div").style.background = "rgba(245,221,222,0)";
 			document.getElementById("login-form").style.background = "rgba(204,102,0,0)";
 			document.getElementById("login-form").style.opacity = 0;
 		};	
-	};
+	};*/
 
+	$scope.showLogin = false;
 
-});
-
-mainApp.controller('pruebaController', ['$scope','$http','$timeout', function($scope,$http) {
-
-	//$httpProvider.defaults.headers.post['ContentType'] = 'application/x-www-form-urlencoded;charset=utf-8';
-
-	//Plan A! Hace post pero con datos nulos 
+	$scope.loginHandler = function(show){
+		if(show)		
+			document.getElementById("body-container").style.opacity = 0;
+		else	
+			document.getElementById("body-container").style.opacity = 1;
+		
+		$scope.showLogin = show;
+	}
+	
 	$scope.loginSubmit = function(user){
-		window.alert($scope.email);
-		window.alert($scope.password);
 		$http({
-			method: 'GET',
+			method: 'POST',
 			url: '/php/login_register.php',
-			headers: {'contentType': 'application/x-www-form-urlencoded'},
-			transformRequest: function(obj) {
-				var str = [];
-				for (var p in obj){
-					if(obj.hasOwnProperty(p)){
-						str.push(encodeURI(p) + "=" + encodeURIComponent(obj[p]));
-					}
-				}
-				window.alert(str.join("&"));
-				return str.join("&");
-			},
-			data: {'email': $scope.email, password: $scope.password}})
+			data: {email: $scope.email, password: $scope.password}})
 		.success(function(data,status){
 			$scope.status = status;
 			$scope.data = data;
-			window.alert('SI');
+			$scope.loginHandler(true);
 		}).error(function(data,status){
 			$scope.status = status;
 			$scope.data = data || "Request failed";
-			window.alert('NO');
+
+
 		});
 	};
 }]);
 
-	/** Plan B. Procesar en php */
-	/*$scope.loginSubmit = function(user){
-		window.alert($scope.email);
-		window.alert($scope.password);
-		$http({
-			method: 'POST',
-			url: '/php/login_register.php',
-			data: {'email': $scope.email, password: $scope.password}})
-		.success(function(data,status){
-			$scope.status = status;
-			$scope.data = data;
-			window.alert('SI');
-		}).error(function(data,status){
-			$scope.status = status;
-			$scope.data = data || "Request failed";
-			window.alert('NO');
-		});
-	};
-}]);*/
-
-
-	/*$scope.email = element(by.binding('email'));
-	$scope.password = element(by.binding('password'));
-	
-	var config = {
-		params: {
-			'name': $scope.name,
-			'email': $scope.email,
-			'subjetList': $scope.subjetList,
-			'url': "/php/login_register.php",
-		}
-	};
-	
-
-	$scope.loginSubmit = function($scope,$http){
-		$http.post('/php/login_register.php',config)
-		.success(function(data,status,headers,config){
-			if (data.status == 'OK') {
-				headerController.loginHandler(false);
-				$scope.message = null;
-			}else{
-				headerController.loginHandler(true);
-				$scope.message = 'La contraseña y el error no corresponden';
-			};
-		}).error(function(){$scope.messages = 'Network error';
-
-		}).finally (function(){
-			$timeout (function(){
-				$scope.message = null;
-			},3000);
-		});
-	};}]);*/
 
 mainApp.controller('movieListController', ['$scope', '$http', function($scope, $http) {
 	$scope.movies = [];
