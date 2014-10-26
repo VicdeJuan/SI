@@ -1,11 +1,11 @@
- <div class="body-container" ng-controller="movieListController">
+<div class="body-container" ng-controller="movieListController">
  	<aside class="menu">
  		<ul>
  			<li class="filter"><a href="index.html" class="filter-title">Inicio</a></li>
  			<li class="filter">
  				<span class="filter-title">Género</span>
  				<ul class="filter-items">
- 					<li ng-repeat="movie in movies | unique:'genre'">
+ 					<li ng-repeat="movie in movies | unique:'genre' as genres">
  						<input 
  							type="radio" 
  							value="{{movie.genre}}" 
@@ -23,8 +23,7 @@
  	</aside>
 
  	<div class="scroller">
- 		<div class="main-container" 
- 		ng-controller="movieListController">
+ 		<div class="main-container">
  		<p class="pagination-control">{{startIndex}} - {{startIndex + filtered.length}} (
  			<select ng-model="pageLength" ng-options="length for length in availableLengths">
  			</select> resultados por página)
