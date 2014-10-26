@@ -111,8 +111,13 @@ mainApp.controller('movieListController', ['$scope', '$http',
                 var movies = data['movies'];
 
                 for (var i = 0; i < movies.length; i++) {
-                    if ($scope.movies.indexOf(movies[i]) == -1)
-                        $scope.movies.push(movies[i]);
+                    var movie = movies[i];
+
+                    if (!$scope.movieIds[movie['id']])
+                    {
+                        $scope.movieIds[movie['id']] = true;
+                        $scope.movies.push(movie);
+                    }
                 }
 
                 $scope.lastRetrieved += movies.length;
@@ -124,6 +129,7 @@ mainApp.controller('movieListController', ['$scope', '$http',
                 $scope.fetchMovies();
         };
 
+        $scope.movieIds = {};
         $scope.movies = [];
         $scope.startIndex = 0;
         $scope.availableLengths = [5, 10, 25, 50, 100];
@@ -149,6 +155,14 @@ mainApp.controller('movieListController', ['$scope', '$http',
 
         $scope.$watchCollection('filtered', $scope.fetchIfNeeded);
 
+        $scope.prevPage = function() {
+            if ($scope.page > 1)
+                $scope.page--;
+        };
+
+        $scope.nextPage = function() {
+            $scope.page++;
+        };
 
         $scope.addToCart = function(movie) {
             $http.post('/php/cart.php', {
