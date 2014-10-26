@@ -133,6 +133,8 @@ mainApp.controller('movieListController', ['$scope', '$http',
                     $scope.serverCountLimit = $scope.movies.length;
 
                 $scope.fetching = false;
+
+                $scope.fetchIfNeeded();
             });
         };
 
@@ -148,6 +150,13 @@ mainApp.controller('movieListController', ['$scope', '$http',
         $scope.pageLength = 10;
         $scope.lastRetrieved = 0;
         $scope.serverCountLimit = Infinity;
+        $scope.genres = [];
+
+
+        $http.get('/api/genres.php')
+            .success(function(data, status) {
+                $scope.genres = data;
+            });
 
         $scope.search = {
             genre: $scope.searchGenre

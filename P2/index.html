@@ -45,14 +45,14 @@
  			<li class="filter">
  				<span class="filter-title">Género</span>
  				<ul class="filter-items">
- 					<li ng-repeat="movie in movies | unique:'genre' as genres">
+ 					<li ng-repeat="genre in genres">
  						<input 
  							type="radio" 
- 							value="{{movie.genre}}" 
+ 							value="{{genre}}" 
  							class="filter-genre" 
  							ng-model="$parent.searchGenre" 
  							name="searchGenre">
- 								{{movie.genre}}
+ 								{{genre}}
  						</input>
  					</li>
  				</ul>
