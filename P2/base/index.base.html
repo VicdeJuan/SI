@@ -25,8 +25,8 @@
  	<div class="scroller">
  		<div class="main-container" 
  		ng-controller="movieListController">
- 		<p>Mostrando {{movies.length}} películas del género {{search.genre}}.</p>
- 		<div class="movies" ng-repeat="movie in movies | filter:search">
+ 		<p>Mostrando {{filtered.length}} películas del género {{search.genre}}.</p>
+ 		<div class="movies" ng-repeat="movie in movies | filter:search as filtered">
  			<img src="{{movie.image}}" class="movie_img">
  			<p class="movie_title">{{movie.title}}</p>
  			<p class="movie_description">
