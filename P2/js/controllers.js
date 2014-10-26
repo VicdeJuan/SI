@@ -23,6 +23,12 @@ mainApp.filter('unique', function() {
     return unique;
 });
 
+mainApp.filter('slice', function() {
+  return function(arr, start) {
+    return (arr || []).slice(start);
+  };
+});
+
 var cart = {
     items: [],
 
@@ -97,6 +103,16 @@ mainApp.controller('headerController', ['$scope', '$http',
 mainApp.controller('movieListController', ['$scope', '$http',
     function($scope, $http) {
         $scope.movies = [];
+        $scope.startIndex = 0;
+        $scope.availableLengths = [5, 10, 25, 50, 100];
+        $scope.pageLength = 10;
+        $scope.page = 1;
+
+        $scope.$watchGroup(['page', 'pageLength'], function(params) {
+            var page = params[0];
+            var pageLength = params[1];
+            $scope.startIndex = (page - 1) * pageLength;
+        });
 
         $scope.search = {
             genre: $scope.searchGenre

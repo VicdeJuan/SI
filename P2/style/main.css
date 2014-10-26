@@ -331,3 +331,9 @@
   max-height: 0;
   opacity: 0;
 }
+
+.pagination-control {
+	text-align: right;
+	font-size: 10pt;
+	margin-right: 8px;
+}

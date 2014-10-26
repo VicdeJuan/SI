@@ -65,8 +65,12 @@
  	<div class="scroller">
  		<div class="main-container" 
  		ng-controller="movieListController">
- 		<p>Mostrando {{filtered.length}} películas del género {{search.genre}}.</p>
- 		<div class="movies" ng-repeat="movie in movies | filter:search as filtered">
+ 		<p class="pagination-control">{{startIndex}} - {{startIndex + filtered.length}} (
+ 			<select ng-model="pageLength" ng-options="length for length in availableLengths">
+ 			</select> resultados por página)
+ 		</p>
+
+ 		<div class="movies" ng-repeat="movie in movies | filter:search | slice:startIndex | limitTo:pageLength as filtered">
  			<img src="{{movie.image}}" class="movie_img">
  			<p class="movie_title">{{movie.title}}</p>
  			<p class="movie_description">
