@@ -29,9 +29,9 @@
 						</a>
 					</li>
 
-					<div class="login-div" ng-show="showLogin" >
+					<div class="login-div" ng-show="showLogin" ng-click="showLogin = false" >
 				 	<!-- TODO:  petición http y procesar código de error -->
-				 		<form  ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" >
+				 		<form ng-click="$event.stopPropagation();" ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" >
 				 			<table>
 								<tr>
 									<td>
