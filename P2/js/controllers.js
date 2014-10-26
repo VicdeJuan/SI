@@ -100,8 +100,8 @@ mainApp.controller('headerController', ['$scope', '$http',
     }
 ]);
 
-mainApp.controller('movieListController', ['$scope', '$http',
-    function($scope, $http) {
+mainApp.controller('movieListController', ['$scope', '$http', '$filter',
+    function($scope, $http, $filter) {
         $scope.fetching = false;
 
         $scope.fetchMovies = function() {
@@ -130,7 +130,7 @@ mainApp.controller('movieListController', ['$scope', '$http',
                 $scope.lastRetrieved = data['next'];
 
                 if ($scope.lastRetrieved == -1)
-                    $scope.serverCountLimit = $scope.movies.length;
+                    $scope.serverMovieCountLimit = $scope.movies.length;
 
                 $scope.fetching = false;
 
@@ -149,9 +149,9 @@ mainApp.controller('movieListController', ['$scope', '$http',
         $scope.availableLengths = [5, 10, 25, 50, 100];
         $scope.pageLength = 10;
         $scope.lastRetrieved = 0;
-        $scope.serverCountLimit = Infinity;
+        $scope.serverMovieCountLimit = Infinity;
+        $scope.filterMovieCountLimit = Infinity;
         $scope.genres = [];
-
 
         $http.get('/api/genres.php')
             .success(function(data, status) {
@@ -164,7 +164,18 @@ mainApp.controller('movieListController', ['$scope', '$http',
 
         $scope.$watchGroup(['searchGenre'], function(searchGenre) {
             $scope.search.genre = searchGenre[0];
+            $scope.startIndex = 0;
+
+            $scope.updateMovieCountLimit();
         });
+
+        $scope.updateMovieCountLimit = function() 
+        {
+            if (isFinite($scope.serverMovieCountLimit))
+                $scope.filterMovieCountLimit = $filter('filter')($scope.movies, $scope.search).length;
+        }
+
+        $scope.$watch('serverMovieCountLimit', $scope.updateMovieCountLimit);
 
         $scope.$watchCollection('filtered', $scope.fetchIfNeeded);
 
@@ -180,7 +191,7 @@ mainApp.controller('movieListController', ['$scope', '$http',
         $scope.nextPage = function() {
             var newIndex = $scope.startIndex + $scope.pageLength;
 
-            if (newIndex < $scope.serverCountLimit)
+            if (newIndex < $scope.filterMovieCountLimit)
                 $scope.startIndex = newIndex;
        };
 
