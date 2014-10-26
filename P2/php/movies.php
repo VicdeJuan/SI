@@ -1,43 +1,25 @@
 <?php
-function getMovies($from, $count)
+
+function getAllMovies()
 {
-	$movies = array(
-		array( 
-			'image' =>  '/img/movie.jpg',
-			'title' =>  'Título',
-			'description'=>  "Patatas fritsa",
-			'genre'=>  'Terror',
-			'price'=>  4
-		),
-		array( 
-			'image' =>  '/img/movie.jpg',
-			'title' =>  'Título123',
-			'description'=>  "aaaaa fritsa",
-			'genre'=>  'Patat',
-			'price'=>  2
-			),
-		array( 
-			'image' =>  '/img/movie.jpg',
-			'title' =>  'Título 2 ',
-			'description'=>  "Patatas asdasd",
-			'genre'=>  "Comedia",
-			'price'=>  1
-		)
-	);
+	$movies = simplexml_load_file("../data/movies.xml");
 
-	if($count < 3)
-		$movies = array_slice($movies, 0, $count);
-
-	return $movies;
+	return json_decode(json_encode($movies), true)['movie'];
 }
 
-$from = isset($_GET['from']) ? $_GET['from'] : 0;
-$count = isset($_GET['count']) ? $_GET['count'] : 10;
+function getMovies($from, $count)
+{
+	$movieArray = getAllMovies();
+	
+	$count = min($count, count($movieArray));
+	$next = $from + $count;
 
-$result = array(
-	'movies' => getMovies($from, $count),
-	'next' => $from + count
+	if($next >= count($movieArray))
+		$next = -1;
+
+	return array(
+		'movies' => array_splice($movieArray, $from, $count),
+		'next' => $next
 	);
-
-echo json_encode($result);
+}
 ?>

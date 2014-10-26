@@ -112,7 +112,6 @@
 
  .main-container{
  	padding: 30px;
- 	overflow: hidden;
  	max-width: 650px;
  	height: 100%;
  	float: left;
@@ -128,8 +127,8 @@
  }
 
 .movie_img{
-	height: 80px;
-	width: 80px;
+	height: 150px;
+	width: 100px;
 	display: inline;
 	border-radius: 15px;
 }
@@ -205,11 +204,8 @@
 	font-weight: normal;
 }
 
-.filter ul{
-	display: none;
-}
-
 .filter-items {
+	display: none;
 	margin-right: 15px !important;
 	margin-top: 4px !important;
 	font-size: 10pt;
@@ -331,4 +327,10 @@
 .animate-show.ng-hide {
   max-height: 0;
   opacity: 0;
+}
+
+.pagination-control {
+	text-align: right;
+	font-size: 10pt;
+	margin-right: 8px;
 }
