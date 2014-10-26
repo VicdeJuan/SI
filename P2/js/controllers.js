@@ -105,12 +105,12 @@ mainApp.controller('movieListController', ['$scope', '$http',
         $scope.fetching = false;
 
         $scope.fetchMovies = function() {
-            if ($scope.fetching)
+            if ($scope.fetching || $scope.lastRetrieved == -1)
                 return;
 
             $scope.fetching = true;
 
-            $http.get('/php/movies.php', { params: {
+            $http.get('/api/movies.php', { params: {
                 'count': $scope.pageLength,
                 'from': $scope.lastRetrieved
             }})
@@ -127,7 +127,11 @@ mainApp.controller('movieListController', ['$scope', '$http',
                     }
                 }
 
-                $scope.lastRetrieved += movies.length;
+                $scope.lastRetrieved = data['next'];
+
+                if ($scope.lastRetrieved == -1)
+                    $scope.serverCountLimit = $scope.movies.length;
+
                 $scope.fetching = false;
             });
         };
@@ -142,16 +146,8 @@ mainApp.controller('movieListController', ['$scope', '$http',
         $scope.startIndex = 0;
         $scope.availableLengths = [5, 10, 25, 50, 100];
         $scope.pageLength = 10;
-        $scope.page = 1;
         $scope.lastRetrieved = 0;
-
-        $scope.$watchGroup(['page', 'pageLength'], function(params) {
-            var page = params[0];
-            var pageLength = params[1];
-            $scope.startIndex = (page - 1) * pageLength;
-
-            $scope.fetchIfNeeded();
-        });
+        $scope.serverCountLimit = Infinity;
 
         $scope.search = {
             genre: $scope.searchGenre
@@ -164,13 +160,20 @@ mainApp.controller('movieListController', ['$scope', '$http',
         $scope.$watchCollection('filtered', $scope.fetchIfNeeded);
 
         $scope.prevPage = function() {
-            if ($scope.page > 1)
-                $scope.page--;
+            var newIndex = $scope.startIndex - $scope.pageLength;
+
+            if (newIndex < 0)
+                newIndex = 0;
+
+            $scope.startIndex = newIndex;
         };
 
         $scope.nextPage = function() {
-            $scope.page++;
-        };
+            var newIndex = $scope.startIndex + $scope.pageLength;
+
+            if (newIndex < $scope.serverCountLimit)
+                $scope.startIndex = newIndex;
+       };
 
         $scope.addToCart = function(movie) {
             $http.post('/php/cart.php', {

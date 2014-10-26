@@ -1,22 +1,25 @@
 <?php
-function getMovies($from, $count)
+
+function getAllMovies()
 {
 	$movies = simplexml_load_file("../data/movies.xml");
 
-	$movieArray = json_decode(json_encode($movies), true)['movie'];
-
-	$count = min($count, count($movieArray));
-
-	return array_splice($movieArray, $from, $count);
+	return json_decode(json_encode($movies), true)['movie'];
 }
 
-$from = isset($_GET['from']) ? $_GET['from'] : 0;
-$count = isset($_GET['count']) ? $_GET['count'] : 10;
+function getMovies($from, $count)
+{
+	$movieArray = getAllMovies();
+	
+	$count = min($count, count($movieArray));
+	$next = $from + $count;
 
-$result = array(
-	'movies' => getMovies($from, $count),
-	'next' => $from + count
+	if($next >= count($movieArray))
+		$next = -1;
+
+	return array(
+		'movies' => array_splice($movieArray, $from, $count),
+		'next' => $next
 	);
-
-echo json_encode($result);
+}
 ?>

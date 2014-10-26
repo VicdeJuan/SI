@@ -64,7 +64,7 @@
 
  	<div class="scroller">
  		<div class="main-container">
- 		<p class="pagination-control">{{startIndex}} - {{startIndex + filtered.length}} (
+ 		<p class="pagination-control"><a href="" ng-click="prevPage()">&lt;</a> <a href="" ng-click="nextPage()">&gt;</a> | {{startIndex}} - {{startIndex + filtered.length}} (
  			<select ng-model="pageLength" ng-options="length for length in availableLengths">
  			</select> resultados por página)
  		</p>
@@ -78,7 +78,7 @@
  			<a ng-click="addToCart(movie)" href="">Añadir al carrito</a>
  		</div>
 
- 		<p class="pagination-control"><a href="" ng-click="prevPage()">&lt;</a> <a href="" ng-click="nextPage()">&gt;</a> 
+ 		<p class="pagination-control"></p>
  	</div>
  </div>
 </div>	<!-- footer.html begin -->
