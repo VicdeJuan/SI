@@ -39,7 +39,7 @@
  			</select> resultados por página)
  		</p>
 
- 		<div class="movies" ng-repeat="movie in movies | filter:search | slice:startIndex | limitTo:pageLength as filtered">
+ 		<div class="movies" ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
  			<img ng-src="{{movie.image}}" class="movie_img">
  			<p class="movie_title">{{movie.title}}</p>
  			<p class="movie_description">

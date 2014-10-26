@@ -29,6 +29,31 @@ mainApp.filter('slice', function() {
     };
 });
 
+mainApp.filter('movieFilter', function() {
+    return function(movies, filter) {
+        var filtered = [];
+        
+        var minYear = parseInt(filter.minYear) || 0;
+        var maxYear = parseInt(filter.maxYear) || Infinity;
+        var minPrice = parseInt(filter.minPrice) || 0;
+        var maxPrice = parseInt(filter.maxPrice) || Infinity;
+        var minScore = parseInt(filter.minScore) || 0;
+        var maxScore = parseInt(filter.maxScore) || Infinity;
+
+        angular.forEach(movies, function(movie) {
+            if (movie['year'] >= minYear && movie['year'] <= maxYear && 
+                (!filter.genre || movie['genre'] === filter.genre) &&
+                movie['price'] >= minPrice && movie['price'] <= maxPrice &&
+                movie['score'] >= minScore && movie['score'] <= maxScore)
+            {
+                filtered.push(movie)
+            }
+        });
+
+        return filtered;
+     };
+});
+
 var cart = {
     items: [],
 
