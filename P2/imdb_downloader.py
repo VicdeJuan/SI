@@ -28,7 +28,7 @@ def get_movie(movie_id):
 	image_url = "img/" + movie_id + ".jpg"
 
 	if os.path.isfile(image_url):
-		print "{0} already exists".format(image_url)
+		print "{0} ({1}) already exists".format(image_url, movie.title.encode('utf-8'))
 	else:
 		print "Downloading image {0} ({1})".format(image_url, movie.title.encode('utf-8'))
 		url_opener.retrieve(movie.cover_url, image_url)
@@ -46,12 +46,19 @@ def get_movie(movie_id):
 	return movie_xml
 
 if len(sys.argv) < 2:
-	print 'usage: imdb_downloader.py [movie name | top50]'
+	print 'usage: imdb_downloader.py [movie name | top50 | top250]'
 	sys.exit(1)
 
 if sys.argv[1] == "top50":
 	print "Retrieving Top 50 movies"
 	top50 = imdb.top_250()[0:50]
+
+	for m in top50:
+		movies_xml.getroot().append(get_movie(m['tconst']))
+
+elif sys.argv[1] == "top250":
+	print "Retrieving Top 250 movies"
+	top50 = imdb.top_250()
 
 	for m in top50:
 		movies_xml.getroot().append(get_movie(m['tconst']))
