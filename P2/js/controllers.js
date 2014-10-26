@@ -68,32 +68,25 @@ mainApp.controller('headerController', function($scope) {
 
 mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', function($scope,$http) {
 
-	/* Utilizar angular para lo que sirve y no hacerlo así.*/
+	/* Esto funcionaba. Utilizar angular para lo que sirve y no hacerlo así.*/
 	/*$scope.loginHandler = function(show){
 		if (show) {
 			document.getElementById("login-div").style.zIndex = 3;
 			document.getElementById("login-div").style.background = "rgba(245,221,222,0.65)";
 			document.getElementById("login-form").style.opacity = 1;
 			document.getElementById("login-form").style.background = "rgba(204,102,0,1)";
+			document.getElementById("body-container").style.opacity = 0;
 		}else{
 			document.getElementById("login-div").style.zIndex = 0;
 			document.getElementById("login-div").style.background = "rgba(245,221,222,0)";
 			document.getElementById("login-form").style.background = "rgba(204,102,0,0)";
 			document.getElementById("login-form").style.opacity = 0;
+			document.getElementById("body-container").style.opacity = 1;
 		};	
 	};*/
 
 	$scope.showLogin = false;
 
-	$scope.loginHandler = function(show){
-		if(show)		
-			document.getElementById("body-container").style.opacity = 0;
-		else	
-			document.getElementById("body-container").style.opacity = 1;
-		
-		$scope.showLogin = show;
-	}
-	
 	$scope.loginSubmit = function(user){
 		$http({
 			method: 'POST',

@@ -69,17 +69,8 @@
 	overflow: hidden;
 	vertical-align: middle;
 	display: block;
-	
-}
-.notshow-login-div{
-	background: rgba(245,221,222,0);/* give opacity to bg color only */
-	z-index: 0; /* set to 3 when login active, 0 when not login*/
-}
-
-.show-login-div{
 	background: rgba(245,221,222,0.65);/* give opacity to bg color only */
 	z-index: 3; /* set to 3 when login active, 0 when not login*/
-
 }
 
 
@@ -97,17 +88,8 @@
 	background: rgba(204,102,0,0);
 	opacity: 0;
 	z-index: inherit;
-}
-
-.show-login-form{
 	background: rgba(204,102,0,1);
 	opacity: 1;
-
-}
-.notshow-login-form{
-	background: rgba(204,102,0,0);
-	opacity: 0;
-
 }
 
 

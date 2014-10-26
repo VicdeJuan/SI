@@ -22,7 +22,7 @@
 						$text = $_SESSION['name'];
 						$link = "/pages/error.html";
 					}
-					print("<li><a ng-click=loginHandler(true); href=".$link." >".$text."</a></li>");
+					print("<li><a ng-click=showLogin = !showLogin; href=".$link." >".$text."</a></li>");
 					?>
 					<li>
 						<a href="" ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>
@@ -81,10 +81,10 @@
  	</div>
  </div>
 
- 	<div ng-controller="loginSubmitController" class="login-div" ng-class="{true: 'show-login-div', false : 'notshow-login-div'}[showLogin == true]" >
+ 	<div ng-controller="loginSubmitController" class="login-div" ng-show="showLogin" >
  	<!-- TODO:  petición http y procesar código de error -->
 
- 		<form  ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-class="{true: 'show-login-form', false : 'notshow-login-form'}[showLogin == true]">
+ 		<form  ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" >
  			<table>
 				<tr>
 					<td>
