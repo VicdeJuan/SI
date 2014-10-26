@@ -102,16 +102,41 @@ mainApp.controller('headerController', ['$scope', '$http',
 
 mainApp.controller('movieListController', ['$scope', '$http',
     function($scope, $http) {
+        $scope.fetchMovies = function() {
+            $http.get('/php/movies.php', { params: {
+                'count': $scope.pageLength,
+                'from': $scope.lastRetrieved
+            }})
+            .success(function(data, status) {
+                var movies = data['movies'];
+
+                for (var i = 0; i < movies.length; i++) {
+                    if ($scope.movies.indexOf(movies[i]) == -1)
+                        $scope.movies.push(movies[i]);
+                }
+
+                $scope.lastRetrieved += movies.length;
+            });
+        };
+
+        $scope.fetchIfNeeded = function() {
+             if ($scope.filtered && $scope.filtered.length < $scope.pageLength)
+                $scope.fetchMovies();
+        };
+
         $scope.movies = [];
         $scope.startIndex = 0;
         $scope.availableLengths = [5, 10, 25, 50, 100];
         $scope.pageLength = 10;
         $scope.page = 1;
+        $scope.lastRetrieved = 0;
 
         $scope.$watchGroup(['page', 'pageLength'], function(params) {
             var page = params[0];
             var pageLength = params[1];
             $scope.startIndex = (page - 1) * pageLength;
+
+            $scope.fetchIfNeeded();
         });
 
         $scope.search = {
@@ -122,12 +147,8 @@ mainApp.controller('movieListController', ['$scope', '$http',
             $scope.search.genre = searchGenre[0];
         });
 
-        $http.get('/php/movies.php', {
-            'count': 10
-        })
-            .success(function(data, status) {
-                $scope.movies = data['movies'];
-            });
+        $scope.$watchCollection('filtered', $scope.fetchIfNeeded);
+
 
         $scope.addToCart = function(movie) {
             $http.post('/php/cart.php', {
