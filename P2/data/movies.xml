@@ -237,7 +237,7 @@
 		<title>The Usual Suspects</title>
 		<year>1995</year>
 		<description>A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.</description>
-		<price>4</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>24</id>
@@ -317,7 +317,7 @@
 		<title>American History X</title>
 		<year>1998</year>
 		<description>A former neo-nazi skinhead tries to prevent his younger brother from going down the same wrong path that he did.</description>
-		<price>6</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>32</id>
@@ -457,7 +457,7 @@
 		<title>Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb</title>
 		<year>1964</year>
 		<description>An insane general triggers a path to nuclear holocaust that a war room full of politicians and generals frantically try to stop.</description>
-		<price>5</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>46</id>
@@ -487,7 +487,7 @@
 		<title>Back to the Future</title>
 		<year>1985</year>
 		<description>A young man is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his friend, Dr. Emmett Brown, and must make sure his high-school-age parents unite in order to save his own existence.</description>
-		<price>1</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>49</id>
@@ -707,7 +707,7 @@
 		<title>Das Boot</title>
 		<year>1981</year>
 		<description>The claustrophobic world of a WWII German U-boat; boredom, filth, and sheer terror.</description>
-		<price>4</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>71</id>
@@ -817,7 +817,7 @@
 		<title>Requiem for a Dream</title>
 		<year>2000</year>
 		<description>The drug-induced utopias of four Coney Island people are shattered when their addictions become stronger.</description>
-		<price>3</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>82</id>
@@ -997,7 +997,7 @@
 		<title>The Treasure of the Sierra Madre</title>
 		<year>1948</year>
 		<description>Fred Dobbs and Bob Curtin, two Americans searching for work in Mexico, convince an old prospector to help them mine for gold in the Sierra Madre Mountains.</description>
-		<price>8</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>100</id>
@@ -1177,7 +1177,7 @@
 		<title>Downfall</title>
 		<year>2004</year>
 		<description>Traudl Junge, the final secretary for Adolf Hitler, tells of the Nazi dictator's final days in his Berlin bunker at the end of WWII.</description>
-		<price>5</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>118</id>
@@ -1447,7 +1447,7 @@
 		<title>Rebecca</title>
 		<year>1940</year>
 		<description>A self-conscious bride is tormented by the memory of her husband's dead first wife.</description>
-		<price>1</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>145</id>
@@ -1757,7 +1757,7 @@
 		<title>Sin City</title>
 		<year>2005</year>
 		<description>A film that explores the dark and miserable town, Basin City, and tells the story of three different people, all caught up in violent corruption.</description>
-		<price>1</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>176</id>
@@ -1997,7 +1997,7 @@
 		<title>Strangers on a Train</title>
 		<year>1951</year>
 		<description>A psychotic socialite confronts a pro tennis star with a theory on how two complete strangers can get away with murder...a theory that he plans to implement.</description>
-		<price>1</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>200</id>
@@ -2207,7 +2207,7 @@
 		<title>Monsters, Inc.</title>
 		<year>2001</year>
 		<description>Monsters generate their city's power by scaring children, but they are terribly afraid themselves of being contaminated by children, so when one enters Monstropolis, top scarer Sulley finds his world disrupted.</description>
-		<price>5</price>
+		<price>0</price>
 	</movie>
 	<movie>
 		<id>221</id>

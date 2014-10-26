@@ -29,12 +29,21 @@ mainApp.filter('slice', function() {
     };
 });
 
+var safeParseInt = function(num, fallback) {
+    var parsed = parseInt(num);
+
+    if (isNaN(num))
+        return fallback;
+    else
+        return parsed;
+};
+
 var checkBounds = function(item, field, bounds) {
     if (!bounds)
         return true;
 
-    var min = parseInt(bounds.min) || 0;
-    var max = parseInt(bounds.max) || Infinity;
+    var min = safeParseInt(bounds.min, 0);
+    var max = safeParseInt(bounds.max, Infinity);
     var value = item[field];
 
     return value >= min && value <= max;
@@ -197,6 +206,12 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
             range('> 2010', 2010, Infinity)
         ];
 
+        $scope.prices = [ 
+            range('Gratis', 0, 0),
+            range('1 - 5 €', 1, 5),
+            range('5 - 10 €', 5, 10)
+        ];
+
         $http.get('/api/genres.php')
             .success(function(data, status) {
                 $scope.genres = data;
@@ -206,16 +221,22 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
             genre: $scope.searchGenre
         };
 
-        $scope.$watchGroup(['searchGenre', 'yearRange'], function(params) {
+        $scope.$watchGroup(['searchGenre', 'yearRange', 'priceRange'], function(params) {
             var searchGenre = params[0];
 
-            if (params[1] == "customYearRange")
+            if (params[1] == 'custom')
                 var yearRange = $scope.customYearRange;
-            else
+            else if (params[1])
                 var yearRange = JSON.parse(params[1]) || { min: 0, max: Infinity };
+
+            if (params[2] == 'custom')
+                var priceRange = $scope.customPriceRange;
+            else if (params[2])
+                var priceRange = JSON.parse(params[2]) || { min: 0, max: Infinity };
 
             $scope.search.genre = searchGenre;
             $scope.search.year = yearRange;
+            $scope.search.price = priceRange;
             $scope.startIndex = 0;
 
             $scope.updateMovieCountLimit();

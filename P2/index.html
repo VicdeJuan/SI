@@ -83,7 +83,7 @@
  					<li>
  						<input ng-init="customYearRange = {}"
  							type="radio" 
- 							value="customYearRange"
+ 							value="custom"
  							class="filter-genre" 
  							ng-model="yearRange" 
  							name="yearRange">
@@ -104,7 +104,42 @@
  				</ul>
  			</li>
  			
- 			<li class="filter"><span class="filter-title">Etc</span></li>
+			<li class="filter">
+ 				<span class="filter-title">Precio</span>
+ 				<ul class="filter-items">
+ 					<li ng-repeat="price in prices">
+ 					<input 
+ 							type="radio" 
+ 							value="{{price.bounds}}" 
+ 							class="filter-genre" 
+ 							ng-model="$parent.priceRange" 
+ 							name="price">
+ 								{{price.name}}
+ 						</input>
+ 					</li>
+ 					<li>
+ 						<input ng-init="customPriceRange = {}"
+ 							type="radio" 
+ 							value="custom"
+ 							class="filter-genre" 
+ 							ng-model="priceRange" 
+ 							name="priceRange">
+ 								Personalizado: 
+ 								<input type="number" ng-model="customPriceRange.min" /> hasta <input type="number" ng-model="customPriceRange.max" />.
+ 						</input>
+ 					</li>
+ 					<li>
+ 						<input 
+ 							type="radio" 
+ 							value='{"min":0,"max":5000}'
+ 							class="filter-genre" 
+ 							ng-model="priceRange" 
+ 							name="priceRange">
+ 								Todos
+ 						</input>
+ 					</li>
+ 				</ul>
+ 			</li>
  		</ul>
  	</aside>
 
@@ -119,7 +154,7 @@
  			<img ng-src="{{movie.image}}" class="movie_img">
  			<p class="movie_title">{{movie.title}}</p>
  			<p class="movie_description">
- 				{{movie.description}}
+ 				{{movie.price}} €: {{movie.description}}
  			</p>
  			<a ng-click="addToCart(movie)" href="">Añadir al carrito</a>
  		</div>
