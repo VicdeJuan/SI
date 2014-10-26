@@ -102,7 +102,14 @@ mainApp.controller('headerController', ['$scope', '$http',
 
 mainApp.controller('movieListController', ['$scope', '$http',
     function($scope, $http) {
+        $scope.fetching = false;
+
         $scope.fetchMovies = function() {
+            if ($scope.fetching)
+                return;
+
+            $scope.fetching = true;
+
             $http.get('/php/movies.php', { params: {
                 'count': $scope.pageLength,
                 'from': $scope.lastRetrieved
@@ -121,6 +128,7 @@ mainApp.controller('movieListController', ['$scope', '$http',
                 }
 
                 $scope.lastRetrieved += movies.length;
+                $scope.fetching = false;
             });
         };
 
