@@ -113,21 +113,35 @@
 	</aside>
 
 	<div class="scroller">
-		<div class="main-container">
-			<p class="pagination-control"><a href="" ng-click="prevPage()">&lt;</a> <a href="" ng-click="nextPage()">&gt;</a> | {{startIndex}} - {{startIndex + filtered.length}} (
+		<p class="pagination-control"><a href="" ng-click="prevPage()">&lt;</a> <a href="" ng-click="nextPage()">&gt;</a> | {{startIndex}} - {{startIndex + filtered.length}} (
 				<select ng-model="pageLength" ng-options="length for length in availableLengths">
 				</select> resultados por página)
 			</p>
+		<div class="main-container" ng-class="movieHoverClass">
+			<div class="movies" ng-mouseenter="$parent.movieHoverClass = 'movie-hovering'" ng-mouseleave="$parent.movieHoverClass = 'voidclass'" 
+				ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
+				<div class="movie-cover">
+					<img ng-src="{{movie.image}}" class="movie_img">
+					<p class="movie_title">{{movie.title}}</p>
+					<div class="movie_action">
+						<p class="movie_price">{{movie.price}} €</p>
+						<p class="movie_buy">
+							<a ng-click="addToCart(movie)" href="">
+								<img src="/img/cart.svg" class="movie_cart" />
+							</a>
+						</p>
+					</div>
+				</div>
 
-			<div class="movies" ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
-				<img ng-src="{{movie.image}}" class="movie_img">
-				<p class="movie_title">{{movie.title}}</p>
-				<p class="movie_description">
-					{{movie.price}} €: {{movie.description}}
-				</p>
-				<a ng-click="addToCart(movie)" href="">Añadir al carrito</a>
+				<div class="movie-info">
+					<p>
+					{{movie.genre}}<br />
+					{{movie.year}}
+					<p>
+
+					<p class="movie-description">{{movie.description}}</p>
+				</div>
 			</div>
-
 			<p class="pagination-control"></p>
 		</div>
 	</div>
