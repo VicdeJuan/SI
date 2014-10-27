@@ -12,20 +12,19 @@
 				<p>Olakase</p>
 			</div>
 			<div class="header-options">
-				<ul ng-controller="loginSubmitController" ng-init="showLogin = false">
-					<?php
-					session_start();
-					if($_SESSION['name'] == "" ){
-						$link = "";
-						$text = "Login";
-					}else{
-						$text = $_SESSION['name'];
-						$link = "/pages/error.html";
-					} ?>
-
+				<?php
+				session_start();
+				if($_SESSION['name'] == "" ){
+					$link = "";
+					$text = "Login";
+				}else{
+					$text = $_SESSION['name'];
+					$link = "/pages/error.html";
+				} ?>
+				<ul ng-controller="loginSubmitController" ng-init="showLogin = false;loginTitle ='<?php echo $text; ?>'" >
 					<li>
 						<a ng-click="showLogin = !showLogin;" href="<?php echo $link; ?>">
-							<?php echo $text; ?>
+							{{ loginTitle }}
 						</a>
 					</li>
 
@@ -47,7 +46,7 @@
 
 								</td>	
 								<td>
-									<div id="messages" class="login-err-msg" > El email y la contraseña no se encuentran en la base de datos. </div>
+									<div id="messages" class="login-err-msg" ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
 								</td>
 								</tr>
 							</table>

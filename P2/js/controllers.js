@@ -86,6 +86,7 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 	};*/
 
 	$scope.showLogin = false;
+	$scope.errLogin = false;
 
 	$scope.loginSubmit = function(user){
 		$http({
@@ -95,11 +96,13 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 		.success(function(data,status){
 			$scope.status = status;
 			$scope.data = data;
-			$scope.loginHandler(true);
+			$scope.showLogin = false;
+			$scope.loginTitle = data['name'];
 		}).error(function(data,status){
 			$scope.status = status;
 			$scope.data = data || "Request failed";
-
+			$scope.errLogin = true;
+			$scope.showLogin = true;
 
 		});
 	};
