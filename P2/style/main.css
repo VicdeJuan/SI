@@ -164,9 +164,9 @@ footer {
 	padding-left: 30px;
 	height: 100%;
 	float: left;
-	padding-right: 100px;
-	-webkit-transition: padding-right 0.1s; /* For Safari 3.1 to 6.0 */
-    transition: padding-right 0.1s;	
+	padding-right: 110px;
+	-webkit-transition: padding-right 0.2s; /* For Safari 3.1 to 6.0 */
+    transition: padding-right 0.2s;	
 }
 
 .movies {
