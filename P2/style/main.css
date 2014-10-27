@@ -135,10 +135,20 @@
 }
 
 
-#login-button{
-	margin-top: -34px;
-	margin-left: 70%;
+.debil{
+	color:red;
+}
+.media{
+	color: yellow;
+}
+.fuerte{
+	color : green;
+}
 
+#NewRegister{
+	font-size: 12px;
+
+	text-align: left;
 }
 
 
@@ -148,6 +158,7 @@
 	margin-top: 10px;
 }
 
+
 .login-label {
 	width: 20%;
 	padding-right: 10px;
@@ -156,11 +167,17 @@
 }
 
 
-#NewRegister{
-	font-size: 12px;
 
-	text-align: left;
+
+
+
+#login-button{
+	margin-top: -34px;
+	margin-left: 70%;
+
 }
+
+
 
 .login-err-msg{
 	color: red;

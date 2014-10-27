@@ -33,7 +33,7 @@
 					<div  class="login-div"  ng-show="showLogin" ng-click="showLogin = false" >
 				 		<form ng-click="$event.stopPropagation();" ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" ng-class="errLogin ? login-form-small : login -form-big">
 							<label class="login-label"> Email: </label><input class="login-input" type="email" name="email" ng-model="email"> <br>
-							<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" ng-model="password" autocomplete="off" required pattern="[a-zA-Z0-9]+" id="passwordfield"></p>
+							<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" ng-model="password" autocomplete="off" required id="passwordfield"></p>
 							<div id="messages" class="login-err-msg" ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
 				 			<p>
 					  			<a href="register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		

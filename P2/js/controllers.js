@@ -149,6 +149,65 @@ mainApp.controller('headerController', ['$scope', '$http',
     }
 ]);
 
+
+mainApp.controller('registerController', ['$scope',
+    function($scope) {
+        $scope.showStrength = false;
+        $scope.strength = 1;
+        $scope.strengthMsg = "";
+        $scope.show = false;
+
+
+        $scope.matching = function(str){
+            count = 0;
+            digits="[0-9]+";
+            minus="[a-z]+";
+            mayus="[A-Z]+";
+            symbols="[\#\$\%\&\!\@]+";
+
+            if (str.match(minus) != null) {
+                count +=1;
+            };
+            if (str.match(mayus) != null) {
+                count +=1;
+            }
+            if (str.match(digits) != null) {
+                count += 1;
+            };
+            if (str.match(symbols) !=null) {
+                count +=2;
+            };
+            return count;
+        }
+
+
+        $scope.checkPass = function(){    
+            $scope.show = $scope.password && $scope.password.length > 0;
+
+            if(!$scope.show)
+                return false;
+
+            $scope.strength = $scope.matching($scope.password);
+
+            if ($scope.strength >= 4){
+                $scope.strengthMsg = " Muy fuerte"; 
+            }
+            else if ($scope.strength >= 3){
+                $scope.strengthMsg = "Fuerte"; 
+            }
+            else if ($scope.strength >= 2){
+                $scope.strengthMsg = "Media"; 
+            }
+            else if ($scope.strength = 1){
+                $scope.strengthMsg = "Debil";
+            };
+
+           return $scope.show;
+
+        };
+    }
+]);
+
 mainApp.controller('movieListController', ['$scope', '$http', '$filter',
     function($scope, $http, $filter) {
         $scope.fetching = false;
