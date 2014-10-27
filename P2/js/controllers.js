@@ -308,6 +308,7 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 			$scope.status = status;
 			$scope.data = data;
 			$scope.showLogin = false;
+			$scope.errLogin = false;
 			$scope.loginTitle = data['name'];
 		}).error(function(data,status){
 			$scope.status = status;
@@ -317,4 +318,15 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 
 		});
 	};
+}]);
+
+mainApp.controller('footerController', ['$scope', '$http', function($scope, $http) {
+    $scope.date = "...";
+    $scope.activeUsers = "...";
+
+    $http.get('/api/webinfo.php')
+    .success(function(data, status) {
+        $scope.date = data['date'];
+        $scope.activeUsers = data['active_users'];
+    });
 }]);

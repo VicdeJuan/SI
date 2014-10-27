@@ -15,12 +15,12 @@ $filename = $dir."/"."datos.dat";
 if (!session_start())
   header("Location: exit.html");
 
-if (!is_dir($dir)){        /*User does not exist so we create it.*/
+if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist so we create it.*/
   if (!mkdir($dir,0777)){
     header("Location: /pages/error.html");
-    $error = error_get_last();
     die();
   }
+  
   $myfile = fopen($filename, "w");
   $txt = $input['name']."\n";
   $txt = $txt.$input['email']."\n";
@@ -56,12 +56,12 @@ if (!is_dir($dir)){        /*User does not exist so we create it.*/
       $_SESSION['name'] = "Mismatch";
       $_SESSION['email'] = "";
       $name="";
-      http_response_code(417);
+      http_response_code(404);
     }
     fclose($myfile);
 
   } else{
-    http_response_code(405); 
+    http_response_code(404); 
   }
 }
 ?>
