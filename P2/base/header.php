@@ -30,29 +30,16 @@
 					</li>
 
 					<div class="login-div" ng-show="showLogin" ng-click="showLogin = false" >
-						<!-- TODO:  petición http y procesar código de error -->
-						<form ng-click="$event.stopPropagation();" ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" >
-							<table>
-								<tr>
-									<td>Email:</td>
-									<td> <input type="email" name="email" ng-model="email" ></td>
-								</tr>
-								<tr>
-									<td>Contraseña:</td>
-									<td> <input type="password" name="password" ng-model="password" autocomplete="off" required pattern="[a-zA-Z0-9]+" id="passwordfield"></td>
-								</tr>	
-								<tr>
-									<td colspan="2">
-										<div id="messages" class="login-err-msg" ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
-									</td>
-								</tr>
-							</table>
-							<p>
-								<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>		
-								<input type="submit" value="login" name="login" id="login-button">
+				 		<form ng-click="$event.stopPropagation();" ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" >
+							<label class="login-label"> Email: </label><input class="login-input" type="email" name="email" ng-model="email"> <br>
+							<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" ng-model="password" autocomplete="off" required pattern="[a-zA-Z0-9]+" id="passwordfield"></p>
+							<div id="messages" class="login-err-msg" ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
+				 			<p>
+					  			<a href="register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
+					  			<input type="submit" value="login" name="login" id="login-button">
 							</p>			
-						</form>
-					</div>
+				 		</form>
+				 	</div>
 
 					<li>
 						<a href="" ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>

@@ -77,12 +77,12 @@
 
 
 .login-form{
-	margin: 15% 0 0 40%;
+	margin: 13% 0 0 36%;
 	/* TODO: estilo para pantallas más grandes.*/
-	height: 23%;
+	height: 18%;
 	width: 28%;
 	min-width: 350px;
-	min-height: 135px;
+	min-height: 110px;
 	padding: 30px 0 0 10px;
 	border: 2px;
 	border-radius: 5px;
@@ -95,19 +95,76 @@
 }
 
 
+/**
+ * Register style
+ */
+
+
+.register-form{
+	padding-top: 7%;
+	margin-left: 12%;
+	margin-right: 10%;
+	
+	padding-bottom: 0;
+	vertical-align: middle;
+	max-width: 85%;
+	min-width: 250px;
+}
+
+
+#WelcomeMsg{
+	text-align: left;
+	margin-left: 10%;
+	font-size: 20px;
+}
+
+#login-body-container{
+	height: 70%;
+	overflow: hidden;
+}
+
+
+#NewRegister{
+	font-size: 10px;
+	margin-left: 8px;
+}
+
+#ButtonRegister{
+	font-size: 10px;
+	text-align: center;
+	margin-left: 8px;
+	margin-top: 20px;
+}
+
+
 #login-button{
 	margin-top: -34px;
 	margin-left: 70%;
 
 }
 
+
+.login-input {
+	text-align: left;
+	display: inline-block;
+	margin-top: 10px;
+}
+
+.login-label {
+	width: 20%;
+	padding-right: 10px;
+    display: inline-block;
+    text-align: right;
+}
+
+
 #NewRegister{
-	font-size: 15px;
+	font-size: 12px;
+
 	text-align: left;
 }
 
-#login-err-msg{
-	visibility: hidden;
+.login-err-msg{
 	color: red;
 }
 
@@ -285,6 +342,7 @@
 	margin-bottom: 0;
 }
 
+
 /* Hack: si cambias la altura máxima de esto, el interior desborda. */
 .cart-container {
 	background-color: #FFE;
@@ -398,3 +456,5 @@
 	font-size: 10pt;
 	margin-right: 8px;
 }
+
+
