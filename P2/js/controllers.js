@@ -294,3 +294,27 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         };
     }
 ]);
+
+mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', function($scope,$http) {
+	$scope.showLogin = false;
+	$scope.errLogin = false;
+
+	$scope.loginSubmit = function(user){
+		$http({
+			method: 'POST',
+			url: '/php/login_register.php',
+			data: {email: $scope.email, password: $scope.password}})
+		.success(function(data,status){
+			$scope.status = status;
+			$scope.data = data;
+			$scope.showLogin = false;
+			$scope.loginTitle = data['name'];
+		}).error(function(data,status){
+			$scope.status = status;
+			$scope.data = data || "Request failed";
+			$scope.errLogin = true;
+			$scope.showLogin = true;
+
+		});
+	};
+}]);
