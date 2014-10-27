@@ -138,8 +138,8 @@ footer {
 }
 
 /** End Header **/
-/**** Movies ****/
 
+/**** Movies ****/
 #moviecatalog {
 	padding: 0px;
 	padding-left: 60px;
@@ -154,32 +154,101 @@ footer {
 	padding: 30px;
 }
 .main-container {
+	clear: both;
 	padding: 30px;
 	max-width: 650px;
 	height: 100%;
 	float: left;
 }
+
 .movies {
-	border: solid;
-	padding: 15px;
-	border-width: 1px;
-	margin: 5px;
+	float: left;
+	margin: 20px;
 	position: relative;
-	width: 600px;
+	height: 225px; 
+	overflow: hidden;
+	border-radius: 10px;
 }
+
+.movie-cover {
+	position: absolute;
+	left: 0;
+	border-radius: 10px;
+	overflow: hidden;
+	width: 150px;
+}
+
+.movie-info {
+	width: 80px;
+	height: 100%;
+	margin-left: 120px;
+	padding-left: 35px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-right: 8px;
+	background: rgba(193, 49, 0, 0.4);
+	color: rgb(70,70,70);
+	font-size: 12px;
+}
+
 .movie_img {
-	height: 150px;
-	width: 100px;
-	display: inline;
-	border-radius: 15px;
+	height: 100%;
+	width: 100%;
+	display: block;
+	z-index: -1;
 }
+
+.movie-description {
+	font-style: italic;
+}
+
 .movie_title {
-	font-size: 30px;
-	margin-left: 30%;
-	display: inline-block;
-	margin-bottom: 0;
-	vertical-align: top;
+	position: absolute;
+	margin: 0;
+	top: 0;
+	right: 0;
+	left: 0;
+	text-align: center;
+	font-size: 18px;
+	color: rgba(250,250,250,0.9);
+	min-height: 35px;
+	padding: 5px;
+	background: rgba(10,10,10,0.4);
+	vertical-align: middle;
 }
+
+.movie_action  {
+	position: absolute;
+	margin: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	text-align: center;
+	font-size: 16px;
+	color: rgba(250,250,250,0.9);
+	padding: 10px;
+	background: rgba(10,10,10,0.4);
+	vertical-align: middle;	
+}
+
+.movie_cart {
+	width: 20px;
+	height: 20px;
+	margin-bottom: -5px;
+}
+
+.movie_price {
+	text-align: left;
+	float: left;
+	margin: 2px 0 0 0 ;
+}
+
+.movie_buy {
+	text-align: right;
+	float: right;
+	margin: 0;
+}
+
 .movie_genre {
 	display: inline-block;
 	border: solid;
