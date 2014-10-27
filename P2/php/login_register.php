@@ -1,20 +1,15 @@
  <?php
 /*  If we come from a registration  */
 
-$log = fopen("log", "w");
 if (isset($_POST['email'])) {
   $input = $_POST;
-  fwrite($log, "_POST\n");
 }else{
   $json = file_get_contents('php://input');
   $input = json_decode($json, true);      
-  fwrite($log, "json\n");
 }
 
 
 $dir = "../users/".$input['email'];
-fwrite($log,$input['email']."\n");
-fwrite($log,$input['password']."\n");
 $filename = $dir."/"."datos.dat";
 
 if (!session_start())
@@ -24,8 +19,6 @@ if (!is_dir($dir)){        /*User does not exist so we create it.*/
   if (!mkdir($dir,0777)){
     header("Location: /pages/error.html");
     $error = error_get_last();
-    fwrite($log, "error: ".$error['message']);
-    fclose($log);
     die();
   }
   $myfile = fopen($filename, "w");
@@ -38,8 +31,6 @@ if (!is_dir($dir)){        /*User does not exist so we create it.*/
   $txt = $txt.date('d/m/Y', time())."\n";
   fwrite($myfile, $txt);
   fclose($myfile);
-  fclose($log);
-
 
   $name = $input['name'];
   $email = $input['email'];
@@ -49,7 +40,6 @@ if (!is_dir($dir)){        /*User does not exist so we create it.*/
 
   header("Location: /index.php");
 }else{      /* Now, if we come from a login */
-  fwrite($log, "recibido: \n\tname:  ".$input['name']."\temail:  ".$input['email']."\tpassword:  ".$input['password']);
   $myfile = fopen($filename, "r");
   if ($myfile){
     $name = fgets($myfile);
@@ -69,7 +59,6 @@ if (!is_dir($dir)){        /*User does not exist so we create it.*/
       http_response_code(417);
     }
     fclose($myfile);
-    fclose($log);
 
   } else{
     http_response_code(405); 
