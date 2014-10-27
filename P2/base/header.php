@@ -6,58 +6,54 @@
 	<script src="lib/angular.min.js" type="text/javascript"></script>
 	<script src="lib/angular-animate.min.js" type="text/javascript"></script>
 	<script src="js/controllers.js" type="text/javascript"></script>
+
 	<body>
 		<header ng-controller="headerController" ng-init="showCart = false">
 			<div class="header-logo">
 				<p>Olakase</p>
 			</div>
 			<div class="header-options">
-				<ul ng-controller="loginSubmitController" ng-init="showLogin = false">
-					<?php
-					session_start();
-					if($_SESSION['name'] == "" ){
-						$link = "";
-						$text = "Login";
-					}else{
-						$text = $_SESSION['name'];
-						$link = "/pages/error.html";
-					} ?>
-
+				<?php
+				session_start();
+				if($_SESSION['name'] == "" ){
+					$link = "";
+					$text = "Login";
+				}else{
+					$text = $_SESSION['name'];
+					$link = "/pages/error.html";
+				} ?>
+				<ul ng-controller="loginSubmitController" ng-init="showLogin = false;loginTitle ='<?php echo $text; ?>'" >
 					<li>
 						<a ng-click="showLogin = !showLogin;" href="<?php echo $link; ?>">
-							<?php echo $text; ?>
+							{{ loginTitle }}
 						</a>
 					</li>
 
-					<div ng-click="showLogin = false" class="login-div" ng-show="showLogin" >
-				 	<!-- TODO:  petición http y procesar código de error -->
-				 		<form   ng-click="$event.stopPropagation();"  ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" >
-				 			<table>
+					<div class="login-div" ng-show="showLogin" ng-click="showLogin = false" >
+						<!-- TODO:  petición http y procesar código de error -->
+						<form ng-click="$event.stopPropagation();" ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" >
+							<table>
 								<tr>
-									<td>
-											<td>Email:</td>
-											<td> <input type="email" name="email" ng-model="email" ></td>
-									</td>
+									<td>Email:</td>
+									<td> <input type="email" name="email" ng-model="email" ></td>
 								</tr>
 								<tr>
-									<td>
-										<td>Contraseña:</td>
-										<td> <input type="password" name="password" ng-model="password" autocomplete="off" required pattern="[a-zA-Z0-9]+" id="passwordfield"></td>
+									<td>Contraseña:</td>
+									<td> <input type="password" name="password" ng-model="password" autocomplete="off" required pattern="[a-zA-Z0-9]+" id="passwordfield"></td>
+								</tr>	
+								<tr>
+									<td colspan="2">
+										<div id="messages" class="login-err-msg" ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
 									</td>
-
-								</td>	
-								<td>
-									<div id="messages" class="login-err-msg" > El email y la contraseña no se encuentran en la base de datos. </div>
-								</td>
 								</tr>
 							</table>
-				 			<p>
-					  			<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>		
-					  			<input type="submit" value="login" name="login" id="login-button">
+							<p>
+								<a href="register.html" id="NewRegister">¿No tienes cuenta todavía?</a>		
+								<input type="submit" value="login" name="login" id="login-button">
 							</p>			
-				 		</form>
-				 	</div>
-					
+						</form>
+					</div>
+
 					<li>
 						<a href="" ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>
 					</li>
@@ -78,4 +74,3 @@
 				</div>
 			</div>
 		</header>
-		<!-- header.html end -->
