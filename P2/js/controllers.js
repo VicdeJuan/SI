@@ -318,3 +318,14 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 		});
 	};
 }]);
+
+mainApp.controller('footerController', ['$scope', '$http', function($scope, $http) {
+    $scope.date = "...";
+    $scope.activeUsers = "...";
+
+    $http.get('/api/webinfo.php')
+    .success(function(data, status) {
+        $scope.date = data['date'];
+        $scope.activeUsers = data['active_users'];
+    });
+}]);
