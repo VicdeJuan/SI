@@ -117,8 +117,9 @@
 				<select ng-model="pageLength" ng-options="length for length in availableLengths">
 				</select> resultados por página)
 			</p>
-		<div class="main-container">
-			<div class="movies" ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
+		<div class="main-container" ng-class="movieHoverClass">
+			<div class="movies" ng-mouseenter="$parent.movieHoverClass = 'movie-hovering'" ng-mouseleave="$parent.movieHoverClass = 'voidclass'" 
+				ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
 				<div class="movie-cover">
 					<img ng-src="{{movie.image}}" class="movie_img">
 					<p class="movie_title">{{movie.title}}</p>
@@ -133,13 +134,14 @@
 				</div>
 
 				<div class="movie-info">
+					<p>
 					{{movie.genre}}<br />
 					{{movie.year}}
+					<p>
 
 					<p class="movie-description">{{movie.description}}</p>
 				</div>
 			</div>
-
 			<p class="pagination-control"></p>
 		</div>
 	</div>

@@ -92,12 +92,6 @@ footer {
 	visibility: hidden;
 	color: red;
 }
-.scroller {
-	height: 100%;
-	display: inline-block;
-	vertical-align: top;
-	overflow: scroll;
-}
 
 /** Header **/
 .header-logo {
@@ -149,16 +143,30 @@ footer {
 	overflow: hidden;
 	border: none;
 }
+
+.scroller {
+	height: 100%;
+	display: inline-block;
+	vertical-align: top;
+	overflow: scroll;
+	position: absolute;
+	left: 170px;
+	right: 0;
+}
+
 .inner-scroll {
 	overflow: scroll;
 	padding: 30px;
 }
+
 .main-container {
 	clear: both;
-	padding: 30px;
-	max-width: 650px;
+	padding-left: 30px;
 	height: 100%;
 	float: left;
+	padding-right: 100px;
+	-webkit-transition: padding-right 0.1s; /* For Safari 3.1 to 6.0 */
+    transition: padding-right 0.1s;	
 }
 
 .movies {
@@ -166,34 +174,59 @@ footer {
 	margin: 20px;
 	position: relative;
 	height: 225px; 
+	max-height: 225px; 
 	overflow: hidden;
 	border-radius: 10px;
+	background: rgba(193, 49, 0, 0.4);
+	display: inline;
 }
 
 .movie-cover {
-	position: absolute;
-	left: 0;
+	position: relative;
 	border-radius: 10px;
 	overflow: hidden;
-	width: 150px;
+	height: 100%;
+	max-height: 100%;
+	width: auto;
+	float: left;
 }
 
 .movie-info {
-	width: 80px;
+	width: 0;
 	height: 100%;
-	margin-left: 120px;
-	padding-left: 35px;
-	padding-top: 8px;
-	padding-bottom: 8px;
-	padding-right: 8px;
-	background: rgba(193, 49, 0, 0.4);
+	max-height: 100%;
 	color: rgb(70,70,70);
 	font-size: 12px;
+	vertical-align: top;
+	overflow: scroll;
+	float: right;
+	-webkit-transition: width 0.3s; /* For Safari 3.1 to 6.0 */
+    transition: width 0.3s;	
+}
+
+.movie-hovering {
+	padding-right: 0;
+}
+
+.voidclass {
+
+}
+
+.movie-info p {
+	margin: 8px 8px 0 8px;
+}
+
+.movies:hover .movie-info {
+	width: 100px;
+}
+
+.main-container .movies:hover {
+	padding-left: 0px;
 }
 
 .movie_img {
-	height: 100%;
-	width: 100%;
+	height: 225px;
+	max-height: 225px;
 	display: block;
 	z-index: -1;
 }
@@ -228,13 +261,12 @@ footer {
 	color: rgba(250,250,250,0.9);
 	padding: 10px;
 	background: rgba(10,10,10,0.4);
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 
 .movie_cart {
 	width: 20px;
 	height: 20px;
-	margin-bottom: -5px;
 }
 
 .movie_price {
