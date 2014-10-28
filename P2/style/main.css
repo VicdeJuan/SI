@@ -142,7 +142,8 @@ footer {
 	text-align: right;
 }
 #login-button {
-	margin-top: -34px;
+	display: block;
+	margin-top: 0px;
 	margin-left: 70%;
 }
 .login-err-msg {
