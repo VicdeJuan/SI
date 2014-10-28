@@ -29,10 +29,38 @@ mainApp.filter('slice', function() {
     };
 });
 
+mainApp.directive('filter', function() {
+    return {
+        restrict: 'AE', // Only in elements and attributes
+        scope: {
+            filters: '=',
+            title: '@',
+            value: '=',
+            fallback: '=',
+            valueFormat: '@'
+        },
+        templateUrl: '/base/filter.html',
+        controller: ['$scope', function($scope) {
+            $scope.$watch('internalValue', function() {
+                if($scope.internalValue === "custom")
+                    $scope.value = $scope.customRange;
+                else if($scope.valueFormat != "json")
+                    $scope.value = $scope.internalValue;
+                else if($scope.internalValue)
+                    $scope.value = JSON.parse($scope.internalValue) || $scope.fallback;
+                else
+                    $scope.value = $scope.fallback;
+
+                console.log($scope.value);
+            });
+        }]
+    }
+});
+
 var safeParseInt = function(num, fallback) {
     var parsed = parseInt(num);
 
-    if (isNaN(num))
+    if (isNaN(parsed))
         return fallback;
     else
         return parsed;
@@ -41,10 +69,14 @@ var safeParseInt = function(num, fallback) {
 var checkBounds = function(item, field, bounds) {
     if (!bounds)
         return true;
-
+    if(field == "year")
+        console.log('year checkBounds' + s(bounds));
     var min = safeParseInt(bounds.min, 0);
     var max = safeParseInt(bounds.max, Infinity);
     var value = item[field];
+
+    if(field == "year")
+        console.log("min" + min + "max" + max);
 
     return value >= min && value <= max;
 };
@@ -204,8 +236,10 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         $scope.genres = [];
 
         var range = function(rangeName, minValue, maxValue) {
-            return { name: rangeName, bounds: { min: minValue, max: maxValue }}
+            return { name: rangeName, value: { min: minValue, max: maxValue }}
         };
+
+        $scope.defaultRange = { min: -Infinity, max: Infinity };
 
         $scope.years = [
             range('< 1940', 0, 1940),
@@ -225,32 +259,23 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
         $http.get('/api/genres.php')
             .success(function(data, status) {
-                $scope.genres = data;
+                angular.forEach(data, function(genre) {
+                    $scope.genres.push({
+                        name: genre,
+                        value: genre
+                    });
+                });
             });
 
         $scope.search = {
             genre: $scope.searchGenre
         };
 
-        $scope.$watchGroup(['searchGenre', 'yearRange', 'priceRange', 'searchTitle'], function(params) {
-            var searchGenre = params[0];
-
-            if (params[1] == 'custom')
-                var yearRange = $scope.customYearRange;
-            else if (params[1])
-                var yearRange = JSON.parse(params[1]) || { min: 0, max: Infinity };
-
-            if (params[2] == 'custom')
-                var priceRange = $scope.customPriceRange;
-            else if (params[2])
-                var priceRange = JSON.parse(params[2]) || { min: 0, max: Infinity };
-
-            var searchTitle = params[3];
-
-            $scope.search.genre = searchGenre;
-            $scope.search.year = yearRange;
-            $scope.search.price = priceRange;
-            $scope.search.title = searchTitle;
+        $scope.$watchGroup(['genreValue', 'yearValue', 'priceValue', 'searchTitle'], function(params) {
+            $scope.search.genre = params[0];
+            $scope.search.year = params[1];
+            $scope.search.price = params[2];
+            $scope.search.title = params[3];
             $scope.startIndex = 0;
 
             $scope.updateMovieCountLimit();

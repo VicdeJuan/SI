@@ -8,107 +8,11 @@
 				<p class="filter-items">
 					<input type="text" ng-model="searchTitle" />
 				</p>
-			<li class="filter">
-				<span class="filter-title">Género</span>
-				<ul class="filter-items">
-					<li ng-repeat="genre in genres">
-						<input 
-						type="radio" 
-						value="{{genre}}" 
-						class="filter-genre" 
-						ng-model="$parent.searchGenre" 
-						name="searchGenre">
-							{{genre}}
-						</input>
-					</li>
-					<li>
-						<input 
-						type="radio" 
-						value="" 
-						class="filter-genre" 
-						ng-model="searchGenre" 
-						name="searchGenre">
-							Todos
-						</input>
-					</li>
-				</ul>
 			</li>
-
-			<li class="filter">
-				<span class="filter-title">Año</span>
-				<ul class="filter-items">
-					<li ng-repeat="year in years">
-						<input 
-						type="radio" 
-						value="{{year.bounds}}" 
-						class="filter-genre" 
-						ng-model="$parent.yearRange" 
-						name="year">
-						{{year.name}}
-					</input>
-					</li>
-					<li>
-						<input ng-init="customYearRange = {}"
-						type="radio" 
-						value="custom"
-						class="filter-genre" 
-						ng-model="yearRange" 
-						name="yearRange">
-							Personalizado: 
-							<input type="number" ng-model="customYearRange.min" /> 
-							hasta 
-							<input type="number" ng-model="customYearRange.max" />.
-						</input>
-					</li>
-					<li>
-						<input 
-						type="radio" 
-						value='{"min":0,"max":5000}'
-						class="filter-genre" 
-						ng-model="yearRange" 
-						name="yearRange">
-						Todos
-						</input>
-					</li>
-				</ul>
-			</li>
-
-			<li class="filter">
-				<span class="filter-title">Precio</span>
-				<ul class="filter-items">
-					<li ng-repeat="price in prices">
-						<input 
-						type="radio" 
-						value="{{price.bounds}}" 
-						class="filter-genre" 
-						ng-model="$parent.priceRange" 
-						name="price">
-						{{price.name}}
-					</input>
-					</li>
-					<li>
-						<input ng-init="customPriceRange = {}"
-						type="radio" 
-						value="custom"
-						class="filter-genre" 
-						ng-model="priceRange" 
-						name="priceRange">
-						Personalizado: 
-						<input type="number" ng-model="customPriceRange.min" /> hasta <input type="number" ng-model="customPriceRange.max" />.
-						</input>
-					</li>
-					<li>
-						<input 
-						type="radio" 
-						value='{"min":0,"max":5000}'
-						class="filter-genre" 
-						ng-model="priceRange" 
-						name="priceRange">
-						Todos
-						</input>
-					</li>
-				</ul>
-			</li>
+			
+			<filter title="Género" filters="genres" value="genreValue" name="genreFilter" fallback=""></filter> 
+			<filter title="Año" filters="years" value="yearValue" name="yearFilter" fallback="defaultRange" value-format="json"></filter>
+			<filter title="Precio" filters="prices" value="priceValue" name="priceFilter" fallback="defaultRange" value-format="json"></filter>	
 		</ul>
 	</aside>
 

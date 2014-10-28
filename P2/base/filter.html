@@ -1,0 +1,39 @@
+<li class="filter">
+	<span class="filter-title">{{title}}</span>
+	<ul class="filter-items">
+		<li ng-repeat="filter in filters">
+			<input 
+			type="radio" 
+			value="{{filter.value}}" 
+			class="filter-item" 
+			ng-model="$parent.internalValue" 
+			name="{{name}}">
+				{{filter.name}}
+			</input>
+		</li>
+
+		<li>
+			<input ng-init="customRange = {}"
+			type="radio" 
+			value="custom"
+			class="filter-item" 
+			ng-model="internalValue" 
+			name="{{name}}">
+				Personalizado: 
+				<input type="number" ng-model="customRange.min" />hasta 
+				<input type="number" ng-model="customRange.max" />.
+			</input>
+		</li>
+
+		<li>
+			<input 
+			type="radio" 
+			value="{{defaultValue}}" 
+			class="filter-item" 
+			ng-model="internalValue" 
+			name="{{name}}">
+				Todos
+			</input>
+		</li>
+	</ul>
+</li>
