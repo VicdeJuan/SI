@@ -50,8 +50,6 @@ mainApp.directive('filter', function() {
                     $scope.value = JSON.parse($scope.internalValue) || $scope.fallback;
                 else
                     $scope.value = $scope.fallback;
-
-                console.log($scope.value);
             });
         }]
     }
@@ -69,14 +67,9 @@ var safeParseInt = function(num, fallback) {
 var checkBounds = function(item, field, bounds) {
     if (!bounds)
         return true;
-    if(field == "year")
-        console.log('year checkBounds' + s(bounds));
     var min = safeParseInt(bounds.min, 0);
     var max = safeParseInt(bounds.max, Infinity);
     var value = item[field];
-
-    if(field == "year")
-        console.log("min" + min + "max" + max);
 
     return value >= min && value <= max;
 };
