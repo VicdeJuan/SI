@@ -17,6 +17,17 @@
 		echo json_encode(getHistory($clean_email));
 	}
 
+	function post()
+	{
+		$movies_ids = (array) json_decode(file_get_contents('php://input'),1)
+
+		/* Este json contiene los id's de las peliculas */
+
+		$clean_email = "../users/".$_SESSION['email'];
+		addHistory($clean_email,$movies_ids);
+
+	}
+
 	/* Main process */
 	switch($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
@@ -24,9 +35,6 @@
 		break;
 	case 'POST':
 		post();
-		break;
-	case 'DELETE':
-		delete();
 		break;
 	default:
 		http_response_code(501);
