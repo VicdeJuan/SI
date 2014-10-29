@@ -1,22 +1,5 @@
 <?php
 
-	function _getMoviesFromId($array_ids){
-			$movies = simplexml_load_file('../data/movies.xml');
-			$array = array();
-
-			for ($i=0; $i < count($array_ids); $i++) { 
-				$array[$i] = $movies->movie[$array_ids[$i]];
-			}
-			return $array;
-	}
-
-	function _readMoviesHistoryId($file){
-			$movies_id = simplexml_load_file($file)->xpath('movie/id');			
-			for ($i=0; $i < count($movies_id); $i++) { 
-				$movies_id[$i] = (int) $movies_id[$i];
-			}
-			return $movies_id;		
-	}
 
 	function getHistory($dir){
 
@@ -29,10 +12,24 @@
 		
 		}else{
 
-			$movies_id = _readMoviesHistoryId($dir."/history.xml");
+			$movies_id = simplexml_load_file($filename)->xpath('movie/id');			
+			
+			for ($i=0; $i < count($movies_id); $i++) { 
+				$movies_id[$i] = (int) $movies_id[$i];
+			}
+
+
 			fclose($file);
 
-			return _getMoviesFromId($movies_id);
+			$movies = simplexml_load_file('../data/movies.xml');
+			$array = array();
+
+			for ($i=0; $i < count($movies_id); $i++) { 
+				$array[$i] = $movies->movie[$movies_id[$i]];
+			}
+
+
+			return $array;
 		}
 	}
 
