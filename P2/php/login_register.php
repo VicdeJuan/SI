@@ -1,6 +1,8 @@
  <?php
 /*  If we come from a registration  */
 
+require_once 'history.php';
+
 if (isset($_POST['email'])) {
   $input = $_POST;
 }else{
@@ -37,6 +39,8 @@ if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist
 
   $_SESSION['name'] = $name;
   $_SESSION['email'] = $email;
+
+  createHistory($dir."/"."history.xml");
 
   header("Location: /index.php");
 }else{      /* Now, if we come from a login */

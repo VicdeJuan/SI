@@ -11,7 +11,7 @@
 	else
 	{
 		$text = $_SESSION['name'];
-		$link = "/pages/error.html";
+		$link = "/api/history.php";
 	} 
 ?>
 

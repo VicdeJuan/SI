@@ -1,16 +1,16 @@
 <?php
 
-	function getMoviesFromId($array_ids){
+	function _getMoviesFromId($array_ids){
 			$movies = simplexml_load_file('../data/movies.xml');
 			$array = array();
 
 			for ($i=0; $i < count($array_ids); $i++) { 
-				$array[$i] = $movies->movie[$movies_id[$i]];
+				$array[$i] = $movies->movie[$array_ids[$i]];
 			}
 			return $array;
 	}
 
-	function readMoviesHistoryId($file){
+	function _readMoviesHistoryId($file){
 			$movies_id = simplexml_load_file($file)->xpath('movie/id');			
 			for ($i=0; $i < count($movies_id); $i++) { 
 				$movies_id[$i] = (int) $movies_id[$i];
@@ -18,9 +18,10 @@
 			return $movies_id;		
 	}
 
-	function getHistory($dir,$filename){
+	function getHistory($dir){
 
-		$file = fopen($dir.$filename, "r");
+		$filename = $dir."/"."history.xml";
+		$file = fopen($dir."/history.xml", "r");
 
 		if ($file == null) {
 			
@@ -28,14 +29,14 @@
 		
 		}else{
 
-			$movies_id = readMoviesHistoryId($dir.$filename);
+			$movies_id = _readMoviesHistoryId($dir."/history.xml");
 			fclose($file);
 
-			return getMoviesFromId($movies_id);
+			return _getMoviesFromId($movies_id);
 		}
 	}
 
-	function searchForId($id, $array) {
+	function _searchForId($id, $array) {
 		$i = -1;
 	   foreach ($array as $val) {
 	       $i++;
@@ -48,18 +49,19 @@
 	   return -1;
 	}
 
-	function addHistory($dir,$filename,$movies_id){
-		$file = fopen($dir.$filename, "a");
+	function addHistory($dir,$movies_id){
+		$file = fopen($dir."/history.xml", "a");
 
 		if ($file == null) {
 			fclose($file);
-			return 400;
+			return null;
+
 		}else{
 			
-			$current = simplexml_load_file($dir.$filename);			
+			$current = simplexml_load_file($dir."/history.xml");			
 			$currArr = (array) $current;
 			foreach ($movies_id as $pair) {
-				$index = searchForId($pair['id'],$currArr['movie']);
+				$index = _searchForId($pair['id'],$currArr['movie']);
 				if ($index >= 0) {
 					$node = $current->movie[$index];
 					$node->cuantity = $pair['cuantity']+$node->cuantity;
@@ -71,7 +73,7 @@
 			}
 
 
-			$current->asXML($dir.$filename);
+			$current->asXML($dir."/history.xml");
 
 
 			fclose($file);
@@ -80,8 +82,8 @@
 
 	}
 
-	function createHistory($dir,$filename){
-		$file = fopen($dir.$filename, "w");
+	function createHistory($dir){
+		$file = fopen($dir."/history.xml", "w");
 
 		if ($file == null) {
 			fclose($file);
