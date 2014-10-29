@@ -22,7 +22,6 @@
 
 
 		$json = file_get_contents('php://input');
-		fopen("../users/log", "a");
 
 		$movies_ids = json_decode($json,true);
 

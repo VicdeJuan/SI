@@ -56,8 +56,6 @@
 			
 			$current = simplexml_load_file($dir."/history.xml");			
 			$currArr = (array) $current;
-			file_put_contents('../users/log', print_r($movies_id, true));
-			file_put_contents('../users/log', print_r($current, true));
 
 			foreach ($movies_id as $pair) {
 				$index = _searchForId($pair['id'],$currArr['movie']);
