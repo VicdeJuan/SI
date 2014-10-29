@@ -13,7 +13,7 @@
 	if ($result == null)
 		echo "SII";
 	else
-		print_r($result);
+		print(count($result));
 
 	?>
 

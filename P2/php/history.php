@@ -17,14 +17,8 @@
 			$movies = simplexml_load_file('../data/movies.xml');
 			$array = array();
 
-			for ($j=0,$i=0; $i < count($movies); $i++) { 
-				/*if ((int) $movies->movie[0]->id == $movies_id[0]) {
-					return 123;
-				}*/
-				if (array_search((int) $movies->movie[$i]->id, $movies_id)){
-					$array[$j] = $movies->movie[$i];
-					$j++;
-				}
+			for ($i=0; $i < count($movies_id); $i++) { 
+				$array[$i] = $movies->movie[$movies_id[$i]];
 			}
 
 			fclose($file);
