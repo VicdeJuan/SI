@@ -25,8 +25,6 @@
 
 		$movies_ids = json_decode($json,true);
 
-		/*file_put_contents('../users/log', print_r($movies_ids, true));*/
-		/* Este json contiene los id's de las peliculas  */
 
 		$clean_email = "../users/".$_SESSION['email'];
 		if (addHistory($clean_email,$movies_ids) == null)
