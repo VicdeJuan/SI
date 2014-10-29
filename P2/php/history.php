@@ -12,20 +12,19 @@
 		
 		}else{
 
-			$movies_id = simplexml_load_file($filename)->xpath('movie/id');			
-			
-			for ($i=0; $i < count($movies_id); $i++) { 
-				$movies_id[$i] = (int) $movies_id[$i];
-			}
-
-
+			$movies_id = simplexml_load_file($filename)->xpath('movie');			
 			fclose($file);
+			
 
 			$movies = simplexml_load_file('../data/movies.xml');
-			$array = array();
+			$array = array(array());
 
 			for ($i=0; $i < count($movies_id); $i++) { 
-				$array[$i] = $movies->movie[$movies_id[$i]];
+				$index_id =  $movies_id[$i]->id;
+				$index_id =  (int) $index_id;
+
+				$array[$i]['id'] = $movies->movie[$index_id];
+				$array[$i]['cuantity'] = (int) $movies_id[$i]->cuantity;
 			}
 
 
