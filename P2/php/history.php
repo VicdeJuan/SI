@@ -35,25 +35,43 @@
 		}
 	}
 
+	function searchForId($id, $array) {
+		$i = -1;
+	   foreach ($array as $val) {
+	       $i++;
+	       $val = (array) $val;
+
+	       if ($val['id'] == $id) {
+	           return $i;
+	       }
+	   }
+	   return -1;
+	}
 
 	function addHistory($dir,$filename,$movies_id){
 		$file = fopen($dir.$filename, "a");
 
 		if ($file == null) {
 			fclose($file);
-			return 404;
+			return 400;
 		}else{
 			
-			$current = simplexml_load_file("../users/history.xml");			
-
+			$current = simplexml_load_file($dir.$filename);			
+			$currArr = (array) $current;
 			foreach ($movies_id as $pair) {
-				$child = $current->addChild('movie');
-				$child->addChild('id',$pair['id']);
-				$child->addChild('cuantity',$pair['cuantity']);
+				$index = searchForId($pair['id'],$currArr['movie']);
+				if ($index >= 0) {
+					$node = $current->movie[$index];
+					$node->cuantity = $pair['cuantity']+$node->cuantity;
+				}else{
+					$child = $current->addChild('movie');
+					$child->addChild('id',$pair['id']);
+					$child->addChild('cuantity',$pair['cuantity']);					
+				}
 			}
 
 
-			$current->asXML($dir."updated.xml");
+			$current->asXML($dir.$filename);
 
 
 			fclose($file);
