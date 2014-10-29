@@ -40,7 +40,8 @@ if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist
   $_SESSION['name'] = $name;
   $_SESSION['email'] = $email;
 
-  createHistory($dir."/"."history.xml");
+  if(createHistory($dir) == 404)
+    header("Location /dfmkals.html");
 
   header("Location: /index.php");
 }else{      /* Now, if we come from a login */

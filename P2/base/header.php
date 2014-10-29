@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div class="cartBuy">
-			<div class="button">¡Comprar!</div>
+			<div class="button" ng-click="processPurchase()">¡Comprar!</div>
 		</div>
 	</div>
 </header>

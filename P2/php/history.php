@@ -24,7 +24,7 @@
 				$index_id =  (int) $index_id;
 
 				$array[$i]['id'] = $movies->movie[$index_id];
-				$array[$i]['cuantity'] = (int) $movies_id[$i]->cuantity;
+				$array[$i]['quantity'] = (int) $movies_id[$i]->quantity;
 			}
 
 
@@ -56,15 +56,18 @@
 			
 			$current = simplexml_load_file($dir."/history.xml");			
 			$currArr = (array) $current;
+			file_put_contents('../users/log', print_r($movies_id, true));
+			file_put_contents('../users/log', print_r($current, true));
+
 			foreach ($movies_id as $pair) {
 				$index = _searchForId($pair['id'],$currArr['movie']);
 				if ($index >= 0) {
 					$node = $current->movie[$index];
-					$node->cuantity = $pair['cuantity']+$node->cuantity;
+					$node->quantity = $pair['quantity']+$node->quantity;
 				}else{
 					$child = $current->addChild('movie');
 					$child->addChild('id',$pair['id']);
-					$child->addChild('cuantity',$pair['cuantity']);					
+					$child->addChild('quantity',$pair['quantity']);					
 				}
 			}
 

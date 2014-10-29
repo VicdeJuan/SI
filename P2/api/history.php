@@ -19,12 +19,19 @@
 
 	function post()
 	{
-		$movies_ids = (array) json_decode(file_get_contents('php://input'),1)
 
-		/* Este json contiene los id's de las peliculas */
+
+		$json = file_get_contents('php://input');
+		fopen("../users/log", "a");
+
+		$movies_ids = json_decode($json,true);
+
+		/*file_put_contents('../users/log', print_r($movies_ids, true));*/
+		/* Este json contiene los id's de las peliculas  */
 
 		$clean_email = "../users/".$_SESSION['email'];
-		addHistory($clean_email,$movies_ids);
+		if (addHistory($clean_email,$movies_ids) == null)
+			http_response_code(404);
 
 	}
 

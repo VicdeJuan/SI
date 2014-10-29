@@ -137,6 +137,8 @@ mainApp.controller('headerController', ['$scope', '$http',
 
         cart.fetch($http);
 
+        $scope.moviesIds = [];
+
         $scope.removeFromCart = function(item) {
             $http.delete('/php/cart.php?itemId=' + item['id'])
                 .success(function(data, status) {
@@ -146,6 +148,18 @@ mainApp.controller('headerController', ['$scope', '$http',
                     alert('No se ha podido eliminar del carrito.');
                 });
         };
+
+ 
+        $scope.processPurchase = function(){
+            $http.post('/api/history.php',$scope.cartItems)
+                .success(function(data,status){
+                    window.alert("Compra realizada con éxito");
+                    /* Clear carrito */
+                })
+                .error(function(data,status){
+                    window.alert("Compra no realizada");
+                });
+        }
     }
 ]);
 
