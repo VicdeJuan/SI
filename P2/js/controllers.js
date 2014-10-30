@@ -381,22 +381,25 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
     $scope.errLogin = false;
 	$scope.logged = false;
     
-    $scope.loginTitleControl = function(){
+    $scope.loginTitleControl = function(logged){
+        $scope.logged = logged;
         if (!$scope.logged) {
             $scope.showLogin = true;
         };
 
         if($scope.logged){
             $scope.showLogin = false;
+        
+            $http({
+                method: 'GET',
+                url: '/php/test/history.php'
+            })
+            .success(function(data,status){
+                window.alert(data);
+            }).error (function(data,status){            
+            });
         }
 
-        $http({
-            method: 'GET',
-            url: '/php/history.php'
-        })
-        .success(function(data,status){
-        }).error (function(data,status){            
-        });
     }
 
 	$scope.loginSubmit = function(user){

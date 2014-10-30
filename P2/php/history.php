@@ -23,7 +23,7 @@
 				$index_id =  $movies_id[$i]->id;
 				$index_id =  (int) $index_id;
 
-				$array[$i]['id'] = $movies->movie[$index_id];
+				$array[$i]['id'] = $index_id;
 				$array[$i]['quantity'] = (int) $movies_id[$i]->quantity;
 			}
 

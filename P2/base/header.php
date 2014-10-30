@@ -5,13 +5,13 @@
 
 	if($_SESSION['name'] == "" )
 	{
-		$link = "";
 		$text = "Login";
+		$boolean_logged = false;
 	}
 	else
 	{
+		$boolean_logged = true;
 		$text = $_SESSION['name'];
-		$link = "/php/test/history.php";
 	} 
 ?>
 
@@ -23,9 +23,9 @@
 
 	<div class="header-options">
 		<ul>
-			<span ng-controller="loginSubmitController" ng-init="showLogin = false;loginTitle ='<?php echo $text; ?>'" >
+			<span ng-controller="loginSubmitController" ng-init="showLogin = false ;loginTitle ='<?php echo $text; ?>'" >
 				<li>
-					<a ng-click="loginTitleControl();" href="<?php echo $link; ?>">
+					<a ng-click="loginTitleControl(<?php echo $boolean_logged?>);" href="">
 						{{ loginTitle }}
 					</a>
 				</li>
