@@ -4,6 +4,8 @@
 * F90
 * C13100 */
 
+@import url('/style/filter.css');
+
 html, body {
 	height: 100%;
 	margin: 0;
@@ -310,37 +312,6 @@ footer {
 .menu a {
 	text-decoration: none;
 	color: #C13100;
-	margin-left: 15px;
-}
-.filter-title {
-	display: inline;
-	font-weight: bold;
-	font-size: 11pt;
-	margin-left: 0.7em;
-}
-.filter-title:before {
-	content: "❯";
-	font-size: 8pt;
-	margin-right: 4px;
-}
-.filter:hover .filter-title:before {
-	content: "v";
-	font-size: 95%;
-	font-weight: normal;
-}
-.filter-items {
-	display: none;
-	margin-right: 15px !important;
-	margin-top: 4px !important;
-	font-size: 10pt;
-	font-style: italic;
-}
-.filter:hover .filter-items {
-	display: block;
-}
-.filter-items li {
-	padding-left: 15px;
-	margin-bottom: 0;
 }
 
 /* Hack:si cambias la altura máxima de esto, el interior desborda. */

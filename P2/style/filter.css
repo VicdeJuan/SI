@@ -1,0 +1,35 @@
+.filter-title {
+	display: inline;
+	font-weight: bold;
+	font-size: 11pt;
+	margin-left: 2px;
+}
+
+.close-indicator.ng-hide-add.ng-hide-add-active, .close-indicator.ng-hide-remove.ng-hide-remove-active {
+	-webkit-transition: 0.1s linear;
+	transition: 0.1s linear;
+}
+
+.close-indicator {
+	width: 8px;
+	height: 8px;
+	margin-bottom: 1px;
+}
+
+.close-indicator.ng-hide {
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	display: inline !important;
+}
+
+.filter-items {
+	margin-right: 15px !important;
+	margin-top: 4px !important;
+	font-size: 10pt;
+	font-style: italic;
+}
+
+.filter-items li {
+	padding-left: 15px;
+	margin-bottom: 0;
+}
