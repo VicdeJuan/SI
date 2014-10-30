@@ -378,7 +378,26 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
 mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', function($scope,$http) {
 	$scope.showLogin = false;
-	$scope.errLogin = false;
+    $scope.errLogin = false;
+	$scope.logged = false;
+    
+    $scope.loginTitleControl = function(){
+        if (!$scope.logged) {
+            $scope.showLogin = true;
+        };
+
+        if($scope.logged){
+            $scope.showLogin = false;
+        }
+
+        $http({
+            method: 'GET',
+            url: '/php/history.php'
+        })
+        .success(function(data,status){
+        }).error (function(data,status){            
+        });
+    }
 
 	$scope.loginSubmit = function(user){
 		$http({
@@ -390,7 +409,8 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 			$scope.data = data;
 			$scope.showLogin = false;
 			$scope.errLogin = false;
-			$scope.loginTitle = data['name'];
+            $scope.loginTitle = data['name'];
+			$scope.logged = true;
 		}).error(function(data,status){
 			$scope.status = status;
 			$scope.data = data || "Request failed";

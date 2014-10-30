@@ -25,7 +25,7 @@
 		<ul>
 			<span ng-controller="loginSubmitController" ng-init="showLogin = false;loginTitle ='<?php echo $text; ?>'" >
 				<li>
-					<a ng-click="showLogin = !showLogin;" href="<?php echo $link; ?>">
+					<a ng-click="loginTitleControl();" href="<?php echo $link; ?>">
 						{{ loginTitle }}
 					</a>
 				</li>
