@@ -25,7 +25,7 @@
 		<ul>
 			<span ng-controller="loginSubmitController" ng-init="showLogin = false ;loginTitle ='<?php echo $text; ?>'" >
 				<li>
-					<a ng-click="loginTitleControl(<?php echo $boolean_logged?>);" href="">
+					<a ng-click="loginTitleControl(<?php echo $boolean_logged?>);" ng-href="{{ loginLink }}">
 						{{ loginTitle }}
 					</a>
 				</li>

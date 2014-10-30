@@ -382,22 +382,15 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 	$scope.logged = false;
     
     $scope.loginTitleControl = function(logged){
-        $scope.logged = logged;
+        
         if (!$scope.logged) {
+            $scope.loginLink = "";
             $scope.showLogin = true;
         };
 
-        if($scope.logged){
+        if($scope.logged || logged){
+            $scope.loginLink = "history.php";
             $scope.showLogin = false;
-        
-            $http({
-                method: 'GET',
-                url: '/php/test/history.php'
-            })
-            .success(function(data,status){
-                window.alert(data);
-            }).error (function(data,status){            
-            });
         }
 
     }
@@ -414,11 +407,14 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 			$scope.errLogin = false;
             $scope.loginTitle = data['name'];
 			$scope.logged = true;
+            $scope.loginLink = "history.php";
+
 		}).error(function(data,status){
 			$scope.status = status;
 			$scope.data = data || "Request failed";
 			$scope.errLogin = true;
 			$scope.showLogin = true;
+            $scope.loginLink = "";
 
 		});
 	};
