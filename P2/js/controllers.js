@@ -297,7 +297,6 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         };
 
         $scope.$watchGroup(['genreValue', 'yearValue', 'priceValue', 'searchTitle'], function(params) {
-            console.log(s(params));
             $scope.search.genre = params[0];
             $scope.search.year = params[1];
             $scope.search.price = params[2];
@@ -309,28 +308,41 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
         $scope.updateMovieCountLimit = function() {
             if (isFinite($scope.serverMovieCountLimit))
-                $scope.filterMovieCountLimit = $filter('filter')($scope.movies, $scope.search).length;
+                $scope.filterMovieCountLimit = $filter('movieFilter')($scope.movies, $scope.search).length;
         };
 
         $scope.$watch('serverMovieCountLimit', $scope.updateMovieCountLimit);
 
         $scope.$watchCollection('filtered', $scope.fetchIfNeeded);
 
-        $scope.prevPage = function() {
+        $scope.canGoPrevPage = function() {
             var newIndex = $scope.startIndex - $scope.pageLength;
 
-            if (newIndex < 0)
-                newIndex = 0;
+            return newIndex >= 0;
+        };
 
-            $scope.startIndex = newIndex;
+        $scope.canGoNextPage = function () {
+            var newIndex = $scope.startIndex + $scope.pageLength;
+            console.log(newIndex + ' ' + $scope.filterMovieCountLimit);
+            return newIndex < $scope.filterMovieCountLimit;
+        };
+
+        $scope.prevPage = function() {
+            if ($scope.canGoPrevPage())
+                $scope.startIndex = $scope.startIndex - $scope.pageLength;
         };
 
         $scope.nextPage = function() {
-            var newIndex = $scope.startIndex + $scope.pageLength;
-
-            if (newIndex < $scope.filterMovieCountLimit)
-                $scope.startIndex = newIndex;
+            if ($scope.canGoNextPage())
+                $scope.startIndex = $scope.startIndex + $scope.pageLength;
         };
+
+        $scope.updatePaginationControls = function () {
+            $scope.prevDisabled = $scope.canGoPrevPage() ? "" : "disabled";
+            $scope.nextDisabled = $scope.canGoNextPage() ? "" : "disabled";
+        }
+
+        $scope.$watchGroup(['startIndex','pageLength','filterMovieCountLimit'], $scope.updatePaginationControls);
 
         $scope.addToCart = function(movie) {
             $http.post('/php/cart.php', {

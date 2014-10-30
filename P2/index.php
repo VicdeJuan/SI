@@ -11,10 +11,17 @@
 	</aside>
 
 	<div class="scroller">
-		<p class="pagination-control"><a href="" ng-click="prevPage()">&lt;</a> <a href="" ng-click="nextPage()">&gt;</a> | {{startIndex}} - {{startIndex + filtered.length}} (
+		<div class="scroller-top">
+			<div class="pagination-control">
+				<a href="" class="page-control" ng-class="prevDisabled" ng-click="prevPage()">‹</a> 
+				<span>{{startIndex}} - {{startIndex + filtered.length}}</span>
+				<a href="" class="page-control" ng-class="nextDisabled" ng-click="nextPage()">›</a>
+			</div>
+			<div class="pagination-config">
 				<select ng-model="pageLength" ng-options="length for length in availableLengths">
-				</select> resultados por página)
-			</p>
+				  </select>	resultados por página
+			</div>
+		</div>
 		<div class="main-container" ng-class="movieHoverClass">
 			<div class="movies" ng-mouseenter="$parent.movieHoverClass = 'movie-hovering'" ng-mouseleave="$parent.movieHoverClass = 'voidclass'" 
 				ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">

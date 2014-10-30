@@ -406,8 +406,42 @@ footer {
 	max-height: 0;
 	opacity: 0;
 }
+
+.scroller-top {
+	width: 100%;
+}
+
 .pagination-control {
-	text-align: right;
+	text-align: center;
 	font-size: 10pt;
-	margin-right: 8px;
+	margin-right: 30px;
+	float: left;
+	width: 100%;
+}
+
+.pagination-config {
+	position: absolute;
+	right: 0;
+	text-align: right;
+	float: right;
+	margin: 12px;
+	font-size: 10pt;
+	display: inline;
+}
+
+.pagination-control span {
+	height: 100%;
+	position: relative;
+	top: -6px;
+}
+
+.page-control {
+	font-size: 30pt;
+	text-decoration: none;
+	color: #C13100;;
+}
+
+.disabled {
+	color: gray;
+	cursor: default;
 }
