@@ -40,6 +40,20 @@
 	margin-top: 5px;
 }
 
+.filter-items input[type=text] {
+	width: 85px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.custom-selector.filters-disabled { 
+	margin-left: 0px;
+}
+
+.filters-disabled input[type=text] {
+	width: 150px;
+}
+
 .custom-selector {
 	margin-left: 25px;
 }

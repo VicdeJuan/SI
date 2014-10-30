@@ -3,16 +3,10 @@
 <div class="body-container" ng-controller="movieListController">
 	<aside class="menu">
 		<ul class="menu-items"> 
-			<li class="filter">
-				<span class="filter-title">Título</span>
-				<p class="filter-items">
-					<input type="text" ng-model="searchTitle" />
-				</p>
-			</li>
-			
-			<filter title="Género" filters="genres" value="genreValue" name="genreFilter" fallback=""></filter> 
-			<filter title="Año" filters="years" value="yearValue" name="yearFilter" fallback="defaultRange" value-format="json"></filter>
-			<filter title="Precio" filters="prices" value="priceValue" name="priceFilter" fallback="defaultRange" value-format="json"></filter>	
+			<filter title="Título" value="searchTitle" name"titleFitler" fallback="" allow-custom="string"></filter>			
+			<filter title="Género" filters="genres" value="genreValue" name="genreFilter" fallback="" allow-custom="string"></filter> 
+			<filter title="Año" filters="years" value="yearValue" name="yearFilter" fallback="defaultRange" value-format="json" allow-custom="range"></filter>
+			<filter title="Precio" filters="prices" value="priceValue" name="priceFilter" fallback="defaultRange" value-format="json" allow-custom="range"></filter>	
 		</ul>
 	</aside>
 

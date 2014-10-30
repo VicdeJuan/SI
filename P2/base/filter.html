@@ -23,17 +23,20 @@
 			value="custom"
 			class="filter-item" 
 			ng-model="internalValue" 
-			name="{{name}}">
-				Personalizado:<br />
-				<div class="custom-selector">
-					<input type="number" ng-model="customRange.min" /><br /> 
-					<span>hasta</span><br />
-					<input type="number" ng-model="customRange.max" />
-				</div>
+			name="{{name}}" ng-show="filtersEnabled">
+				<span ng-show="filtersEnabled">Personalizado:<br /></span>
 			</input>
+			<div class="custom-selector" ng-show="customRangeEnabled" ng-class="filtersDisabledClass">
+				<input type="number" ng-model="customRange.min" /><br /> 
+				<span>hasta</span><br />
+				<input type="number" ng-model="customRange.max" />
+			</div>
+			<div class="custom-selector" ng-show="customTextEnabled" ng-class="filtersDisabledClass">
+				<input type="text" ng-model="customText" />
+			</div>
 		</li>
 
-		<li>
+		<li ng-show="filtersEnabled">
 			<input 
 			type="radio" 
 			value="{{defaultValue}}" 

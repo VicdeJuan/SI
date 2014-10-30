@@ -37,13 +37,40 @@ mainApp.directive('filter', function() {
             title: '@',
             value: '=',
             fallback: '=',
-            valueFormat: '@'
+            valueFormat: '@',
+            allowCustom: '@'
         },
         templateUrl: '/base/filter.html',
         controller: ['$scope', function($scope) {
+            if ($scope.filters)
+            {
+                $scope.filtersEnabled = true;
+                $scope.filtersDisabledClass = "voidclass";
+            }
+            else
+            {
+                $scope.filtersDisabledClass = "filters-disabled";
+            }
+
+            $scope.customRangeEnabled = $scope.allowCustom === "range";
+            $scope.customTextEnabled = $scope.allowCustom === "string";
+
+            $scope.getCustomValue = function() {
+                if($scope.allowCustom === "range")
+                    return $scope.customRange;
+                else if($scope.allowCustom === "string")
+                    return $scope.customText;
+                else
+                    return null;
+            };
+
+            $scope.isCustomValueActive = function () {
+                return $scope.internalValue === "custom" || !$scope.filtersEnabled;
+            }
+
             $scope.$watch('internalValue', function() {
-                if($scope.internalValue === "custom")
-                    $scope.value = $scope.customRange;
+                if ($scope.isCustomValueActive())
+                    $scope.value = $scope.getCustomValue();
                 else if($scope.valueFormat != "json")
                     $scope.value = $scope.internalValue;
                 else if($scope.internalValue)
@@ -51,6 +78,11 @@ mainApp.directive('filter', function() {
                 else
                     $scope.value = $scope.fallback;
             });
+
+            $scope.$watch('customText', function () {
+                if($scope.isCustomValueActive())
+                    $scope.value = $scope.customText;
+            }); 
         }]
     }
 });
@@ -90,7 +122,7 @@ mainApp.filter('movieFilter', function() {
 
         angular.forEach(movies, function(movie) {
             if (stringFilter(movie['title'], filter.title, true) &&
-                stringFilter(movie['genre'], filter.genre) &&
+                stringFilter(movie['genre'], filter.genre, true) &&
                 checkBounds(movie, 'year', filter.year) &&
                 checkBounds(movie, 'price', filter.price) &&
                 checkBounds(movie, 'score', filter.score))
@@ -265,6 +297,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         };
 
         $scope.$watchGroup(['genreValue', 'yearValue', 'priceValue', 'searchTitle'], function(params) {
+            console.log(s(params));
             $scope.search.genre = params[0];
             $scope.search.year = params[1];
             $scope.search.price = params[2];
