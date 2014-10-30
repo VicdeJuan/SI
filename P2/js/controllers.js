@@ -120,6 +120,11 @@ var cart = {
                     cart.items.push(data[i]);
                 }
             });
+    },
+    removeAll: function($http) {
+        $http.delete('/php/cart.php?all').success(function(){
+            cart.items.length = 0;
+        });
     }
 };
 
@@ -143,6 +148,7 @@ mainApp.controller('headerController', ['$scope', '$http',
             $http.delete('/php/cart.php?itemId=' + item['id'])
                 .success(function(data, status) {
                     cart.remove(item);
+                    $scope.showCart = false;
                 })
                 .error(function(data, status) {
                     alert('No se ha podido eliminar del carrito.');
@@ -154,6 +160,7 @@ mainApp.controller('headerController', ['$scope', '$http',
             $http.post('/api/history.php',$scope.cartItems)
                 .success(function(data,status){
                     window.alert("Compra realizada con éxito");
+                    cart.removeAll($http);
 
                 })
                 .error(function(data,status){
