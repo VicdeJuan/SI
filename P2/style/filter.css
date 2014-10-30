@@ -32,6 +32,15 @@
 	margin-top: 4px !important;
 	padding-left: 7px;
 	display: block;
+	-webkit-transition: max-height cubic-bezier(0.215, 0.61, 0.355, 1) 0.4s, opacity linear 0.1s;
+	transition: max-height cubic-bezier(0.215, 0.61, 0.355, 1) 0.4s, opacity linear 0.1s;
+	opacity: 1;
+	max-height: auto;	
+}
+
+.filter-items.ng-hide {
+	max-height: 0;
+	opacity: 0;
 }
 
 .filter-items input[type=number] {
