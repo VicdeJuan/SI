@@ -13,8 +13,12 @@
 
 	function get()
 	{
-		$clean_email = "../users/".$_SESSION['email'];
-		echo json_encode(getHistory($clean_email));
+		if (isset($_SESSION['email'])) {
+			$clean_email = "../users/".$_SESSION['email'];
+			echo json_encode(getHistory($clean_email));
+		}else{
+			http_response_code(200);
+		}
 	}
 
 	function post()
@@ -25,11 +29,11 @@
 
 		$movies_ids = json_decode($json,true);
 
-
-		$clean_email = "../users/".$_SESSION['email'];
+		$clean_email = "../users/".$_SESSION['email']."/";
 		if (addHistory($clean_email,$movies_ids) == null)
 			http_response_code(404);
 
+		http_response_code(200);
 	}
 
 	/* Main process */

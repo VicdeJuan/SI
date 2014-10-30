@@ -154,7 +154,7 @@ mainApp.controller('headerController', ['$scope', '$http',
             $http.post('/api/history.php',$scope.cartItems)
                 .success(function(data,status){
                     window.alert("Compra realizada con éxito");
-                    cart.items = [];
+
                 })
                 .error(function(data,status){
                     window.alert("Compra no realizada");

@@ -21,10 +21,10 @@
 	$ids = array(array('id' => 0,'quantity' => 7),array('id' => 7,'quantity' => 3));
 
 	print_r($ids);
-	print("<br><br><br>Aqui es donde mirar: <br>");
 	
 
 
+	print("<br><br><br>Aqui es donde mirar: <br>");
 	print_r(addHistory("../../users/victor@qwerty",$ids));
 
 	/*print_r(getHistory("../users/victor@qwerty"));*/

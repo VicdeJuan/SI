@@ -46,15 +46,11 @@
 	}
 
 	function addHistory($dir,$movies_id){
-		$file = fopen($dir."/history.xml", "a");
 
-		if ($file == null) {
-			fclose($file);
-			return null;
+		error_log($dir."/history.xml");
 
-		}else{
 			
-			$current = simplexml_load_file($dir."/history.xml");			
+			$current = simplexml_load_file($dir."history.xml");			
 			$currArr = (array) $current;
 
 			foreach ($movies_id as $pair) {
@@ -73,9 +69,7 @@
 			$current->asXML($dir."/history.xml");
 
 
-			fclose($file);
 			return $current;
-		}
 
 	}
 

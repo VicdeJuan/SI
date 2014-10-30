@@ -48,8 +48,13 @@ if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist
   $myfile = fopen($filename, "r");
   if ($myfile){
     $name = fgets($myfile);
+    $name = trim(preg_replace('/\s+/', ' ', $name));
+
     $email = fgets($myfile);
+    $email = trim(preg_replace('/\s+/', ' ', $email));
+    
     $password = strstr(fgets($myfile),"\n",true);
+    $password = trim(preg_replace('/\s+/', ' ', $password));
 
     if (0 == strcmp($password,md5($input['password']))){
       $_SESSION['name'] = $name;
