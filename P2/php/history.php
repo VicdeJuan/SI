@@ -12,19 +12,25 @@
 		
 		}else{
 
-			$movies_id = simplexml_load_file($filename)->xpath('movie');			
+			$movies_id = simplexml_load_file($filename)->xpath('pedido');	
+
+			return $movies_id;		
 			fclose($file);
 			
-
 			$movies = simplexml_load_file('../data/movies.xml');
-			$array = array(array());
+			$array = array(array(array()));
 
-			for ($i=0; $i < count($movies_id); $i++) { 
-				$index_id =  $movies_id[$i]->id;
-				$index_id =  (int) $index_id;
+			for ($j=0; $j < count($movies_id); $j++) { 
+				$pedido = (array) $movies_id[$j];
 
-				$array[$i]['id'] = $index_id;
-				$array[$i]['quantity'] = (int) $movies_id[$i]->quantity;
+				for ($i=0; $i < count($pedido); $i++) { 
+					$index_id =  $pedido[$i]->id;
+					$index_id =  (int) $index_id;
+
+					$array[$j][$i]['id'] = $index_id;
+					$array[$j][$i]['quantity'] = (int) $pedido[$i]->quantity;
+					$array[$j][$i]['date'] = (string) $pedido[$i]->date;
+				}
 			}
 
 
@@ -47,22 +53,16 @@
 
 	function addHistory($dir,$movies_id){
 
-		error_log($dir."/history.xml");
-
 			
-			$current = simplexml_load_file($dir."history.xml");			
+			$current = simplexml_load_file($dir."history.xml");	
 			$currArr = (array) $current;
-
+			
+			$childAux = $current->addChild('pedido');
 			foreach ($movies_id as $pair) {
-				$index = _searchForId($pair['id'],$currArr['movie']);
-				if ($index >= 0) {
-					$node = $current->movie[$index];
-					$node->quantity = $pair['quantity']+$node->quantity;
-				}else{
-					$child = $current->addChild('movie');
-					$child->addChild('id',$pair['id']);
-					$child->addChild('quantity',$pair['quantity']);					
-				}
+				$child = $childAux->addChild('movie');
+				$child->addChild('id',$pair['id']);
+				$child->addChild('quantity',$pair['quantity']);	
+				$child->addChild('date',date(DATE_ATOM));			
 			}
 
 
