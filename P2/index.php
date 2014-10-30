@@ -2,7 +2,7 @@
 
 <div class="body-container" ng-controller="movieListController">
 	<aside class="menu">
-		<ul>
+		<ul class="menu-items"> 
 			<li class="filter">
 				<span class="filter-title">Título</span>
 				<p class="filter-items">

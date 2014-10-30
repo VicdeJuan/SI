@@ -1,7 +1,11 @@
+.filter {
+	margin-bottom: 8px;
+}
+
 .filter-title {
 	display: inline;
 	font-weight: bold;
-	font-size: 11pt;
+	font-size: 12pt;
 	margin-left: 2px;
 }
 
@@ -13,7 +17,7 @@
 .close-indicator {
 	width: 8px;
 	height: 8px;
-	margin-bottom: 1px;
+	margin-bottom: 2px;
 }
 
 .close-indicator.ng-hide {
@@ -23,13 +27,23 @@
 }
 
 .filter-items {
-	margin-right: 15px !important;
-	margin-top: 4px !important;
 	font-size: 10pt;
 	font-style: italic;
+	margin-top: 4px !important;
+	padding-left: 7px;
+	display: block;
 }
 
-.filter-items li {
-	padding-left: 15px;
-	margin-bottom: 0;
+.filter-items input[type=number] {
+	width: 85px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.custom-selector {
+	margin-left: 25px;
+}
+
+.custom-selector span {
+	margin: 8px 0;
 }

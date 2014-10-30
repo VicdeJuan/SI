@@ -301,14 +301,16 @@ footer {
 	padding-top: 50px;
 	margin: 0;
 }
+
 .menu ul {
-	margin: 0;
-	padding: 0;
 	list-style-type: none;
 }
-.menu li {
-	margin-bottom: 8px;
+
+.menu-items {
+	margin: 0;
+	padding: 0;
 }
+
 .menu a {
 	text-decoration: none;
 	color: #C13100;

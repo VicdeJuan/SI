@@ -24,9 +24,12 @@
 			class="filter-item" 
 			ng-model="internalValue" 
 			name="{{name}}">
-				Personalizado: 
-				<input type="number" ng-model="customRange.min" />hasta 
-				<input type="number" ng-model="customRange.max" />.
+				Personalizado:<br />
+				<div class="custom-selector">
+					<input type="number" ng-model="customRange.min" /><br /> 
+					<span>hasta</span><br />
+					<input type="number" ng-model="customRange.max" />
+				</div>
 			</input>
 		</li>
 
