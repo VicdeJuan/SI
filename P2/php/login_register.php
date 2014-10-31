@@ -1,7 +1,7 @@
  <?php
 /*  If we come from a registration  */
 
-require_once 'history.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/php/history.php';
 
 if (isset($_POST['email'])) {
   $input = $_POST;
@@ -11,7 +11,7 @@ if (isset($_POST['email'])) {
 }
 
 
-$dir = "../users/".$input['email'];
+$dir = $_SERVER['DOCUMENT_ROOT']."/users/".$input['email'];
 $filename = $dir."/"."datos.dat";
 
 if (!session_start())

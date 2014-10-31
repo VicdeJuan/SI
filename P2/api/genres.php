@@ -1,6 +1,6 @@
 <?php
 
-require_once '../php/movies.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/php/movies.php';
 
 $movies = getAllMovies();
 
