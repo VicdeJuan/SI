@@ -21,6 +21,8 @@ mainApp.directive('filter', function() {
                 $scope.filtersDisabledClass = "filters-disabled";
             }
 
+            $scope.customValue = {};
+
             $scope.customRangeEnabled = $scope.allowCustom === "range";
             $scope.customTextEnabled = $scope.allowCustom === "string";
 
@@ -39,19 +41,12 @@ mainApp.directive('filter', function() {
 
             $scope.$watch('internalValue', function() {
                 if ($scope.isCustomValueActive())
-                    $scope.value = $scope.getCustomValue();
-                else if($scope.valueFormat != "json")
-                    $scope.value = $scope.internalValue;
+                    $scope.value = $scope.customValue;
                 else if($scope.internalValue)
                     $scope.value = JSON.parse($scope.internalValue) || $scope.fallback;
                 else
                     $scope.value = $scope.fallback;
             });
-
-            $scope.$watch('customText', function () {
-                if($scope.isCustomValueActive())
-                    $scope.value = $scope.customText;
-            }); 
         }]
     }
 });

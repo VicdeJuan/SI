@@ -53,9 +53,16 @@ var stringFilter = function(item, filter, onlyContain) {
         return true;
 
     if (onlyContain)
-        return (item && item.toLowerCase().indexOf(filter.toLowerCase()) > -1);
+    {
+        if(!filter || !filter.str)
+            return true;
+
+        return item && (item.toLowerCase().indexOf(filter.str.toLowerCase()) > -1);
+    }
     else
-        return filter === item;
+    {
+        return filter.str === item;
+    }
 }
 
 mainApp.filter('movieFilter', function() {
@@ -229,24 +236,19 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
                 angular.forEach(data, function(genre) {
                     $scope.genres.push({
                         name: genre,
-                        value: genre
+                        value: { str: genre }
                     });
                 });
             });
 
-        $scope.search = {
-            genre: $scope.searchGenre
-        };
+        $scope.search = {};
 
-        $scope.$watchGroup(['genreValue', 'yearValue', 'priceValue', 'searchTitle'], function(params) {
-            $scope.search.genre = params[0];
-            $scope.search.year = params[1];
-            $scope.search.price = params[2];
-            $scope.search.title = params[3];
+        $scope.$watch('search', function() {
+            console.log(s($scope.search));
+
             $scope.startIndex = 0;
-
             $scope.updateMovieCountLimit();
-        });
+        }, true);
 
         $scope.updateMovieCountLimit = function() {
             if (isFinite($scope.serverMovieCountLimit))
