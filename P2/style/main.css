@@ -110,8 +110,13 @@ footer {
 	margin-top: 20px;
 }
 
-.debil {
+.invalid {
 	color: red;
+	padding-left: 10px;
+	display: inline;
+}
+.debil {
+	color: orange;
 	padding-left: 10px;
 	display: inline;
 }

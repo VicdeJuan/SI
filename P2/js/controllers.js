@@ -156,6 +156,7 @@ mainApp.controller('registerController', ['$scope',
         $scope.strength = 1;
         $scope.strengthMsg = "";
         $scope.show = false;
+        $scope.valid = false;   
 
 
         $scope.matching = function(str){
@@ -164,6 +165,10 @@ mainApp.controller('registerController', ['$scope',
             minus="[a-z]+";
             mayus="[A-Z]+";
             symbols="[\#\$\%\&\!\@]+";
+
+            if(str.length < 5){
+                return 0;
+            }
 
             if (str.match(minus) != null) {
                 count +=1;
@@ -189,6 +194,13 @@ mainApp.controller('registerController', ['$scope',
 
             $scope.strength = $scope.matching($scope.password);
 
+            if($scope.strength == 0){
+                $scope.strengthMsg = "Demasiado corta.";
+                $scope.valid = false;
+            }else{
+                $scope.valid = true;
+            }
+
             if ($scope.strength >= 4){
                 $scope.strengthMsg = " Muy fuerte"; 
             }
@@ -198,7 +210,7 @@ mainApp.controller('registerController', ['$scope',
             else if ($scope.strength >= 2){
                 $scope.strengthMsg = "Media"; 
             }
-            else if ($scope.strength = 1){
+            else if ($scope.strength >= 1){
                 $scope.strengthMsg = "Debil";
             };
 
