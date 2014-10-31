@@ -1,41 +1,49 @@
 <?php
-
+	require_once 'movies.php';
 
 	function getHistory($dir){
 
 		$filename = $dir."/"."history.xml";
 		$file = fopen($dir."/history.xml", "r");
 
-		if ($file == null) {
-			
-			return 404;
-		
-		}else{
+		if (!file_exists($filename))
+			return array();
 
-			$movies_id = simplexml_load_file($filename)->xpath('pedido');	
+		$purchases = simplexml_load_file($filename)->xpath('pedido');	
+		$movies = getAllMovies();
+		$purchasesArray = array();
 
-			return $movies_id;		
-			fclose($file);
-			
-			$movies = simplexml_load_file('../data/movies.xml');
-			$array = array(array(array()));
+		foreach ($purchases as $purchase) 
+		{
+			$purchaseValue = array();
 
-			for ($j=0; $j < count($movies_id); $j++) { 
-				$pedido = (array) $movies_id[$j];
+			foreach ($purchase->movie as $purchaseItem) 
+			{
+				$movieReference = findMovie($movies, $purchaseItem->id);
+				$movieImage = "";
+				$movieTitle = "unknown";
 
-				for ($i=0; $i < count($pedido); $i++) { 
-					$index_id =  $pedido[$i]->id;
-					$index_id =  (int) $index_id;
-
-					$array[$j][$i]['id'] = $index_id;
-					$array[$j][$i]['quantity'] = (int) $pedido[$i]->quantity;
-					$array[$j][$i]['date'] = (string) $pedido[$i]->date;
+				if ($movieReference != null)
+				{
+					$movieImage = $movieReference['image'];
+					$movieTitle = $movieReference['title'];
 				}
+
+				$movie = array(
+					"id" => (int) $purchaseItem,
+					"price" => (int) $purchaseItem->price,
+					"quantity" => (int) $purchaseItem->quantity,
+					"image" => $movieImage,
+					"title" => $movieTitle
+				);
+
+				array_push($purchaseValue, $movie);
 			}
 
-
-			return $array;
+			array_push($purchasesArray, $purchaseValue);
 		}
+
+		return $purchasesArray;
 	}
 
 	function _searchForId($id, $array) {
@@ -61,7 +69,8 @@
 			foreach ($movies_id as $pair) {
 				$child = $childAux->addChild('movie');
 				$child->addChild('id',$pair['id']);
-				$child->addChild('quantity',$pair['quantity']);	
+				$child->addChild('quantity',$pair['quantity']);
+				$child->addChild('price', $pair['price']);	
 				$child->addChild('date',date(DATE_ATOM));			
 			}
 

@@ -1,5 +1,15 @@
 <?php
 
+function findMovie($movieList, $id)
+{
+	foreach ($movieList as $movie) {
+		if ($movie['id'] === $id)
+			return $movie;
+	}
+
+	return null;
+}
+
 function getAllMovies()
 {
 	$movies = simplexml_load_file("../data/movies.xml");
