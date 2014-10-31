@@ -7,8 +7,7 @@ mainApp.directive('filter', function() {
             value: '=',
             fallback: '=',
             valueFormat: '@',
-            allowCustom: '@',
-            valueUpdated: '&'
+            allowCustom: '@'
         },
         templateUrl: '/base/filter.html',
         controller: ['$scope', function($scope) {
@@ -24,11 +23,6 @@ mainApp.directive('filter', function() {
 
             $scope.customRangeEnabled = $scope.allowCustom === "range";
             $scope.customTextEnabled = $scope.allowCustom === "string";
-
-            if($scope.valueFormat === "json")
-                $scope.value = {};
-            else
-                $scope.value = "";
 
             $scope.getCustomValue = function() {
                 if($scope.allowCustom === "range")
@@ -52,19 +46,6 @@ mainApp.directive('filter', function() {
                     $scope.value = JSON.parse($scope.internalValue) || $scope.fallback;
                 else
                     $scope.value = $scope.fallback;
-
-                $scope.valueUpdated({ value: $scope.value });
-            });
-
-            $scope.isFirstValueUpdate = true;
-
-            $scope.$watch('value', function() {
-                if($scope.isFirstValueUpdate)
-                { 
-                    $scope.$evalAsync(function() {
-                        $scope.value = angular.copy($scope.internalValue);
-                    });
-                }
             });
 
             $scope.$watch('customText', function () {

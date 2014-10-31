@@ -3,8 +3,8 @@
 <div class="body-container" ng-controller="movieListController">
 	<aside class="menu">
 		<ul class="menu-items"> 
-			<filter title="Título" value="searchTitle" name"titleFilter" fallback="" allow-custom="string"></filter>			
-			<filter title="Género" filters="genres" value="genreValue" name="genreFilter" fallback="" allow-custom="string" value-updated="genreUpdated(value)"></filter> 
+			<filter title="Título" value="searchTitle" name"titleFitler" fallback="" allow-custom="string"></filter>			
+			<filter title="Género" filters="genres" value="genreValue" name="genreFilter" fallback="" allow-custom="string"></filter> 
 			<filter title="Año" filters="years" value="yearValue" name="yearFilter" fallback="defaultRange" value-format="json" allow-custom="range"></filter>
 			<filter title="Precio" filters="prices" value="priceValue" name="priceFilter" fallback="defaultRange" value-format="json" allow-custom="range"></filter>	
 		</ul>
