@@ -32,7 +32,7 @@ mainApp.filter('slice', function() {
 var safeParseInt = function(num, fallback) {
     var parsed = parseInt(num);
 
-    if (isNaN(num))
+    if (isNaN(parsed))
         return fallback;
     else
         return parsed;
@@ -41,7 +41,6 @@ var safeParseInt = function(num, fallback) {
 var checkBounds = function(item, field, bounds) {
     if (!bounds)
         return true;
-
     var min = safeParseInt(bounds.min, 0);
     var max = safeParseInt(bounds.max, Infinity);
     var value = item[field];
@@ -54,9 +53,16 @@ var stringFilter = function(item, filter, onlyContain) {
         return true;
 
     if (onlyContain)
-        return (item && item.toLowerCase().indexOf(filter.toLowerCase()) > -1);
+    {
+        if(!filter || !filter.str)
+            return true;
+
+        return item && (item.toLowerCase().indexOf(filter.str.toLowerCase()) > -1);
+    }
     else
-        return filter === item;
+    {
+        return filter.str === item;
+    }
 }
 
 mainApp.filter('movieFilter', function() {
@@ -65,7 +71,7 @@ mainApp.filter('movieFilter', function() {
 
         angular.forEach(movies, function(movie) {
             if (stringFilter(movie['title'], filter.title, true) &&
-                stringFilter(movie['genre'], filter.genre) &&
+                stringFilter(movie['genre'], filter.genre, true) &&
                 checkBounds(movie, 'year', filter.year) &&
                 checkBounds(movie, 'price', filter.price) &&
                 checkBounds(movie, 'score', filter.score))
@@ -273,11 +279,14 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         $scope.serverMovieCountLimit = Infinity;
         $scope.filterMovieCountLimit = Infinity;
         $scope.genres = [];
+        $scope.emptyStrObject = { str: "" };
+        $scope.search = {};
 
         var range = function(rangeName, minValue, maxValue) {
-            return { name: rangeName, bounds: { min: minValue, max: maxValue }}
+            return { name: rangeName, value: { min: minValue, max: maxValue }}
         };
 
+        $scope.defaultRange = { min: -Infinity, max: Infinity };
         $scope.years = [
             range('< 1940', 0, 1940),
             range('40s-60s', 1940, 1969),
@@ -296,61 +305,59 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
         $http.get('/api/genres.php')
             .success(function(data, status) {
-                $scope.genres = data;
+                angular.forEach(data, function(genre) {
+                    $scope.genres.push({
+                        name: genre,
+                        value: { str: genre }
+                    });
+                });
             });
 
-        $scope.search = {
-            genre: $scope.searchGenre
-        };
 
-        $scope.$watchGroup(['searchGenre', 'yearRange', 'priceRange', 'searchTitle'], function(params) {
-            var searchGenre = params[0];
+        $scope.$watch('search', function() {
+            console.log(s($scope.search));
 
-            if (params[1] == 'custom')
-                var yearRange = $scope.customYearRange;
-            else if (params[1])
-                var yearRange = JSON.parse(params[1]) || { min: 0, max: Infinity };
-
-            if (params[2] == 'custom')
-                var priceRange = $scope.customPriceRange;
-            else if (params[2])
-                var priceRange = JSON.parse(params[2]) || { min: 0, max: Infinity };
-
-            var searchTitle = params[3];
-
-            $scope.search.genre = searchGenre;
-            $scope.search.year = yearRange;
-            $scope.search.price = priceRange;
-            $scope.search.title = searchTitle;
             $scope.startIndex = 0;
-
             $scope.updateMovieCountLimit();
-        });
+        }, true);
 
         $scope.updateMovieCountLimit = function() {
             if (isFinite($scope.serverMovieCountLimit))
-                $scope.filterMovieCountLimit = $filter('filter')($scope.movies, $scope.search).length;
+                $scope.filterMovieCountLimit = $filter('movieFilter')($scope.movies, $scope.search).length;
         };
 
         $scope.$watch('serverMovieCountLimit', $scope.updateMovieCountLimit);
 
         $scope.$watchCollection('filtered', $scope.fetchIfNeeded);
 
-        $scope.prevPage = function() {
+        $scope.canGoPrevPage = function() {
             var newIndex = $scope.startIndex - $scope.pageLength;
 
-            if (newIndex < 0)
-                newIndex = 0;
+            return newIndex >= 0;
+        };
 
-            $scope.startIndex = newIndex;
+        $scope.canGoNextPage = function () {
+            var newIndex = $scope.startIndex + $scope.pageLength;
+
+            return newIndex < $scope.filterMovieCountLimit;
+        };
+
+        $scope.prevPage = function() {
+            if ($scope.canGoPrevPage())
+                $scope.startIndex = $scope.startIndex - $scope.pageLength;
         };
 
         $scope.nextPage = function() {
-            var newIndex = $scope.startIndex + $scope.pageLength;
-
-            if (newIndex < $scope.filterMovieCountLimit)
-                $scope.startIndex = newIndex;
+            if ($scope.canGoNextPage())
+                $scope.startIndex = $scope.startIndex + $scope.pageLength;
         };
+
+        $scope.updatePaginationControls = function () {
+            $scope.prevDisabled = $scope.canGoPrevPage() ? "" : "disabled";
+            $scope.nextDisabled = $scope.canGoNextPage() ? "" : "disabled";
+        }
+
+        $scope.$watchGroup(['startIndex','pageLength','filterMovieCountLimit'], $scope.updatePaginationControls);
 
         $scope.addToCart = function(movie) {
             $http.post('/php/cart.php', {
@@ -362,14 +369,6 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
                 .error(function(data, status) {
                     alert('No se ha podido añadir al carrito.');
                 });
-        };
-
-        $scope.setHovering = function() {
-            $scope.movieHoverClass = "movie-hovering";
-        };
-
-        $scope.unsetHovering = function() {
-            $scope.movieHoverClass = "";
         };
     }
 ]);

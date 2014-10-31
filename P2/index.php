@@ -2,132 +2,36 @@
 
 <div class="body-container" ng-controller="movieListController">
 	<aside class="menu">
-		<ul>
-			<li class="filter">
-				<span class="filter-title">Título</span>
-				<p class="filter-items">
-					<input type="text" ng-model="searchTitle" />
-				</p>
-			<li class="filter">
-				<span class="filter-title">Género</span>
-				<ul class="filter-items">
-					<li ng-repeat="genre in genres">
-						<input 
-						type="radio" 
-						value="{{genre}}" 
-						class="filter-genre" 
-						ng-model="$parent.searchGenre" 
-						name="searchGenre">
-							{{genre}}
-						</input>
-					</li>
-					<li>
-						<input 
-						type="radio" 
-						value="" 
-						class="filter-genre" 
-						ng-model="searchGenre" 
-						name="searchGenre">
-							Todos
-						</input>
-					</li>
-				</ul>
-			</li>
-
-			<li class="filter">
-				<span class="filter-title">Año</span>
-				<ul class="filter-items">
-					<li ng-repeat="year in years">
-						<input 
-						type="radio" 
-						value="{{year.bounds}}" 
-						class="filter-genre" 
-						ng-model="$parent.yearRange" 
-						name="year">
-						{{year.name}}
-					</input>
-					</li>
-					<li>
-						<input ng-init="customYearRange = {}"
-						type="radio" 
-						value="custom"
-						class="filter-genre" 
-						ng-model="yearRange" 
-						name="yearRange">
-							Personalizado: 
-							<input type="number" ng-model="customYearRange.min" /> 
-							hasta 
-							<input type="number" ng-model="customYearRange.max" />.
-						</input>
-					</li>
-					<li>
-						<input 
-						type="radio" 
-						value='{"min":0,"max":5000}'
-						class="filter-genre" 
-						ng-model="yearRange" 
-						name="yearRange">
-						Todos
-						</input>
-					</li>
-				</ul>
-			</li>
-
-			<li class="filter">
-				<span class="filter-title">Precio</span>
-				<ul class="filter-items">
-					<li ng-repeat="price in prices">
-						<input 
-						type="radio" 
-						value="{{price.bounds}}" 
-						class="filter-genre" 
-						ng-model="$parent.priceRange" 
-						name="price">
-						{{price.name}}
-					</input>
-					</li>
-					<li>
-						<input ng-init="customPriceRange = {}"
-						type="radio" 
-						value="custom"
-						class="filter-genre" 
-						ng-model="priceRange" 
-						name="priceRange">
-						Personalizado: 
-						<input type="number" ng-model="customPriceRange.min" /> hasta <input type="number" ng-model="customPriceRange.max" />.
-						</input>
-					</li>
-					<li>
-						<input 
-						type="radio" 
-						value='{"min":0,"max":5000}'
-						class="filter-genre" 
-						ng-model="priceRange" 
-						name="priceRange">
-						Todos
-						</input>
-					</li>
-				</ul>
-			</li>
+		<ul class="menu-items"> 
+			<filter title="Título" value="search.title" name"titleFitler" fallback="emptyStrObject" allow-custom="string"></filter>			
+			<filter title="Género" filters="genres" value="search.genre" name="genreFilter" fallback="emptyStrObject" allow-custom="string"></filter> 
+			<filter title="Año" filters="years" value="search.year" name="yearFilter" fallback="defaultRange" allow-custom="range"></filter>
+			<filter title="Precio" filters="prices" value="search.price" name="priceFilter" fallback="defaultRange" allow-custom="range"></filter>	
 		</ul>
 	</aside>
 
 	<div class="scroller">
-		<p class="pagination-control"><a href="" ng-click="prevPage()">&lt;</a> <a href="" ng-click="nextPage()">&gt;</a> | {{startIndex}} - {{startIndex + filtered.length}} (
+		<div class="scroller-top">
+			<div class="pagination-control">
+				<a href="" class="page-control" ng-class="prevDisabled" ng-click="prevPage()">‹</a> 
+				<span>{{startIndex}} - {{startIndex + filtered.length}}</span>
+				<a href="" class="page-control" ng-class="nextDisabled" ng-click="nextPage()">›</a>
+			</div>
+			<div class="pagination-config">
 				<select ng-model="pageLength" ng-options="length for length in availableLengths">
-				</select> resultados por página)
-			</p>
+				  </select>	resultados por página
+			</div>
+		</div>
 		<div class="main-container" ng-class="movieHoverClass">
-			<div class="movies" ng-mouseenter="$parent.movieHoverClass = 'movie-hovering'" ng-mouseleave="$parent.movieHoverClass = 'voidclass'" 
-				ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
+			<div class="movie" ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
 				<div class="movie-cover">
-					<img ng-src="{{movie.image}}" class="movie_img">
-					<p class="movie_title">{{movie.title}}</p>
-					<div class="movie_action">
-						<p class="movie_price">{{movie.price}} €</p>
-						<p class="movie_buy">
+					<img ng-src="{{movie.image}}" class="movie-img">
+					<p class="movie-title">{{movie.title}}</p>
+					<div class="movie-action">
+						<p class="movie-price">{{movie.price}} €</p>
+						<p class="movie-buy">
 							<a ng-click="addToCart(movie)" href="">
-								<img src="/img/cart.svg" class="movie_cart" />
+								<img src="/img/cart.svg" class="movie-cart" />
 							</a>
 						</p>
 					</div>
