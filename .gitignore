@@ -1,3 +1,10 @@
 *.sublime-workspace
 *.pdf
 remote_htmlcopy
+*.toc
+*.aux
+*.log
+*.synctex.gz
+*.idx
+*.out
+

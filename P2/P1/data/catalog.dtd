@@ -1,0 +1,12 @@
+<!DOCTYPE catalog[
+
+<!ENTITY COMPANY "JD Power Tools, Inc.">
+
+<!ELEMENT catalog (movies+)>
+<!ELEMENT movie (img,score,genre+,title,description)>
+<!ELEMENT img (#PCDATA)>
+<!ELEMENT score (#PCDATA)>
+<!ELEMENT genre (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+]>

@@ -1,0 +1,201 @@
+\documentclass{apuntes}
+
+\title{Sistemas informáticos (P1,P2)}
+\author{Guillermo Julián, Víctor de Juan}
+\date{Octubre - 2014}
+
+\begin{document}
+
+\pagestyle{plain}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\chapter{Práctica 1}
+
+Los ficheros relevantes para esta práctica se encuentran en la carpeta \textit{P1}. Abriendo \textit{index.xml} se puede ver el diseño inicial de la página. En cuanto supimos que no había entrega, empezamos a trabajar en la Práctica 2, terminando lo que faltaba en los ficheros correspondientes de la práctica 2.
+
+\section{Funcionalidades propias}
+Lo interesante de esta práctica es el Xml, el xsl y la definición del dtd asociado. El resto de funcionalidades han sido utilizadas también en la Práctica 2 y se comentarán en el siguiente capítulo.
+
+
+\subsection{XML}
+
+\paragraph{Historial: }
+El historial con XML y mostrado con XSL no lo llegamos a implementar (porque la práctica 1 no se iba a entregar), asique en las películas es donde utilizamos el xml (posteriormente, en la práctica 2 si utilizamos XML para el historial).
+
+\paragraph{Películas: }
+El listado de películas se encuentra en \textit{index.xml}. No destaca especialmente por su completitud, pero ese problema lo solucionamos utilizando \textit{imdb} en la práctica 2. 
+
+\subsection{XSL} 
+
+\paragraph{Películas: }
+El \textit{XSL} que da estilo al \textit{index.xml} viene asociado al principio con:
+\begin{verbatim}
+<xml-stylesheet type="text/xsl" href="style/moviecatalog.xsl"?>}
+\end{verbatim}
+
+El XSL define cómo se muestran las peliculas en el HTML y el estilo de las clases se encuentra en \textit{main.css} (de la práctica 1). Todas las clases utilizadas por el XSL para películas son de la forma \textit{movie-...}
+
+
+\paragraph{Historial: }
+Al no haber implementado el historial, no llegamos a definir un XSL asociado al XML del historial.
+
+\subsection{DTD}
+
+El dtd que define el correcto formato del xml viene asociado al princpio con:
+
+\begin{verbatim}
+\textit{<!DOCTYPE note SYSTEM "data/catalog.dtd">}
+\end{verbatim}
+
+
+\chapter{Práctica 2}
+
+
+\section{Estructura}
+
+\subsection{Mapa de navgación}
+
+\subsection{Ficheros importantes}
+
+\subsubsection{XML}
+
+Se encuentran en formato XML el historial de cada usuario (en un archivo llamado \textit{users/email@usuario/history.xml} dentro de la carpeta de cada usuario) y las películas (en \textit{data/movies.xml})
+
+
+El historial de cada usuario se escribe y lee con PHP utilizando el objeto \textit{SimpleXML}, funcionalidad de la que hablaremos más adelante.
+
+
+
+\subsubsection{CSS}
+
+Todos los estilos de todas las clases se encuentran dentro de la carpeta \textit{style}.
+
+Lo más destacable del CSS la posición de la cabecera y del pie de página, que siempre aparecen, aunque hagamos más pequeña la pantalla del navegador. Estos estilos están definidos en el estilo de las etiquetas \textit{footer} y \textit{header} de HTML5.
+
+\subsubsection{PHP}
+
+Los ficheros PHP se encuentran divididos en 2 carpetas, \textit{api} y \textit{php}. 
+
+\label{CriterioPHP}
+REVISAR: En \textit{api} se encuentran ficheros php que definen .............., por el contrario, en \textit{php} encontramos los ficheros que implementan ...............
+
+\paragraph{Carrito}
+
+\paragraph{Películas}
+
+\paragraph{Historial}
+
+\paragraph{Salir}
+
+
+\section{Funcionalidades}
+
+\subsection{Registro - Login}
+
+\paragraph{Registro}
+
+El registro de un usuario nuevo tiene 2 partes, el formulario (se encuentra en \textit{register.php}) y el procesado del registro (se encuentra en REVISAR: \textit{php/login\_register.php}).
+
+Para acceder a un nuevo registro, abrimos el diálogo de login y nos vamos al enlace \textit{¿No tienes cuenta todavía?}. 
+
+La validación de los campos se realiza con las etiquetas de HTML5 o rellenando el campo \textit{pattern} que tienen todas las etiquetas, salvo la contraseña, que para medir la fortaleza utilizamos \textit{JavaScript}. Hablamos de esto más adelante (Angular: \ref{Angular}, Fortaleza de la contraseña: \ref{PasStrength})
+
+\paragraph{Login}
+
+Tiene 2 partes importantes:
+
+\begin{itemize}
+
+\item El lado del servidor (en el fichero REVISAR: \textit{php/login\_register.php}) que lee del fichero y comprueba las contraseñas utilizando md5.
+
+\item El lado del cliente, que utiliza JavaScript, en concreto la librería de Angular para mostrar o no el cuadro del login. Todo lo relativo a esta funcionalidad se encuentra en el controlador \textit{loginSubmitController}, en el fichero \textit{js/controller.js}. Utilizando las directivas \textit{ng-show}, \textit{ng-click} y \textit{ng-init} resulta sencillo mostrar el cuadro de login o no. 
+
+El cuadro de login se ha implementado con un \textit{div} en posición absoluta. Para más información del estilo, consultar las clases \textit{login-div} y \textit{login-form}.
+
+\end{itemize}
+
+
+\subsection{Búsqueda}
+El filtrado de películas se realiza combinando JavaScript y PHP. 
+
+\begin{itemize}
+\item El código PHP se encuentra dividido en 2 fichero: \textit{api/movies.php} y \textit{php/movies.php} (siguiendo el criterio comentado anteriormente (\ref{CriterioPHP}). Utilizamos JSON para la comunicación de datos entre cliente y servidor.
+
+\item El código JS se encuentra en \textit{js/controller.js} y el controlador de Angular que realiza esta funciones es \textit{movieListController}.
+
+Desde Angular se realizan peticiones http al servidor para obtener el listado de películsa (dinámicamente, en función de cuántas películas estemos mostrando en cada momento). 
+
+\end{itemize}
+
+
+
+\subsection{Historial}
+
+El historial tiene 2 funciones, añadir películas al historial o mostrar las películas compradas. 
+
+El php necesario también se encuentra dividido según en criterio ya mencionado (\ref{CriterioPHP}).
+
+\begin{itemize}
+\item \textbf{Añadir} pelíuclas al historial: desde JS (en concreto, desde el controlador \textit{headerController}) se realiza una petición POST al servidor con los datos de las películas formateados en JSON. El servidor recibe este POST y añade un nuevo pedido al historial, con los id's de las películas y las cantidades compradas. 
+
+\item \textbf{Mostrar} películas del historial: esta funcionalidad se encuentra en otro fichero, en \textit{history.php}, en el directorio raíz, ya que elegimos mostrar el historial en otra página aparte. Aquí, el controlador REVISAR realiza una petición GET, obteniendo un array de arrays estructurado de la siguiente manera:
+
+Objeto recibido => \{
+		0 => pedido1,
+		1 => pedido2,
+		...
+	\}
+	
+Donde pedido => \{
+	0 => movie,
+	1 => movie,
+	...
+\}
+
+A su vez, movie tiene los campos:
+
+movie => \{
+	'id' => int,
+	'quantity' => int,
+	'date' => fecha de la compra
+\}
+
+REVISAR: completar
+
+\end{itemize}
+
+\subsection{Otros}
+
+\subsubsection{Fortaleza de la contraseña}
+\label{PasStrength}
+
+La comprobación se realiza en JS, en concreto, en el controlador \textit{registerController}, que define una variable utilizada con la directiva \textit{ng-show} para mostrar la información de la fortaleza de la contraseña conforme la vayamos rellenando. El único requisito para contraseña inválida es una longitud menor de 5 caracteres.
+
+REVISAR: completar el código.
+
+\subsubsection{Carrito}
+
+REVISAR: completar
+
+\section{Fuentes externas}
+
+\subsection{Angular}
+\label{Angular}
+
+Angular es una librería de JS nueva, que permite separar la vista, del modelo, del controlador, permitiendo escribir en HTML variables de JS ( {{variable }}), que cuando cambia de valor, se actualiza el HTML con el nuevo valor. Siguiendo con esta lógica y utilizando las directivas ng-show por ejemplo, se consigue una página dinámica en la que el JS \textbf{solamente} actualiza variables, no modifica campos del html. Esta librería hace posible no utilizar \textit{document.getElementBy...}, lo cual facilita mucho la tarea.
+
+Además, permite definir tus propias directivas para después poder ser reutilizadas, lo que permite un código HTML muy sencillo.
+
+\subsection{imdb}
+
+REVISAR: El XML de las películas lo generamos con un script en python (\textit{imdb\_downloader.py}) utilizando la API \textit{imdb}. 
+
+
+\subsection{Referencias}
+
+REVISAR: copy-paste al entregar.
+
+\end{document}
