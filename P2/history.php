@@ -3,10 +3,10 @@
 
 <div class="body-container" ng-controller="historyController">
 	<aside class="menu">
-		
 	</aside>
 
 	<div class="scroller">
+		<h3>Pedidos</h3>
 		<div class="main-container">
 			<?php
 				require_once 'php/history.php';

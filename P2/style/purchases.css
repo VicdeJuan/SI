@@ -5,10 +5,6 @@
 	width: 400px;	
 }
 
-.purchase:first-child {
-	margin-top: 50px;
-}
-
 .purchase-count {
 	float: left;
 	font-weight: lighter;
