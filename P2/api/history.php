@@ -23,14 +23,13 @@
 
 	function post()
 	{
-
-
 		$json = file_get_contents('php://input');
 
-		$movies_ids = json_decode($json,true);
+		$cart = json_decode($json, true);
 
 		$clean_email = "../users/".$_SESSION['email']."/";
-		if (addHistory($clean_email,$movies_ids) == null)
+
+		if (addHistory($clean_email, $cart) == null)
 			http_response_code(404);
 
 		http_response_code(200);

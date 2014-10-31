@@ -9,8 +9,8 @@
 		if (!file_exists($filename))
 			return array();
 
-		$purchases = simplexml_load_file($filename)->xpath('pedido');	
 		$movies = getAllMovies();
+		$purchases = simplexml_load_file($filename)->xpath('pedido');	
 		$purchasesArray = array();
 
 		foreach ($purchases as $purchase) 
@@ -19,7 +19,8 @@
 
 			foreach ($purchase->movie as $purchaseItem) 
 			{
-				$movieReference = findMovie($movies, $purchaseItem->id);
+				$movieId = (string) $purchaseItem->id;
+				$movieReference = findMovie($movies, $movieId);
 				$movieImage = "";
 				$movieTitle = "unknown";
 
@@ -30,7 +31,7 @@
 				}
 
 				$movie = array(
-					"id" => (int) $purchaseItem,
+					"id" => $movieId,
 					"price" => (int) $purchaseItem->price,
 					"quantity" => (int) $purchaseItem->quantity,
 					"image" => $movieImage,
@@ -62,20 +63,22 @@
 	   return -1;
 	}
 
-	function addHistory($dir,$movies_id){
-
-			
+	function addHistory($dir,$cartItems)
+	{
 			$current = simplexml_load_file($dir."history.xml");	
 			$currArr = (array) $current;
 			
-			$childAux = $current->addChild('pedido');
-			foreach ($movies_id as $pair) {
-				$child = $childAux->addChild('movie');
-				$child->addChild('id',$pair['id']);
-				$child->addChild('quantity',$pair['quantity']);
-				$child->addChild('price', $pair['price']);	
+			$purchase = $current->addChild('pedido');
+			
+			foreach ($cartItems as $movie) 
+			{
+				$xmlMovie = $purchase->addChild('movie');
+				$xmlMovie->addChild('id',$movie['id']);
+				$xmlMovie->addChild('quantity',$movie['quantity']);
+				$xmlMovie->addChild('price', $movie['price']);	
 			}
-			$childAux->addChild('date',date(DATE_ATOM));			
+
+			$purchase->addChild('date',date(DATE_ATOM));			
 
 
 			$current->asXML($dir."/history.xml");
