@@ -265,7 +265,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
         $scope.canGoNextPage = function () {
             var newIndex = $scope.startIndex + $scope.pageLength;
-            
+
             return newIndex < $scope.filterMovieCountLimit;
         };
 
@@ -296,14 +296,6 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
                 .error(function(data, status) {
                     alert('No se ha podido añadir al carrito.');
                 });
-        };
-
-        $scope.setHovering = function() {
-            $scope.movieHoverClass = "movie-hovering";
-        };
-
-        $scope.unsetHovering = function() {
-            $scope.movieHoverClass = "";
         };
     }
 ]);
