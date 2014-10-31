@@ -23,16 +23,15 @@
 			</div>
 		</div>
 		<div class="main-container" ng-class="movieHoverClass">
-			<div class="movies" ng-mouseenter="$parent.movieHoverClass = 'movie-hovering'" ng-mouseleave="$parent.movieHoverClass = 'voidclass'" 
-				ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
+			<div class="movie" ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
 				<div class="movie-cover">
-					<img ng-src="{{movie.image}}" class="movie_img">
-					<p class="movie_title">{{movie.title}}</p>
-					<div class="movie_action">
-						<p class="movie_price">{{movie.price}} €</p>
-						<p class="movie_buy">
+					<img ng-src="{{movie.image}}" class="movie-img">
+					<p class="movie-title">{{movie.title}}</p>
+					<div class="movie-action">
+						<p class="movie-price">{{movie.price}} €</p>
+						<p class="movie-buy">
 							<a ng-click="addToCart(movie)" href="">
-								<img src="/img/cart.svg" class="movie_cart" />
+								<img src="/img/cart.svg" class="movie-cart" />
 							</a>
 						</p>
 					</div>
