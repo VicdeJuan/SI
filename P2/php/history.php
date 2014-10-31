@@ -80,7 +80,7 @@
 			fclose($file);
 			return 404;
 		}else{
-			fwrite($file,"<?xml version=".'"'."1.0".'"'." encoding=".'"'."UTF-8".'"'."?>\n<!DOCTYPE note SYSTEM ".'"'."/data/history.dtd".'"'.">\n<catalog>\n</catalog>\n");
+			fwrite($file,"<?xml version=".'"'."1.0".'"'." encoding=".'"'."UTF-8".'"'."?>\n<!DOCTYPE catalog SYSTEM ".'"'."/data/history.dtd".'"'.">\n<catalog>\n</catalog>\n");
 			fclose($file);
 			return 200;
 		}
