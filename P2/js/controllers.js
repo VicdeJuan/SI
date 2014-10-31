@@ -201,12 +201,12 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         $scope.serverMovieCountLimit = Infinity;
         $scope.filterMovieCountLimit = Infinity;
         $scope.genres = [];
+        $scope.search = {};
+        $scope.defaultRange = { min: -Infinity, max: Infinity };
 
         var range = function(rangeName, minValue, maxValue) {
             return { name: rangeName, value: { min: minValue, max: maxValue }}
         };
-
-        $scope.defaultRange = { min: -Infinity, max: Infinity };
 
         $scope.years = [
             range('< 1940', 0, 1940),
@@ -234,15 +234,14 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
                 });
             });
 
-        $scope.search = {
-            genre: $scope.searchGenre
-        };
+        $scope.genreUpdated = function (value) {
+            $scope.search.genre = value || "";
+        }; // Por alguna razón no funciona el binding aquí, hay que hacerlo un poco a pelo.
 
-        $scope.$watchGroup(['genreValue', 'yearValue', 'priceValue', 'searchTitle'], function(params) {
-            $scope.search.genre = params[0];
-            $scope.search.year = params[1];
-            $scope.search.price = params[2];
-            $scope.search.title = params[3];
+        $scope.$watchGroup(['yearValue', 'priceValue', 'searchTitle'], function(params) {
+            $scope.search.year = params[0];
+            $scope.search.price = params[1];
+            $scope.search.title = params[2];
             $scope.startIndex = 0;
 
             $scope.updateMovieCountLimit();
