@@ -1,12 +1,11 @@
-<!DOCTYPE catalog[
-
-<!ENTITY COMPANY "Ola k ase, Inc.">
-
-<!ELEMENT catalog (movies+)>
-<!ELEMENT movie (img,score,genre+,title,description)>
-<!ELEMENT img (#PCDATA)>
-<!ELEMENT score (#PCDATA)>
-<!ELEMENT genre (#PCDATA)>
-<!ELEMENT title (#PCDATA)>
-<!ELEMENT description (#PCDATA)>
-]>
+        <!ELEMENT catalog (movie)*>
+        <!ELEMENT movie (id|image|score|genre|title|year|description|price)*>
+        <!ELEMENT id (#PCDATA)>
+        <!ELEMENT image (#PCDATA)>
+        <!ELEMENT score (#PCDATA)>
+        <!ELEMENT genre (#PCDATA)>
+        <!ELEMENT title (#PCDATA)>
+        <!ELEMENT year (#PCDATA)>
+        <!ELEMENT description (#PCDATA)>
+        <!ELEMENT price (#PCDATA)>
+        
