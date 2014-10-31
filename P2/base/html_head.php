@@ -9,4 +9,6 @@
 	</script>
 	<script src="js/controllers.js" type="text/javascript">
 	</script>
+	<script src="js/filterDirective.js" type="text/javascript">
+	</script>
 </head>
