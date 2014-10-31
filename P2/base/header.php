@@ -18,7 +18,7 @@
 <body>
 <header ng-controller="headerController" ng-init="showCart = false">
 	<div class="header-logo">
-		<p>Olakase</p>
+		<p><a href="/">Olakase</a></p>
 	</div>
 
 	<div class="header-options">
