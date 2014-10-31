@@ -427,6 +427,8 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 	};
 }]);
 
+mainApp.controller('historyController', function($scope) { });
+
 mainApp.controller('footerController', ['$scope', '$http', function($scope, $http) {
     $scope.date = "...";
     $scope.activeUsers = "...";
