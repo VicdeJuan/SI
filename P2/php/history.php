@@ -15,7 +15,7 @@
 
 		foreach ($purchases as $purchase) 
 		{
-			$purchaseValue = array();
+			$purchaseMovies = array();
 
 			foreach ($purchase->movie as $purchaseItem) 
 			{
@@ -34,13 +34,16 @@
 					"price" => (int) $purchaseItem->price,
 					"quantity" => (int) $purchaseItem->quantity,
 					"image" => $movieImage,
-					"title" => $movieTitle
+					"title" => $movieTitle,
 				);
 
-				array_push($purchaseValue, $movie);
+				array_push($purchaseMovies, $movie);
 			}
 
-			array_push($purchasesArray, $purchaseValue);
+			array_push($purchasesArray, array(
+				"movies" => $purchaseMovies,
+				"date" => (string) $purchase->date
+			));
 		}
 
 		return $purchasesArray;
@@ -71,8 +74,8 @@
 				$child->addChild('id',$pair['id']);
 				$child->addChild('quantity',$pair['quantity']);
 				$child->addChild('price', $pair['price']);	
-				$child->addChild('date',date(DATE_ATOM));			
 			}
+			$childAux->addChild('date',date(DATE_ATOM));			
 
 
 			$current->asXML($dir."/history.xml");
