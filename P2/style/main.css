@@ -1,8 +1,11 @@
 /** * Paleta de colores
-* C60
-* FFFBD0
+* Fondo destacado: C60
+* Fondo: FFFBD0
 * F90
-* C13100 */
+* Acento: C13100 
+*/
+
+@import url('/style/purchases.css');
 
 @import url('/style/filter.css');
 @import url('/style/movies.css');

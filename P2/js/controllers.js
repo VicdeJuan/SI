@@ -126,6 +126,11 @@ var cart = {
                     cart.items.push(data[i]);
                 }
             });
+    },
+    removeAll: function($http) {
+        $http.delete('/php/cart.php?all').success(function(){
+            cart.items.length = 0;
+        });
     }
 };
 
@@ -143,15 +148,31 @@ mainApp.controller('headerController', ['$scope', '$http',
 
         cart.fetch($http);
 
+        $scope.moviesIds = [];
+
         $scope.removeFromCart = function(item) {
             $http.delete('/php/cart.php?itemId=' + item['id'])
                 .success(function(data, status) {
                     cart.remove(item);
+                    $scope.showCart = false;
                 })
                 .error(function(data, status) {
                     alert('No se ha podido eliminar del carrito.');
                 });
         };
+
+ 
+        $scope.processPurchase = function(){
+            $http.post('/api/history.php',$scope.cartItems)
+                .success(function(data,status){
+                    window.alert("Compra realizada con éxito");
+                    cart.removeAll($http);
+
+                })
+                .error(function(data,status){
+                    window.alert("Compra no realizada");
+                });
+        }
     }
 ]);
 
@@ -375,7 +396,22 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
 mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', function($scope,$http) {
 	$scope.showLogin = false;
-	$scope.errLogin = false;
+    $scope.errLogin = false;
+	$scope.logged = false;
+    
+    $scope.loginTitleControl = function(logged){
+        
+        if (!$scope.logged) {
+            $scope.loginLink = "";
+            $scope.showLogin = true;
+        };
+
+        if($scope.logged || logged){
+            $scope.loginLink = "history.php";
+            $scope.showLogin = false;
+        }
+
+    }
 
 	$scope.loginSubmit = function(user){
 		$http({
@@ -387,16 +423,22 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 			$scope.data = data;
 			$scope.showLogin = false;
 			$scope.errLogin = false;
-			$scope.loginTitle = data['name'];
+            $scope.loginTitle = data['name'];
+			$scope.logged = true;
+            $scope.loginLink = "history.php";
+
 		}).error(function(data,status){
 			$scope.status = status;
 			$scope.data = data || "Request failed";
 			$scope.errLogin = true;
 			$scope.showLogin = true;
+            $scope.loginLink = "";
 
 		});
 	};
 }]);
+
+mainApp.controller('historyController', function($scope) { });
 
 mainApp.controller('footerController', ['$scope', '$http', function($scope, $http) {
     $scope.date = "...";

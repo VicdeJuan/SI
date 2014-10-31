@@ -1,6 +1,8 @@
  <?php
 /*  If we come from a registration  */
 
+require_once 'history.php';
+
 if (isset($_POST['email'])) {
   $input = $_POST;
 }else{
@@ -38,13 +40,21 @@ if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist
   $_SESSION['name'] = $name;
   $_SESSION['email'] = $email;
 
+  if(createHistory($dir) == 404)
+    header("Location /dfmkals.html");
+
   header("Location: /index.php");
 }else{      /* Now, if we come from a login */
   $myfile = fopen($filename, "r");
   if ($myfile){
     $name = fgets($myfile);
+    $name = trim(preg_replace('/\s+/', ' ', $name));
+
     $email = fgets($myfile);
+    $email = trim(preg_replace('/\s+/', ' ', $email));
+    
     $password = strstr(fgets($myfile),"\n",true);
+    $password = trim(preg_replace('/\s+/', ' ', $password));
 
     if (0 == strcmp($password,md5($input['password']))){
       $_SESSION['name'] = $name;

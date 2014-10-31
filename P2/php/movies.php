@@ -1,8 +1,21 @@
 <?php
 
+function findMovie($movieList, $id)
+{
+	foreach ($movieList as $movie) 
+	{
+		if ($movie['id'] === $id)
+			return $movie;
+	}
+
+	return null;
+}
+
 function getAllMovies()
 {
-	$movies = simplexml_load_file("../data/movies.xml");
+	$path = $_SERVER['DOCUMENT_ROOT'];
+	$path .= "/data/movies.xml";
+	$movies = simplexml_load_file($path);
 
 	return json_decode(json_encode($movies), true)['movie'];
 }

@@ -5,13 +5,13 @@
 
 	if($_SESSION['name'] == "" )
 	{
-		$link = "";
 		$text = "Login";
+		$boolean_logged = false;
 	}
 	else
 	{
+		$boolean_logged = true;
 		$text = $_SESSION['name'];
-		$link = "/pages/error.html";
 	} 
 ?>
 
@@ -23,9 +23,9 @@
 
 	<div class="header-options">
 		<ul>
-			<span ng-controller="loginSubmitController" ng-init="showLogin = false;loginTitle ='<?php echo $text; ?>'" >
+			<span ng-controller="loginSubmitController" ng-init="showLogin = false ;loginTitle ='<?php echo $text; ?>'" >
 				<li>
-					<a ng-click="showLogin = !showLogin;" href="<?php echo $link; ?>">
+					<a ng-click="loginTitleControl(<?php echo $boolean_logged?>);" ng-href="{{ loginLink }}">
 						{{ loginTitle }}
 					</a>
 				</li>
@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div class="cartBuy">
-			<div class="button">¡Comprar!</div>
+			<div class="button" ng-click="processPurchase()">¡Comprar!</div>
 		</div>
 	</div>
 </header>
