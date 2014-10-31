@@ -208,13 +208,14 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         $scope.serverMovieCountLimit = Infinity;
         $scope.filterMovieCountLimit = Infinity;
         $scope.genres = [];
+        $scope.emptyStrObject = { str: "" };
+        $scope.search = {};
 
         var range = function(rangeName, minValue, maxValue) {
             return { name: rangeName, value: { min: minValue, max: maxValue }}
         };
 
         $scope.defaultRange = { min: -Infinity, max: Infinity };
-
         $scope.years = [
             range('< 1940', 0, 1940),
             range('40s-60s', 1940, 1969),
@@ -241,7 +242,6 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
                 });
             });
 
-        $scope.search = {};
 
         $scope.$watch('search', function() {
             console.log(s($scope.search));
