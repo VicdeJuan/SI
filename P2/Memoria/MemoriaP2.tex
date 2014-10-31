@@ -14,10 +14,10 @@
 
 \chapter{Práctica 1}
 
-Los ficheros relevantes para esta práctica se encuentran en la carpeta \textit{P1}. Abriendo \textit{index.xml} se puede ver el diseño inicial de la página. En cuanto supimos que no había entrega, empezamos a trabajar en la Práctica 2, terminando lo que faltaba en los ficheros correspondientes de la práctica 2.
+Los ficheros relevantes para esta práctica se encuentran en la carpeta \textit{P1}. Abriendo en el navegador \textit{index.xml} se puede ver el diseño inicial de la página. En cuanto supimos que no había entrega, empezamos a trabajar en la práctica 2, terminando lo que faltaba en los ficheros correspondientes de la práctica 2.
 
 \section{Funcionalidades propias}
-Lo interesante de esta práctica es el Xml, el xsl y la definición del dtd asociado. El resto de funcionalidades han sido utilizadas también en la Práctica 2 y se comentarán en el siguiente capítulo.
+Lo interesante de esta práctica es el XML, el XSL y la definición del DTD asociado. El resto de funcionalidades han sido utilizadas también en la Práctica 2 y se comentarán en el siguiente capítulo.
 
 
 \subsection{XML}
@@ -33,7 +33,7 @@ El listado de películas se encuentra en \textit{index.xml}. No destaca especial
 \paragraph{Películas: }
 El \textit{XSL} que da estilo al \textit{index.xml} viene asociado al principio con:
 \begin{verbatim}
-<xml-stylesheet type="text/xsl" href="style/moviecatalog.xsl"?>}
+<xml-stylesheet type="text/xsl" href="style/moviecatalog.xsl"?>
 \end{verbatim}
 
 El XSL define cómo se muestran las peliculas en el HTML y el estilo de las clases se encuentra en \textit{main.css} (de la práctica 1). Todas las clases utilizadas por el XSL para películas son de la forma \textit{movie-...}
@@ -44,10 +44,10 @@ Al no haber implementado el historial, no llegamos a definir un XSL asociado al 
 
 \subsection{DTD}
 
-El dtd que define el correcto formato del xml viene asociado al princpio con:
+El DTD que define el correcto formato del XML viene asociado al princpio con:
 
 \begin{verbatim}
-\textit{<!DOCTYPE note SYSTEM "data/catalog.dtd">}
+<!DOCTYPE catalog SYSTEM "data/catalog.dtd">
 \end{verbatim}
 
 
@@ -58,11 +58,21 @@ El dtd que define el correcto formato del xml viene asociado al princpio con:
 
 \subsection{Mapa de navgación}
 
+Debido a la simplicidad de navegación de nuestra Web (solo tenemos 3 páginas( \textit{index.php}, \textit{register.php} y \textit{history.php}) hemos prescindido de incluir un esquema.
+
+A la página de history se accede clickando en tu nombre después de haber hecho login. A la de register se accede clickando en el botón de login y después en el enlace \textit{¿No tienes cuenta todavía?} que aparece en el diálogo de login. 
+
+\textbf{\textit{register.php}}: Crear una cuenta nueva.
+
+\textbf{\textit{history.php}}: Muestra el historial de compras del usuario loggeado.
+
+\textbf{\textit{index.php}}: Todo lo demás.
+
 \subsection{Ficheros importantes}
 
 \subsubsection{XML}
 
-Se encuentran en formato XML el historial de cada usuario (en un archivo llamado \textit{users/email@usuario/history.xml} dentro de la carpeta de cada usuario) y las películas (en \textit{data/movies.xml})
+Se encuentran en formato XML el historial de cada usuario (en un archivo llamado \textit{history.xml} dentro de la carpeta de cada usuario) y las películas (en \textit{data/movies.xml})
 
 
 El historial de cada usuario se escribe y lee con PHP utilizando el objeto \textit{SimpleXML}, funcionalidad de la que hablaremos más adelante.
@@ -84,11 +94,37 @@ REVISAR: En \textit{api} se encuentran ficheros php que definen .............., 
 
 \paragraph{Carrito}
 
+Distinguimos 2 ámbitos: el lado del servidor y el del cliente. \label{Carrito}
+
+\subparagraph{Servidor}
+
+
+Definimos un array en la variable de sesión para no perder la información al recargar la página. La información no persiste entre sesiones, ya que no almacenamos la información en ningún fichero, simplemente en la información de sesión.
+
+Está implementado con peticiones http (GET, POST y DELETE según sea la acción realizada por le usuario). La comunicación se realiza formateada utilizando JSON.
+
+\subparagraph{Cliente}
+
+No existe un único controlador de Angular encargado de la gestión del carrito, ya que tiene que ser accesible desde varios controladores, por lo que definimos una variable \textit{cart} con unos métodos asociados (\textit{find, add, get, ...}) de tal manera que el resto de controladores pueden actualizar el carrito.
+
 \paragraph{Películas}
 
-\paragraph{Historial}
+Como en el resto de módulos, vamos a comentar primero el lado del servidor y después el del cliente.
+
+
+\subparagraph{Servidor}
+En el servidor encontramos 2 ficheros php (\textit{php/movies.php} y \textit{api/movies.php}).
+
+
+\subparagraph{Cliente}
+El controlador de Angular encargado de mostrar las películas es \textit{movieListController}, que se encarga de mostrarlas, de añadir al carrito las compras y de los filtros, que mencionaremos más adelante, ya que hemos creado una directiva en Angular para realizarlo.
+
+
+\paragraph{Historial} Los archivos php utilizados en el historial se describen más adelante, en la sección de funcionalidades.
 
 \paragraph{Salir}
+
+Simplemente vacíamos el array \textit{\$\_SESSION} y destruimos la información de sesión, redirigiendo a \textit{index.php}
 
 
 \section{Funcionalidades}
@@ -127,6 +163,8 @@ El filtrado de películas se realiza combinando JavaScript y PHP.
 \item El código JS se encuentra en \textit{js/controller.js} y el controlador de Angular que realiza esta funciones es \textit{movieListController}.
 
 Desde Angular se realizan peticiones http al servidor para obtener el listado de películsa (dinámicamente, en función de cuántas películas estemos mostrando en cada momento). 
+
+REVISAR::: COMPLETAR
 
 \end{itemize}
 
@@ -174,11 +212,13 @@ REVISAR: completar
 
 La comprobación se realiza en JS, en concreto, en el controlador \textit{registerController}, que define una variable utilizada con la directiva \textit{ng-show} para mostrar la información de la fortaleza de la contraseña conforme la vayamos rellenando. El único requisito para contraseña inválida es una longitud menor de 5 caracteres.
 
-REVISAR: completar el código.
-
 \subsubsection{Carrito}
 
-REVISAR: completar
+Ya ha sido comentado en la sección de los ficheros de PHP  (\ref{Carrito}).
+
+\subsubsection{Usuarios online}
+
+Esta funcionalidad se encuentra en el pie de la página. El controlador de Angular \textit{footerController} realiza una petición al servidor (un GET a \textit{api/webinfo.php}) y actualiza las variables que son mostradas en el html.
 
 \section{Fuentes externas}
 
@@ -188,6 +228,9 @@ REVISAR: completar
 Angular es una librería de JS nueva, que permite separar la vista, del modelo, del controlador, permitiendo escribir en HTML variables de JS ( {{variable }}), que cuando cambia de valor, se actualiza el HTML con el nuevo valor. Siguiendo con esta lógica y utilizando las directivas ng-show por ejemplo, se consigue una página dinámica en la que el JS \textbf{solamente} actualiza variables, no modifica campos del html. Esta librería hace posible no utilizar \textit{document.getElementBy...}, lo cual facilita mucho la tarea.
 
 Además, permite definir tus propias directivas para después poder ser reutilizadas, lo que permite un código HTML muy sencillo.
+
+
+Al utilizar Angular, hemos podido prescindir de AJAX (aunque por supuesto hemos implementado funcionalidades asíncronas ) y de jQuery.
 
 \subsection{imdb}
 
