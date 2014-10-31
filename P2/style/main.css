@@ -27,14 +27,16 @@ header {
 }
 aside {
 	padding-left: 15px;
-	padding-top: 40px;
+	position: absolute;
+	top: 40px;
+	bottom: 0;
 	float: left;
-	position: relative;
+	left: 0;
 	display: inline-block;
 	vertical-align: top;
 	z-index: 1;
-	width: 150px;
-	margin: 0;
+	overflow: scroll;
+	width: 170px;
 }
 footer {
 	height: 40px;
@@ -227,6 +229,7 @@ h3, h2 {
 .menu-items {
 	margin: 0;
 	padding: 0;
+	height: 100%;
 }
 
 .menu a {
