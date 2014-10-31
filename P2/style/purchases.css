@@ -1,0 +1,67 @@
+.purchase {
+	margin-top: 12px;
+	border-bottom: 1px solid #C60;
+	padding-bottom: 12px;
+	width: 400px;	
+}
+
+.purchase:first-child {
+	margin-top: 50px;
+}
+
+.purchase-count {
+	float: left;
+	font-weight: lighter;
+}
+
+.purchase-price {
+	float: right;
+}
+
+.purchase-info {
+	height: 25px;
+}
+
+.purchase-items {
+	width: 100%;
+	margin-left: 25px;
+	border-left: 1px solid #F90;
+	padding-left: 10px; 
+}
+
+.purchase-item {
+	height: 76px;
+	font-weight: lighter;
+	width: 365px;
+}
+
+.purchase-img {
+	float: left;
+	height: 60px;
+	margin: 8px 8px 8px 0;
+}
+
+.purchase-title {
+	float: left;
+	line-height: 60px;
+	margin: 8px 0;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.purchase-item-price {
+	float: right;
+	line-height: 60px;
+	font-size: 10pt;
+	margin: 8px 20px 8px 0;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: right;
+}
+
+.purchase-date {
+	font-size: 9pt;
+	margin-top: 8px;
+	font-style: italic;
+	margin-left: 20px;
+}
