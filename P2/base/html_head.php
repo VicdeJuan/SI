@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:ng="http://angularjs.org" data-ng-app="mainApp">
 <head>
-<meta charset="UTF-8">
 <title>Title of the document</title>
 
 <link rel="stylesheet" type="text/css" href="style/main.css" />
