@@ -157,7 +157,6 @@ mainApp.controller('headerController', ['$scope', '$http',
             $http.delete(serverRoot + 'php/cart.php?itemId=' + item['id'])
                 .success(function(data, status) {
                     cart.remove(item);
-                    $scope.showCart = false;
                 })
                 .error(function(data, status) {
                     alert('No se ha podido eliminar del carrito.');
