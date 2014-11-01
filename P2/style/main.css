@@ -268,21 +268,25 @@ h3, h2 {
 }
 .cartItem {
 	margin: 8px;
-	height: 40px;
+	width: 100%;
+	position: relative;
 }
 .cartItemImage {
-	width: 40px;
-	height: 40px;
+	height: 50px;
 	float: left;
 	margin-right: 8px;
 }
 .cartItemTitle {
-	line-height: 40px;
+	display: table-cell;
+	vertical-align: middle;
+	font-weight: lighter;
+	font-size: 11pt;
+	width: 170px;
 }
 .cartItemPrice {
-	position: relative;
+	height: 50px;
 	float: right;
-	height: 100%;
+	margin-right: 16px;
 	display: table-cell;
 	vertical-align: middle;
 	color: gray;
