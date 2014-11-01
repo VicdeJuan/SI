@@ -26,7 +26,7 @@
 
 	<div class="header-options">
 		<ul>	
-			<span>
+			<div>
 				<li>
 					<a data-ng-click="loginTitleControl(<?php echo $logged; ?>);" data-ng-href="{{ loginLink }}">
 						{{ loginTitle }}
@@ -44,7 +44,7 @@
 							</p>			
 				 		</form>
 				 	</div>
-			</span>
+			</div>
 
 			<li>
 				<a href="" data-ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>
