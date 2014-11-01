@@ -23,7 +23,7 @@ Lo interesante de esta práctica es el XML, el XSL y la definición del DTD asoc
 \subsection{XML}
 
 \paragraph{Historial: }
-El historial con XML y mostrado con XSL no lo llegamos a implementar (porque la práctica 1 no se iba a entregar), asique en las películas es donde utilizamos el xml (posteriormente, en la práctica 2 si utilizamos XML para el historial).
+El historial con XML y mostrado con XSL no lo llegamos a implementar (porque la práctica 1 no se iba a entregar), así que en las películas es donde utilizamos el xml (posteriormente, en la práctica 2 sí utilizamos XML para el historial).
 
 \paragraph{Películas: }
 El listado de películas se encuentra en \textit{index.xml}. No destaca especialmente por su completitud, pero ese problema lo solucionamos utilizando \textit{imdb} en la práctica 2. 
@@ -58,15 +58,16 @@ El DTD que define el correcto formato del XML viene asociado al princpio con:
 
 \subsection{Mapa de navgación}
 
-Debido a la simplicidad de navegación de nuestra Web (solo tenemos 3 páginas( \textit{index.php}, \textit{register.php} y \textit{history.php}) hemos prescindido de incluir un esquema.
+Debido a la simplicidad de navegación de nuestra Web hemos prescindido de incluir un esquema. Sólo tenemos 3 páginas: \begin{itemize}
+\item \textbf{\textit{register.php}}: Crear una cuenta nueva.
+\item \textbf{\textit{history.php}}: Muestra el historial de compras del usuario loggeado.
+\item \textbf{\textit{index.php}}: Vista de películas y búsqueda.
+\end{itemize}
 
-A la página de history se accede clickando en tu nombre después de haber hecho login. A la de register se accede clickando en el botón de login y después en el enlace \textit{¿No tienes cuenta todavía?} que aparece en el diálogo de login. 
+A la página del historial se accede haciendo clic en el nombre después de haber entrado con la cuenta de usuario correspondiente. 
 
-\textbf{\textit{register.php}}: Crear una cuenta nueva.
+A la página de registro se accede pulsando el botón de \textit{login} y después en el enlace \textit{¿No tienes cuenta todavía?} que aparece en el diálogo. 
 
-\textbf{\textit{history.php}}: Muestra el historial de compras del usuario loggeado.
-
-\textbf{\textit{index.php}}: Todo lo demás.
 
 \subsection{Ficheros importantes}
 
@@ -87,10 +88,11 @@ Lo más destacable del CSS la posición de la cabecera y del pie de página, que
 
 \subsubsection{PHP}
 
-Los ficheros PHP se encuentran divididos en 2 carpetas, \textit{api} y \textit{php}. 
+Los ficheros PHP se encuentran divididos en 2 carpetas, \textit{php} y \textit{api}. En la primera están las funciones \textit{de librería}, por así decirlo, las que actúan de interfaz frente a las estructuras de datos definidas.
+
+En la carpeta \textit{api} se encuentras las interfaces REST implementadas con PHP y que exponen a clientes (de momento, sólo el cliente JavaScript de la propia página web) usando las ``funciones librería'' de la carpeta \textit{php}.
 
 \label{CriterioPHP}
-REVISAR: En \textit{api} se encuentran ficheros php que definen .............., por el contrario, en \textit{php} encontramos los ficheros que implementan ...............
 
 \paragraph{Carrito}
 
@@ -111,10 +113,8 @@ No existe un único controlador de Angular encargado de la gestión del carrito,
 
 Como en el resto de módulos, vamos a comentar primero el lado del servidor y después el del cliente.
 
-
 \subparagraph{Servidor}
-En el servidor encontramos 2 ficheros php (\textit{php/movies.php} y \textit{api/movies.php}).
-
+En el servidor encontramos 2 ficheros php (\textit{php/movies.php} y \textit{api/movies.php}), el primero expone tres funciones para gestionar la lista de películas (buscar una película determinada, buscar todas la películas y obtener las películas en un cierto rango), mientras que el segundo se encarga de responder a las peticiones HTTP sobre las películas.
 
 \subparagraph{Cliente}
 El controlador de Angular encargado de mostrar las películas es \textit{movieListController}, que se encarga de mostrarlas, de añadir al carrito las compras y de los filtros, que mencionaremos más adelante, ya que hemos creado una directiva en Angular para realizarlo.
@@ -124,7 +124,7 @@ El controlador de Angular encargado de mostrar las películas es \textit{movieLi
 
 \paragraph{Salir}
 
-Simplemente vacíamos el array \textit{\$\_SESSION} y destruimos la información de sesión, redirigiendo a \textit{index.php}
+Simplemente eliminamos las variables de identifación de \textit{\$\_SESSION} y redirigimos a \textit{index.php}. Mantenemos, sin embargo, el carrito de compra.
 
 
 \section{Funcionalidades}
@@ -162,10 +162,15 @@ El filtrado de películas se realiza combinando JavaScript y PHP.
 
 \item El código JS se encuentra en \textit{js/controller.js} y el controlador de Angular que realiza esta funciones es \textit{movieListController}.
 
-Desde Angular se realizan peticiones http al servidor para obtener el listado de películsa (dinámicamente, en función de cuántas películas estemos mostrando en cada momento). 
+Desde Angular se realizan peticiones http al servidor para obtener las películas por páginas y no cargar datos innecesarios.
 
-REVISAR::: COMPLETAR
+El filtrado se hace en cliente con JavaScript. Para ello hemos usado una directiva personalizada para implementar la interfaz de los filtros, y un filtro de Angular para hacer la búsqueda en sí.
 
+La directiva es \textit{filter} y está definida en \textit{js/filterDirective.js}. Se trata de código reutilizable que genera automáticamente el HTML para manejar filtros en base a ciertos parámetros dados (la plantilla HTML se encuentra en \textit{base/filter.html}).
+
+Cada elemento de filtro actualiza una propiedad del objeto \textit{search} del controlador de películas, de tal forma que la búsqueda se hace en el preciso instante en el que el suuario cambia los filtros.
+
+En el caso de que al filtrar las películas se muestren menos que el tamaño de página configurado por el usuario, el controlador procede a llamar al servidor para obtener la siguiente página de películas. Esa página se obtiene sin filtrar desde el servidor, ya que creemos que es más eficiente guardarnos las películas que no se vayan a mostrar por si el usuario las pide más tarde que hacer peticiones extra cada vez que cambien los filtros.
 \end{itemize}
 
 
@@ -177,29 +182,37 @@ El historial tiene 2 funciones, añadir películas al historial o mostrar las pe
 El php necesario también se encuentra dividido según en criterio ya mencionado (\ref{CriterioPHP}).
 
 \begin{itemize}
-\item \textbf{Añadir} pelíuclas al historial: desde JS (en concreto, desde el controlador \textit{headerController}) se realiza una petición POST al servidor con los datos de las películas formateados en JSON. El servidor recibe este POST y añade un nuevo pedido al historial, con los id's de las películas y las cantidades compradas. 
+\item \textbf{Añadir} películas al historial: desde JS (en concreto, desde el controlador \textit{headerController}) se realiza una petición POST al servidor con los datos de las películas formateados en JSON. El servidor recibe este POST y añade un nuevo pedido al historial, con los id's de las películas y las cantidades compradas. 
 
 \item \textbf{Mostrar} películas del historial: esta funcionalidad se encuentra en otro fichero, en \textit{history.php}, en el directorio raíz, ya que elegimos mostrar el historial en otra página aparte. Aquí, el controlador REVISAR realiza una petición GET, obteniendo un array de arrays estructurado de la siguiente manera:
 
+\begin{verbatim}
 Objeto recibido => \{
 		0 => pedido1,
 		1 => pedido2,
 		...
 	\}
-	
-Donde pedido => \{
+\end{verbatim}
+Donde pedido se define como 
+
+\begin{verbatim}pedido => \{
 	0 => movie,
 	1 => movie,
 	...
+	n => date
 \}
+\end{verbatim}
 
 A su vez, movie tiene los campos:
 
+\begin{verbatim}
 movie => \{
 	'id' => int,
 	'quantity' => int,
+	`price' => int
 	'date' => fecha de la compra
 \}
+\end{verbatim}
 
 REVISAR: completar
 
@@ -225,20 +238,28 @@ Esta funcionalidad se encuentra en el pie de la página. El controlador de Angul
 \subsection{Angular}
 \label{Angular}
 
-Angular es una librería de JS nueva, que permite separar la vista, del modelo, del controlador, permitiendo escribir en HTML variables de JS ( {{variable }}), que cuando cambia de valor, se actualiza el HTML con el nuevo valor. Siguiendo con esta lógica y utilizando las directivas ng-show por ejemplo, se consigue una página dinámica en la que el JS \textbf{solamente} actualiza variables, no modifica campos del html. Esta librería hace posible no utilizar \textit{document.getElementBy...}, lo cual facilita mucho la tarea.
+Angular es una librería de JavaScript nueva que permite separar la lógica de la vista de la del modelo que ésta representa. Así, en JavaScript sólo tenemos que actualizar las variables y será Angular el que se encargue de actualizar las propiedades enlazadas correspondientes en el HTML.
+
+Siguiendo con esta lógica y utilizando las directivas que ofrece Angular, se consigue una página dinámica en la que el JS \textbf{solamente} actualiza variables, no modifica campos del html. Esta librería hace posible no utilizar \textit{document.getElementBy...}, lo cual facilita mucho la tarea al desacoplar el ``qué mostramos'' del ``cómo lo mostramos'' y acaba repercutiendo en un código mucho más limpio, claro y modular.
 
 Además, permite definir tus propias directivas para después poder ser reutilizadas, lo que permite un código HTML muy sencillo.
 
 
-Al utilizar Angular, hemos podido prescindir de AJAX (aunque por supuesto hemos implementado funcionalidades asíncronas ) y de jQuery.
+Al utilizar Angular, hemos podido prescindir de llamadas directas a XmlHttpRequest (aunque por supuesto hemos implementado funcionalidades asíncronas) y de la librería jQuery.
 
-\subsection{imdb}
+\subsection{IMDB}
 
-REVISAR: El XML de las películas lo generamos con un script en python (\textit{imdb\_downloader.py}) utilizando la API \textit{imdb}. 
-
+Para obtener los datos de las películas hemos realizado un pequeño script en Python (\textit{imdb\_downloader.py}) que utiliza la librería \href{https://github.com/richardasaurus/imdb-pie}{ImdbPie} para descargar varios \textit{top} de películas o películas concretas a través del título. Una vez descargados los datos y guardada la imagen de cada película en el directorio correspondiente, se escribe toda la información en un fichero XML para poder ser usado después por nuestro servidor.
 
 \subsection{Referencias}
 
-REVISAR: copy-paste al entregar.
+\begin{itemize}
+	\item \href{http://www.bennadel.com/blog/2658-using-scope-watch-to-watch-functions-in-angularjs.htm}{Cómo usar \$scope.\$watch para observar el valor de funciones en Angular}.
+	\item \href{http://nathanleclaire.com/blog/2014/04/19/5-angularjs-antipatterns-and-pitfalls/}{Angular antipatterns and pitfalls}.
+	\item \href{https://github.com/angular/angular.js/wiki/Understanding-Scopes}{La documentación de Angular sobre ámbitos}.
+	\item \href{http://stackoverflow.com/questions/17706847/not-sure-how-to-hide-a-div-when-clicking-outside-of-the-div}{Cómo ocultar un div al hacer clic fuera de él.}
+	\item \href{http://www.colorcombos.com/color-schemes/22/ColorCombo22.html}{La paleta de colores usada en nuestra web.}
+	\item \href{https://docs.angularjs.org/guide/directive}{Documentación de Angular sobre diretivas personalizadas.}
+\end{itemize}
 
 \end{document}
