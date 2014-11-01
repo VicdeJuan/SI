@@ -56,7 +56,7 @@
 	<div class="cart-container animate-show" ng-show="showCart">
 		<div class="cart">
 			<div class="cartItem" ng-repeat="item in cartItems">
-				<a href="javascript:void()" ng-click="removeFromCart(item)" class="deleteButton"><img ng-src="img/close.svg"></a>
+				<a href="javascript:void()" ng-click="removeFromCart(item)" class="deleteButton"><img alt="" src="img/close.svg"></a>
 				<img class="cartItemImage" src="{{item.image}}" />
 				<div class="cartItemPrice"><p>{{item.quantity}} x {{item.price}}€</p></div>
 				<div class="cartItemTitle"><p>{{item.title}}</p></div>

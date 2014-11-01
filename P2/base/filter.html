@@ -1,5 +1,5 @@
 <li class="filter" ng-init="showFilters = false">
-	<img src="/img/close.svg" class="close-indicator" ng-show="showFilters" />
+	<img alt="" src="/img/close.svg" class="close-indicator" ng-show="showFilters" />
 
 	<a href="" ng-click="showFilters = !showFilters" class="filter-title" >
 		{{title}}
@@ -14,7 +14,6 @@
 			ng-model="$parent.internalValue" 
 			name="{{name}}">
 				{{filter.name}}
-			</input>
 		</li>
 
 		<li>
@@ -24,7 +23,6 @@
 			ng-model="internalValue" 
 			name="{{name}}" ng-show="filtersEnabled">
 				<span ng-show="filtersEnabled">Personalizado:<br /></span>
-			</input>
 			<div class="custom-selector" ng-show="customRangeEnabled" ng-class="filtersDisabledClass">
 				<input type="number" ng-model="customValue.min" /><br /> 
 				<span>hasta</span><br />
@@ -43,7 +41,6 @@
 			ng-model="internalValue" 
 			name="{{name}}">
 				Todos
-			</input>
 		</li>
 	</ul>
 </li>
