@@ -323,6 +323,11 @@ h3, h2 {
 	max-height: auto;
 	opacity: 1;
 }
+
+.disabled {
+	color: gray;
+}
+
 .animate-show.ng-hide-add.ng-hide-add-active, .animate-show.ng-hide-remove.ng-hide-remove-active {
 	-webkit-transition: max-height cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s, opacity linear 0.2s;
 	transition: max-height cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s, opacity linear 0.2s;

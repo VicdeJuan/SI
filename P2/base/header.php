@@ -3,29 +3,31 @@
 <?php
 	session_start();
 
-	if($_SESSION['name'] == "" )
+	if(isset($_SESSION['name']) && $_SESSION['name'])
 	{
-		$text = "Login";
-		$boolean_logged = false;
+		$boolean_logged = TRUE;
+		$text = $_SESSION['name'];
 	}
 	else
 	{
-		$boolean_logged = true;
-		$text = $_SESSION['name'];
-	} 
+		$boolean_logged = FALSE;
+		$text = "Login";
+}
+
+	$logged = $boolean_logged ? "true" : "false";
 ?>
 
 <body>
-<header ng-controller="headerController" ng-init="showCart = false">
+<header ng-controller="headerController" ng-init="showCart = false; showLogin = false; loginTitle ='<?php echo $text; ?>'; logged = <?php echo $logged; ?>;">
 	<div class="header-logo">
 		<p><a href="<?php echo $applicationBaseDir; ?>">Olakase</a></p>
 	</div>
 
 	<div class="header-options">
 		<ul>
-			<span ng-controller="loginSubmitController" ng-init="showLogin = false ;loginTitle ='<?php echo $text; ?>'" >
+			<span>
 				<li>
-					<a ng-click="loginTitleControl(<?php echo $boolean_logged?>);" ng-href="{{ loginLink }}">
+					<a ng-click="loginTitleControl(<?php echo $logged; ?>);" ng-href="{{ loginLink }}">
 						{{ loginTitle }}
 					</a>
 				</li>
@@ -36,7 +38,7 @@
 							<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" ng-model="password" autocomplete="off" required id="passwordfield"></p>
 							<div id="messages" class="login-err-msg" ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
 				 			<p>
-					  			<a href="<?php echo $applicationBaseDir; ?>/register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
+					  			<a href="<?php echo $applicationBaseDir; ?>register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
 					  			<input type="submit" value="login" name="login" id="login-button">
 							</p>			
 				 		</form>
@@ -47,7 +49,7 @@
 				<a href="" ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>
 			</li>
 
-			<li><a href="<?php echo $applicationBaseDir; ?>/php/exit.php">Salir</a></li>
+			<li><a href="<?php echo $applicationBaseDir; ?>php/exit.php">Salir</a></li>
 		</ul>
 	</div>
 
@@ -61,7 +63,10 @@
 			</div>
 		</div>
 		<div class="cartBuy">
-			<div class="button" ng-click="processPurchase()">¡Comprar!</div>
+			<div class="button" ng-click="processPurchase()" ng-class="cartEnabled">
+				<span ng-show="logged">¡Comprar!</span>
+				<span ng-hide="logged">Regístrate para continuar</span>
+			</div>
 		</div>
 	</div>
 </header>

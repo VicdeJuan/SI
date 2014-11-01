@@ -145,8 +145,8 @@ function remove(arr, item) {
     }
 }
 
-mainApp.controller('headerController', ['$scope', '$http',
-    function($scope, $http) {
+mainApp.controller('headerController', ['$scope', '$http', '$timeout',
+    function($scope, $http, $timeout) {
         $scope.cartItems = cart.items;
 
         cart.fetch($http);
@@ -174,7 +174,52 @@ mainApp.controller('headerController', ['$scope', '$http',
                 .error(function(data,status){
                     window.alert("Compra no realizada");
                 });
+        };
+
+        $scope.showLogin = false;
+        $scope.errLogin = false;
+        
+        $scope.loginTitleControl = function(logged){
+            
+            if (!$scope.logged) {
+                $scope.loginLink = "";
+                $scope.showLogin = true;
+            };
+
+            if($scope.logged || logged){
+                $scope.loginLink = serverRoot + "history.php";
+                $scope.showLogin = false;
+            }
+
         }
+
+        $scope.$watch('logged', function() {
+            $scope.cartEnabled = $scope.logged ? 'voidclass' : 'disabled';
+        });
+
+        $scope.loginSubmit = function(user){
+            $http({
+                method: 'POST',
+                url: serverRoot + 'php/login_register.php',
+                data: {email: $scope.email, password: $scope.password}})
+            .success(function(data,status){
+                $scope.status = status;
+                $scope.data = data;
+                $scope.showLogin = false;
+                $scope.errLogin = false;
+                $scope.loginTitle = data['name'];
+                $scope.logged = true;
+                $scope.loginLink = "history.php";
+
+            }).error(function(data,status){
+                $scope.status = status;
+                $scope.data = data || "Request failed";
+                $scope.errLogin = true;
+                $scope.showLogin = true;
+                $scope.loginLink = "";
+
+            });
+        };
     }
 ]);
 
@@ -397,47 +442,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 ]);
 
 mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', function($scope,$http) {
-	$scope.showLogin = false;
-    $scope.errLogin = false;
-	$scope.logged = false;
-    
-    $scope.loginTitleControl = function(logged){
-        
-        if (!$scope.logged) {
-            $scope.loginLink = "";
-            $scope.showLogin = true;
-        };
-
-        if($scope.logged || logged){
-            $scope.loginLink = "history.php";
-            $scope.showLogin = false;
-        }
-
-    }
-
-	$scope.loginSubmit = function(user){
-		$http({
-			method: 'POST',
-			url: serverRoot + 'php/login_register.php',
-			data: {email: $scope.email, password: $scope.password}})
-		.success(function(data,status){
-			$scope.status = status;
-			$scope.data = data;
-			$scope.showLogin = false;
-			$scope.errLogin = false;
-            $scope.loginTitle = data['name'];
-			$scope.logged = true;
-            $scope.loginLink = "history.php";
-
-		}).error(function(data,status){
-			$scope.status = status;
-			$scope.data = data || "Request failed";
-			$scope.errLogin = true;
-			$scope.showLogin = true;
-            $scope.loginLink = "";
-
-		});
-	};
+	
 }]);
 
 mainApp.controller('historyController', function($scope) { });
