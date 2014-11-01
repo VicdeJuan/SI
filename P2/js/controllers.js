@@ -165,15 +165,19 @@ mainApp.controller('headerController', ['$scope', '$http', '$timeout',
 
  
         $scope.processPurchase = function(){
-            $http.post(serverRoot + 'api/history.php',$scope.cartItems)
-                .success(function(data,status){
-                    window.alert("Compra realizada con éxito");
-                    cart.removeAll($http);
+            if($scope.cartItems.length > 0){
+                $http.post(serverRoot + 'api/history.php',$scope.cartItems)
+                    .success(function(data,status){
+                        window.alert("Compra realizada con éxito");
+                        cart.removeAll($http);
 
-                })
-                .error(function(data,status){
-                    window.alert("Compra no realizada");
-                });
+                    })
+                    .error(function(data,status){
+                        window.alert("Compra no realizada");
+                    });
+            }else{
+                window.alert("No hay películas en el carrito");
+            }
         };
 
         $scope.showLogin = false;

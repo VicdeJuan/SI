@@ -2,10 +2,10 @@
 
 
 <div class="body-container" data-ng-controller="historyController">
-	<aside class="menu">
+	<aside class="menu" >
 	</aside>
 
-	<div class="scroller">
+	<div class="scroller" id="scroller-purchase">
 		<h3>Pedidos</h3>
 		<div class="main-container">
 			<?php
