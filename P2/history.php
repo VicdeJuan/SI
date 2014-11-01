@@ -1,7 +1,7 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'].'/base/header.php'; ?>
 
 
-<div class="body-container" ng-controller="historyController">
+<div class="body-container" data-ng-controller="historyController">
 	<aside class="menu">
 	</aside>
 
@@ -24,17 +24,17 @@
 						$movieCount += $movie['quantity'];
 					} 
 			?>
-			<div class="purchase" ng-init="showItems<?php echo $movie['id']; ?> = false">
+			<div class="purchase" data-ng-init="showItems<?php echo $movie['id']; ?> = false">
 				<div class="purchase-info">
 					<span class="purchase-count">
-						<a href="" ng-click="showItems<?php echo $movie['id']; ?> = !showItems<?php echo $movie['id']; ?>;">
+						<a href="" data-ng-click="showItems<?php echo $movie['id']; ?> = !showItems<?php echo $movie['id']; ?>;">
 							<?php echo $movieCount; ?> películas
 						</a>
 					</span>
 					<span class="purchase-price"><?php echo $price; ?> €</span>
 				</div>
 
-				<div class="purchase-items" ng-show="showItems<?php echo $movie['id']; ?>">
+				<div class="purchase-items" data-ng-show="showItems<?php echo $movie['id']; ?>">
 					<?php foreach ($purchase['movies'] as $movie) { ?>
 					<div class="purchase-item">
 						<img alt="Imagen de la película." src="<?php echo $movie['image']; ?>" class="purchase-img" />
