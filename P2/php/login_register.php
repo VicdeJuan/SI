@@ -1,6 +1,7 @@
  <?php
 /*  If we come from a registration  */
 
+require_once $_SERVER['DOCUMENT_ROOT'].'/php/common.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/php/history.php';
 
 if (isset($_POST['email'])) {
@@ -15,11 +16,11 @@ $dir = $_SERVER['DOCUMENT_ROOT']."/users/".$input['email'];
 $filename = $dir."/"."datos.dat";
 
 if (!session_start())
-  header("Location: exit.html");
+  header("Location: ".$applicationBaseDir."exit.html");
 
 if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist so we create it.*/
   if (!mkdir($dir,0777)){
-    header("Location: /pages/error.html");
+    header("Location: ".$applicationBaseDir."pages/error.html");
     die();
   }
   
@@ -41,9 +42,9 @@ if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist
   $_SESSION['email'] = $email;
 
   if(createHistory($dir) == 404)
-    header("Location /dfmkals.html");
+    header("Location ".$applicationBaseDir."dfmkals.html");
 
-  header("Location: /index.php");
+  header("Location: ".$applicationBaseDir."index.php");
 }else{      /* Now, if we come from a login */
   $myfile = fopen($filename, "r");
   if ($myfile){
