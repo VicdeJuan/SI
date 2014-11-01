@@ -24,7 +24,7 @@
 	</div>
 
 	<div class="header-options">
-		<ul>
+		<ul>	
 			<span>
 				<li>
 					<a ng-click="loginTitleControl(<?php echo $logged; ?>);" ng-href="{{ loginLink }}">
@@ -34,8 +34,8 @@
 
 					<div  class="login-div"  ng-show="showLogin" ng-click="showLogin = false" >
 				 		<form ng-click="$event.stopPropagation();" ng-submit="loginSubmit();" name="login-form"  class="login-form" ng-show="showLogin" ng-class="errLogin ? login-form-small : login -form-big">
-							<label class="login-label"> Email: </label><input class="login-input" type="email" name="email" ng-model="email"> <br>
-							<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" ng-model="password" autocomplete="off" required id="passwordfield"></p>
+							<label class="login-label"> Email: </label><input class="login-input" type="email" id="email-login" value="oscarwilde" name="email" ng-model="email" > <br>
+							<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" ng-model="password" autocomplete="off" required id="passwordfield">
 							<div id="messages" class="login-err-msg" ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
 				 			<p>
 					  			<a href="<?php echo $applicationBaseDir; ?>register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		

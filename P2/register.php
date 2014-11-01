@@ -4,7 +4,7 @@
 	<form action="/php/login_register.php" method="post" class="register-form">
 		<p id="WelcomeMsg">¡Bienvenido!</p>
 
-			<label class="login-label"> Nombre:</label> <input class="login-input" type="text" name="name" pattern="[a-zA-Z]+" required title="Los nombres solo tienen letras, ¿no?" >
+			<label class="login-label"> Nombre:</label> <input autofocus class="login-input" type="text" name="name" pattern="[a-zA-Z]+" required title="Los nombres solo tienen letras, ¿no?" >
 			<label class="login-label"> Contraseña: </label> 
 			<input type="password" name="password" ng-model="password" autocomplete="off" required >
 			<div id="messages" ng-show="checkPass();" ng-class="{fuerte : strength >= 3, media : strength == 2, debil : strength == 1, invalid : strength == 0 }"

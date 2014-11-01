@@ -76,13 +76,13 @@ A la página de registro se accede pulsando el botón de \textit{login} y despu�
 Se encuentran en formato XML el historial de cada usuario (en un archivo llamado \textit{history.xml} dentro de la carpeta de cada usuario) y las películas (en \textit{data/movies.xml})
 
 
-El historial de cada usuario se escribe y lee con PHP utilizando el objeto \textit{SimpleXML}, funcionalidad de la que hablaremos más adelante.
+El historial de cada usuario se escribe y lee con PHP utilizando el objeto \textit{SimpleXML}, funcionalidad de la que hablaremos más adelante. Para leer el listado de películas también hacemos uso de \textit{SimpleXML} y no es necesario escribir en ese fichero una vez está creado.
 
 
 
 \subsubsection{CSS}
 
-Todos los estilos de todas las clases se encuentran dentro de la carpeta \textit{style}.
+Todos los estilos de todas las clases se encuentran dentro de la carpeta \textit{style}. 
 
 Lo más destacable del CSS la posición de la cabecera y del pie de página, que siempre aparecen, aunque hagamos más pequeña la pantalla del navegador. Estos estilos están definidos en el estilo de las etiquetas \textit{footer} y \textit{header} de HTML5.
 
@@ -103,7 +103,7 @@ Distinguimos 2 ámbitos: el lado del servidor y el del cliente. \label{Carrito}
 
 Definimos un array en la variable de sesión para no perder la información al recargar la página. La información no persiste entre sesiones, ya que no almacenamos la información en ningún fichero, simplemente en la información de sesión.
 
-Está implementado con peticiones http (GET, POST y DELETE según sea la acción realizada por le usuario). La comunicación se realiza formateada utilizando JSON.
+Está implementado con peticiones http (GET, POST y DELETE según sea la acción realizada por le usuario). La comunicación se realiza formateada en JSON.
 
 \subparagraph{Cliente}
 
@@ -133,7 +133,7 @@ Simplemente eliminamos las variables de identifación de \textit{\$\_SESSION} y 
 
 \paragraph{Registro}
 
-El registro de un usuario nuevo tiene 2 partes, el formulario (se encuentra en \textit{register.php}) y el procesado del registro (se encuentra en REVISAR: \textit{php/login\_register.php}).
+El registro de un usuario nuevo tiene 2 partes, el formulario (se encuentra en \textit{register.php}) y el procesado del registro (se encuentra en \textit{php/login\_register.php}).
 
 Para acceder a un nuevo registro, abrimos el diálogo de login y nos vamos al enlace \textit{¿No tienes cuenta todavía?}. 
 
@@ -145,7 +145,7 @@ Tiene 2 partes importantes:
 
 \begin{itemize}
 
-\item El lado del servidor (en el fichero REVISAR: \textit{php/login\_register.php}) que lee del fichero y comprueba las contraseñas utilizando md5.
+\item El lado del servidor (en el fichero \textit{php/login\_register.php}) que lee del fichero y comprueba las contraseñas utilizando md5.
 
 \item El lado del cliente, que utiliza JavaScript, en concreto la librería de Angular para mostrar o no el cuadro del login. Todo lo relativo a esta funcionalidad se encuentra en el controlador \textit{loginSubmitController}, en el fichero \textit{js/controller.js}. Utilizando las directivas \textit{ng-show}, \textit{ng-click} y \textit{ng-init} resulta sencillo mostrar el cuadro de login o no. 
 
@@ -168,7 +168,7 @@ El filtrado se hace en cliente con JavaScript. Para ello hemos usado una directi
 
 La directiva es \textit{filter} y está definida en \textit{js/filterDirective.js}. Se trata de código reutilizable que genera automáticamente el HTML para manejar filtros en base a ciertos parámetros dados (la plantilla HTML se encuentra en \textit{base/filter.html}).
 
-Cada elemento de filtro actualiza una propiedad del objeto \textit{search} del controlador de películas, de tal forma que la búsqueda se hace en el preciso instante en el que el suuario cambia los filtros.
+Cada elemento de filtro actualiza una propiedad del objeto \textit{search} del controlador de películas, de tal forma que la búsqueda se hace en el preciso instante en el que el usuario cambia los filtros.
 
 En el caso de que al filtrar las películas se muestren menos que el tamaño de página configurado por el usuario, el controlador procede a llamar al servidor para obtener la siguiente página de películas. Esa página se obtiene sin filtrar desde el servidor, ya que creemos que es más eficiente guardarnos las películas que no se vayan a mostrar por si el usuario las pide más tarde que hacer peticiones extra cada vez que cambien los filtros.
 \end{itemize}
@@ -184,37 +184,37 @@ El php necesario también se encuentra dividido según en criterio ya mencionado
 \begin{itemize}
 \item \textbf{Añadir} películas al historial: desde JS (en concreto, desde el controlador \textit{headerController}) se realiza una petición POST al servidor con los datos de las películas formateados en JSON. El servidor recibe este POST y añade un nuevo pedido al historial, con los id's de las películas y las cantidades compradas. 
 
-\item \textbf{Mostrar} películas del historial: esta funcionalidad se encuentra en otro fichero, en \textit{history.php}, en el directorio raíz, ya que elegimos mostrar el historial en otra página aparte. Aquí, el controlador REVISAR realiza una petición GET, obteniendo un array de arrays estructurado de la siguiente manera:
+\item \textbf{Mostrar} películas del historial: esta funcionalidad se encuentra en otro fichero, en \textit{history.php}, en el directorio raíz, ya que elegimos mostrar el historial en otra página aparte. Aquí, el controlador realiza una petición GET, obteniendo un array de arrays estructurado de la siguiente manera:
 
 \begin{verbatim}
-Objeto recibido => \{
+Objeto recibido => {
 		0 => pedido1,
 		1 => pedido2,
 		...
-	\}
+	}
 \end{verbatim}
 Donde pedido se define como 
 
-\begin{verbatim}pedido => \{
+\begin{verbatim}pedido => {
 	0 => movie,
 	1 => movie,
 	...
-	n => date
-\}
+	n => fecha del pedido
+}
 \end{verbatim}
 
 A su vez, movie tiene los campos:
 
 \begin{verbatim}
-movie => \{
+movie => {
 	'id' => int,
 	'quantity' => int,
 	`price' => int
 	'date' => fecha de la compra
-\}
+}
 \end{verbatim}
 
-REVISAR: completar
+
 
 \end{itemize}
 
@@ -254,12 +254,16 @@ Para obtener los datos de las películas hemos realizado un pequeño script en P
 \subsection{Referencias}
 
 \begin{itemize}
+	\item \href{http://www.w3schools.com/html/default.asp}{Básicos de HTML}
+	\item \href{http://www.w3schools.com/css/default.asp}{Básicos de CSS}
 	\item \href{http://www.bennadel.com/blog/2658-using-scope-watch-to-watch-functions-in-angularjs.htm}{Cómo usar \$scope.\$watch para observar el valor de funciones en Angular}.
 	\item \href{http://nathanleclaire.com/blog/2014/04/19/5-angularjs-antipatterns-and-pitfalls/}{Angular antipatterns and pitfalls}.
 	\item \href{https://github.com/angular/angular.js/wiki/Understanding-Scopes}{La documentación de Angular sobre ámbitos}.
 	\item \href{http://stackoverflow.com/questions/17706847/not-sure-how-to-hide-a-div-when-clicking-outside-of-the-div}{Cómo ocultar un div al hacer clic fuera de él.}
 	\item \href{http://www.colorcombos.com/color-schemes/22/ColorCombo22.html}{La paleta de colores usada en nuestra web.}
 	\item \href{https://docs.angularjs.org/guide/directive}{Documentación de Angular sobre diretivas personalizadas.}
+	\item \href{http://stackoverflow.com/questions/6661530/php-multi-dimensional-array-search}{Búsqueda en array multidimensional en PHP}
+	\item \href{http://php.net/manual/es/book.simplexml.php}{Manipulación de XML en PHP con SimpleXML}
 \end{itemize}
 
 \end{document}
