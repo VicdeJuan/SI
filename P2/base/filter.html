@@ -1,17 +1,17 @@
-<li class="filter" ng-init="showFilters = false">
-	<img alt="Cerrar" src="/img/close.svg" class="close-indicator" ng-show="showFilters" />
+<li class="filter" data-ng-init="showFilters = false">
+	<img alt="Cerrar" src="/img/close.svg" class="close-indicator" data-ng-show="showFilters" />
 
-	<a href="" ng-click="showFilters = !showFilters" class="filter-title" >
+	<a href="" data-ng-click="showFilters = !showFilters" class="filter-title" >
 		{{title}}
 	</a>
 	
-	<ul class="filter-items" ng-show="showFilters">
-		<li ng-repeat="filter in filters">
+	<ul class="filter-items" data-ng-show="showFilters">
+		<li data-ng-repeat="filter in filters">
 			<input 
 			type="radio" 
 			value="{{filter.value}}" 
 			class="filter-item" 
-			ng-model="$parent.internalValue" 
+			data-ng-model="$parent.internalValue" 
 			name="{{name}}">
 				{{filter.name}}
 		</li>
@@ -20,25 +20,25 @@
 			<input type="radio" 
 			value="custom"
 			class="filter-item" 
-			ng-model="internalValue" 
-			name="{{name}}" ng-show="filtersEnabled">
-				<span ng-show="filtersEnabled">Personalizado:<br /></span>
-			<div class="custom-selector" ng-show="customRangeEnabled" ng-class="filtersDisabledClass">
-				<input type="number" ng-model="customValue.min" /><br /> 
+			data-ng-model="internalValue" 
+			name="{{name}}" data-ng-show="filtersEnabled">
+				<span data-ng-show="filtersEnabled">Personalizado:<br /></span>
+			<div class="custom-selector" data-ng-show="customRangeEnabled" data-ng-class="filtersDisabledClass">
+				<input type="number" data-ng-model="customValue.min" /><br /> 
 				<span>hasta</span><br />
-				<input type="number" ng-model="customValue.max" />
+				<input type="number" data-ng-model="customValue.max" />
 			</div>
-			<div class="custom-selector" ng-show="customTextEnabled" ng-class="filtersDisabledClass">
-				<input type="text" ng-model="customValue.str" />
+			<div class="custom-selector" data-ng-show="customTextEnabled" data-ng-class="filtersDisabledClass">
+				<input type="text" data-ng-model="customValue.str" />
 			</div>
 		</li>
 
-		<li ng-show="filtersEnabled">
+		<li data-ng-show="filtersEnabled">
 			<input 
 			type="radio" 
 			value="{{defaultValue}}" 
 			class="filter-item" 
-			ng-model="internalValue" 
+			data-ng-model="internalValue" 
 			name="{{name}}">
 				Todos
 		</li>
