@@ -3,14 +3,13 @@
 <head>
 <body>
   <?php
+  	require_once $_SERVER['DOCUMENT_ROOT'].'/php/common.php';
+
   	session_start();
-     session_unset();
+  	unset($_SESSION['name']);
+  	unset($_SESSION['email']);
 
-
-     if (session_destroy())
-     	header("Location: /index.php");
-     else
-     	header("Location: /pages/error.html")
+    header("Location: ".$applicationBaseDir."index.php");
   ?>
 </body>
 </html>
