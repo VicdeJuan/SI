@@ -1,4 +1,4 @@
-<?php require 'html_head.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/base/html_head.php'; ?>
 
 <?php
 	session_start();
@@ -18,7 +18,7 @@
 <body>
 <header ng-controller="headerController" ng-init="showCart = false">
 	<div class="header-logo">
-		<p><a href="/">Olakase</a></p>
+		<p><a href="<?php echo $applicationBaseDir; ?>">Olakase</a></p>
 	</div>
 
 	<div class="header-options">
@@ -36,7 +36,7 @@
 							<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" ng-model="password" autocomplete="off" required id="passwordfield"></p>
 							<div id="messages" class="login-err-msg" ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
 				 			<p>
-					  			<a href="register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
+					  			<a href="<?php echo $applicationBaseDir; ?>/register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
 					  			<input type="submit" value="login" name="login" id="login-button">
 							</p>			
 				 		</form>
@@ -47,7 +47,7 @@
 				<a href="" ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>
 			</li>
 
-			<li><a href="/php/exit.php">Salir</a></li>
+			<li><a href="<?php echo $applicationBaseDir; ?>/php/exit.php">Salir</a></li>
 		</ul>
 	</div>
 

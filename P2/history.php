@@ -1,4 +1,4 @@
-<?php require_once 'base/header.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'].'/base/header.php'; ?>
 
 
 <div class="body-container" ng-controller="historyController">

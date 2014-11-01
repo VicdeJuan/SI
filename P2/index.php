@@ -1,4 +1,4 @@
-<?php require 'base/header.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/base/header.php'; ?>
 
 <div class="body-container" ng-controller="movieListController">
 	<aside class="menu">
@@ -51,4 +51,4 @@
 	</div>
 </div>
 
-<?php require 'base/footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/base/footer.php'; ?>

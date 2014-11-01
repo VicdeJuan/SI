@@ -1,5 +1,8 @@
 var mainApp = angular.module('mainApp', ['ngAnimate']);
 
+if (!serverRoot)
+    var serverRoot = "/";
+
 var s = JSON.stringify;
 
 var unique = function(arr, field) {
@@ -120,7 +123,7 @@ var cart = {
     },
 
     fetch: function($http) {
-        $http.get('/php/cart.php')
+        $http.get(serverRoot + 'php/cart.php')
             .success(function(data, status) {
                 for (var i = data.length - 1; i >= 0; i--) {
                     cart.items.push(data[i]);
@@ -128,7 +131,7 @@ var cart = {
             });
     },
     removeAll: function($http) {
-        $http.delete('/php/cart.php?all').success(function(){
+        $http.delete(serverRoot + 'php/cart.php?all').success(function(){
             cart.items.length = 0;
         });
     }
@@ -151,7 +154,7 @@ mainApp.controller('headerController', ['$scope', '$http',
         $scope.moviesIds = [];
 
         $scope.removeFromCart = function(item) {
-            $http.delete('/php/cart.php?itemId=' + item['id'])
+            $http.delete(serverRoot + 'php/cart.php?itemId=' + item['id'])
                 .success(function(data, status) {
                     cart.remove(item);
                     $scope.showCart = false;
@@ -163,7 +166,7 @@ mainApp.controller('headerController', ['$scope', '$http',
 
  
         $scope.processPurchase = function(){
-            $http.post('/api/history.php',$scope.cartItems)
+            $http.post(serverRoot + 'api/history.php',$scope.cartItems)
                 .success(function(data,status){
                     window.alert("Compra realizada con éxito");
                     cart.removeAll($http);
@@ -257,7 +260,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
             $scope.fetching = true;
 
-            $http.get('/api/movies.php', {
+            $http.get(serverRoot + 'api/movies.php', {
                 params: {
                     'count': $scope.pageLength,
                     'from': $scope.lastRetrieved
@@ -324,7 +327,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
             range('5 - 10 €', 5, 10)
         ];
 
-        $http.get('/api/genres.php')
+        $http.get(serverRoot + 'api/genres.php')
             .success(function(data, status) {
                 angular.forEach(data, function(genre) {
                     $scope.genres.push({
@@ -381,7 +384,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
         $scope.$watchGroup(['startIndex','pageLength','filterMovieCountLimit'], $scope.updatePaginationControls);
 
         $scope.addToCart = function(movie) {
-            $http.post('/php/cart.php', {
+            $http.post(serverRoot + 'php/cart.php', {
                 'item': movie
             })
                 .success(function(data, status) {
@@ -416,7 +419,7 @@ mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', functi
 	$scope.loginSubmit = function(user){
 		$http({
 			method: 'POST',
-			url: '/php/login_register.php',
+			url: serverRoot + 'php/login_register.php',
 			data: {email: $scope.email, password: $scope.password}})
 		.success(function(data,status){
 			$scope.status = status;
@@ -444,7 +447,7 @@ mainApp.controller('footerController', ['$scope', '$http', function($scope, $htt
     $scope.date = "...";
     $scope.activeUsers = "...";
 
-    $http.get('/api/webinfo.php')
+    $http.get(serverRoot + 'api/webinfo.php')
     .success(function(data, status) {
         $scope.date = data['date'];
         $scope.activeUsers = data['active_users'];

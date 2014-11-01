@@ -1,5 +1,7 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT']."/php/common.php";
+
 function findMovie($movieList, $id)
 {
 	foreach ($movieList as $movie) 
@@ -13,11 +15,14 @@ function findMovie($movieList, $id)
 
 function getAllMovies()
 {
-	$path = $_SERVER['DOCUMENT_ROOT'];
-	$path .= "/data/movies.xml";
-	$movies = simplexml_load_file($path);
+	$path = $_SERVER['DOCUMENT_ROOT']."/data/movies.xml";
+	$movies = json_decode(json_encode(simplexml_load_file($path)), true)['movie'];
 
-	return json_decode(json_encode($movies), true)['movie'];
+	foreach ($movies as &$movie) {
+		$movie['image'] = asAbsoluteUrl($movie['image']);
+	}
+
+	return $movies;
 }
 
 function getMovies($from, $count)
