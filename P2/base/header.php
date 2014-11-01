@@ -17,6 +17,7 @@
 	$logged = $boolean_logged ? "true" : "false";
 ?>
 
+
 <body>
 <header ng-controller="headerController" ng-init="showCart = false; showLogin = false; loginTitle ='<?php echo $text; ?>'; logged = <?php echo $logged; ?>;">
 	<div class="header-logo">
@@ -56,7 +57,7 @@
 	<div class="cart-container animate-show" ng-show="showCart">
 		<div class="cart">
 			<div class="cartItem" ng-repeat="item in cartItems">
-				<a href="javascript:void()" ng-click="removeFromCart(item)" class="deleteButton"><img alt="" src="img/close.svg"></a>
+				<a href="javascript:void()" ng-click="removeFromCart(item)" class="deleteButton"><img alt="Cerrar" src="img/close.svg"></a>
 				<img class="cartItemImage" src="{{item.image}}" />
 				<div class="cartItemPrice"><p>{{item.quantity}} x {{item.price}}€</p></div>
 				<div class="cartItemTitle"><p>{{item.title}}</p></div>

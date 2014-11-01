@@ -37,7 +37,7 @@
 				<div class="purchase-items" ng-show="showItems<?php echo $movie['id']; ?>">
 					<?php foreach ($purchase['movies'] as $movie) { ?>
 					<div class="purchase-item">
-						<img alt="" src="<?php echo $movie['image']; ?>" class="purchase-img" />
+						<img alt="Imagen de la película." src="<?php echo $movie['image']; ?>" class="purchase-img" />
 						<div class="purchase-title"><?php echo $movie['title']; ?></div>
 
 						<div class="purchase-item-price">

@@ -25,13 +25,13 @@
 		<div class="main-container" ng-class="movieHoverClass">
 			<div class="movie" ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
 				<div class="movie-cover">
-					<img alt="" ng-src="{{movie.image}}" class="movie-img">
+					<img alt="Imagen de la película" ng-src="{{movie.image}}" class="movie-img">
 					<p class="movie-title">{{movie.title}}</p>
 					<div class="movie-action">
 						<p class="movie-price">{{movie.price}} €</p>
 						<p class="movie-buy">
 							<a ng-click="addToCart(movie)" href="">
-								<img  alt="" src="/img/cart.svg" class="movie-cart" />
+								<img  alt="Añadir al carrito" src="/img/cart.svg" class="movie-cart" />
 							</a>
 						</p>
 					</div>

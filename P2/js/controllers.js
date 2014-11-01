@@ -182,7 +182,7 @@ mainApp.controller('headerController', ['$scope', '$http', '$timeout',
         $scope.loginTitleControl = function(logged){
             
             if (!$scope.logged) {
-                $scope.loginLink = "";
+                $scope.loginLink = serverRoot + "pages/error.html";
                 $scope.showLogin = true;
             };
 
