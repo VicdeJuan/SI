@@ -23,7 +23,7 @@
 		<div class="main-container" data-ng-class="movieHoverClass">
 			<div class="movie" data-ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
 				<div class="movie-cover">
-					<img alt="Imagen de la película" data-ng-src="{{movie.image}}" src="//:0" class="movie-img">
+					<img alt="Imagen de la película" data-ng-src="{{movie.image}}" src="about:blank" class="movie-img">
 					<p class="movie-title">{{movie.title}}</p>
 					<div class="movie-action">
 						<p class="movie-price">{{movie.price}} €</p>
