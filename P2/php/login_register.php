@@ -13,7 +13,8 @@ if (isset($_POST['email'])) {
 
 $dir = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users";
 if (!is_dir($dir)) {
-  mkdir($dir,0777);
+  mkdir("$dir",'0111');  
+  chmod("$dir", '0777');
 }
 
 $dir = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users/".$input['email'];
@@ -23,7 +24,7 @@ if (!session_start())
   header("Location: ".$applicationBaseDir."exit.html");
 
 if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist so we create it.*/
-  if (!mkdir($dir,0777)){
+  if (!mkdir($dir,0777,true)){
     $_SESSION['error'] = "No se ha podido crear el directorio de usuario. Por favor, contacte con el administrador (o de permisos 777 a la carpeta users)";
     header("Location: ".$applicationBaseDir."pages/error.php");
     die();
