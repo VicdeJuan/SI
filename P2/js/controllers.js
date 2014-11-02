@@ -387,8 +387,6 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 
 
         $scope.$watch('search', function() {
-            console.log(s($scope.search));
-
             $scope.startIndex = 0;
             $scope.updateMovieCountLimit();
         }, true);
