@@ -25,7 +25,7 @@ if (!session_start())
 if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist so we create it.*/
   if (!mkdir($dir,0777)){
     $_SESSION['error'] = "No se ha podido crear el directorio de usuario. Por favor, contacte con el administrador (o de permisos 777 a la carpeta users)";
-    header("Location: ".$applicationBaseDir."pages/error.html");
+    header("Location: ".$applicationBaseDir."pages/error.php");
     die();
   }
   
@@ -48,7 +48,7 @@ if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist
 
   if(createHistory($dir) == 404){
     $_SESSION['error'] = "No se ha podido crear el historial del usuario. Es probable que se deba a un problema de configuración del servidor en cuanto a los permisos de las carpetas";
-    header("Location ".$applicationBaseDir."base/error.html");
+    header("Location ".$applicationBaseDir."base/error.php");
   }
 
   header("Location: ".$applicationBaseDir."index.php");
