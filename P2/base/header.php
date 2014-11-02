@@ -26,25 +26,22 @@
 
 	<div class="header-options">
 		<ul>	
-			<span>
-				<li>
-					<a data-ng-click="loginTitleControl(<?php echo $logged; ?>);" data-ng-href="{{ loginLink }}">
-						{{ loginTitle }}
-					</a>
-				</li>
-
-					<div  class="login-div"  data-ng-show="showLogin" data-ng-click="showLogin = false" >
-				 		<form data-ng-click="$event.stopPropagation();" data-ng-submit="loginSubmit();" name="login-form"  class="login-form" data-ng-show="showLogin" data-ng-class="errLogin ? login-form-small : login -form-big">
-							<label class="login-label"> Email: </label><input class="login-input" type="email" id="email-login" value="oscarwilde" name="email" data-ng-model="email" > <br>
-							<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" data-ng-model="password" autocomplete="off" required id="passwordfield">
-							<div id="messages" class="login-err-msg" data-ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
-				 			<p>
-					  			<a href="<?php echo $applicationBaseDir; ?>register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
-					  			<input type="submit" value="login" name="login" id="login-button">
-							</p>			
-				 		</form>
-				 	</div>
-			</span>
+			<li>
+				<a data-ng-click="loginTitleControl(<?php echo $logged; ?>);" data-ng-href="{{ loginLink }}">
+					{{ loginTitle }}
+				</a>
+				<div class="login-div"  data-ng-show="showLogin" data-ng-click="showLogin = false" >
+			 		<form data-ng-click="$event.stopPropagation();" data-ng-submit="loginSubmit();" name="login-form"  class="login-form" data-ng-show="showLogin" data-ng-class="errLogin ? login-form-small : login -form-big">
+						<label class="login-label"> Email: </label><input class="login-input" type="email" id="email-login" value="oscarwilde" name="email" data-ng-model="email" > <br>
+						<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" data-ng-model="password" autocomplete="off" required id="passwordfield">
+						<div id="messages" class="login-err-msg" data-ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
+			 			<p>
+				  			<a href="<?php echo $applicationBaseDir; ?>register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
+				  			<input type="submit" value="login" name="login" id="login-button">
+						</p>			
+			 		</form>
+			 	</div>
+			</li>	
 
 			<li>
 				<a href="" data-ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>
@@ -57,8 +54,8 @@
 	<div class="cart-container animate-show" data-ng-show="showCart">
 		<div class="cart">
 			<div class="cartItem" data-ng-repeat="item in cartItems">
-				<a href="javascript:void()" data-ng-click="removeFromCart(item)" class="deleteButton"><img alt="Cerrar" src="img/close.svg"></a>
-				<img alt="Imagen de la pelicula" class="cartItemImage" src="{{item.image}}" />
+				<a href="" data-ng-click="removeFromCart(item)" class="deleteButton"><img alt="Cerrar" src="img/close.svg"></a>
+				<img alt="Imagen de la pelicula" class="cartItemImage" ng-src="{{item.image}}" src="" />
 				<div class="cartItemPrice"><p>{{item.quantity}} x {{item.price}}€</p></div>
 				<div class="cartItemTitle"><p>{{item.title}}</p></div>
 			</div>

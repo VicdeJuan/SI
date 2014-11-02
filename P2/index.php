@@ -2,12 +2,10 @@
 
 <div class="body-container" data-ng-controller="movieListController">
 	<aside class="menu">
-		<ul class="menu-items"> 
-			<filter title="Título" value="search.title" name"titleFitler" fallback="emptyStrObject" allow-custom="string"></filter>			
+			<filter title="Título" value="search.title" name="titleFilter" fallback="emptyStrObject" allow-custom="string"></filter>			
 			<filter title="Género" filters="genres" value="search.genre" name="genreFilter" fallback="emptyStrObject" allow-custom="string"></filter> 
 			<filter title="Año" filters="years" value="search.year" name="yearFilter" fallback="defaultRange" allow-custom="range"></filter>
 			<filter title="Precio" filters="prices" value="search.price" name="priceFilter" fallback="defaultRange" allow-custom="range"></filter>	
-		</ul>
 	</aside>
 
 	<div class="scroller">
@@ -25,7 +23,7 @@
 		<div class="main-container" data-ng-class="movieHoverClass">
 			<div class="movie" data-ng-repeat="movie in movies | movieFilter:search | slice:startIndex | limitTo:pageLength as filtered">
 				<div class="movie-cover">
-					<img alt="Imagen de la película" data-ng-src="{{movie.image}}" class="movie-img">
+					<img alt="Imagen de la película" data-ng-src="{{movie.image}}" src="" class="movie-img">
 					<p class="movie-title">{{movie.title}}</p>
 					<div class="movie-action">
 						<p class="movie-price">{{movie.price}} €</p>

@@ -1,7 +1,7 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'].'/php/common.php'; ?>
 
 <!DOCTYPE html>
-<html lang="en" xmlns:ng="http://angularjs.org" data-ng-app="mainApp">
+<html lang="en" data-ng-app="mainApp">
 <head>
 <link rel="stylesheet" type="text/css" href="style/main.css" />
 <meta charset="utf-8" />
