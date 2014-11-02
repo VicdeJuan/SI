@@ -9,7 +9,7 @@ mainApp.directive('filter', function() {
             valueFormat: '@',
             allowCustom: '@'
         },
-        templateUrl: '/base/filter.html',
+        templateUrl: serverRoot + 'base/filter.html',
         controller: ['$scope', function($scope) {
             if ($scope.filters)
             {
