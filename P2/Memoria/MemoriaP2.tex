@@ -133,11 +133,16 @@ Simplemente eliminamos las variables de identifación de \textit{\$\_SESSION} y 
 
 \paragraph{Registro}
 
+
 El registro de un usuario nuevo tiene 2 partes, el formulario (se encuentra en \textit{register.php}) y el procesado del registro (se encuentra en \textit{php/login\_register.php}).
 
 Para acceder a un nuevo registro, abrimos el diálogo de login y nos vamos al enlace \textit{¿No tienes cuenta todavía?}. 
 
 La validación de los campos se realiza con las etiquetas de HTML5 o rellenando el campo \textit{pattern} que tienen todas las etiquetas, salvo la contraseña, que para medir la fortaleza utilizamos \textit{JavaScript}. Hablamos de esto más adelante (Angular: \ref{Angular}, Fortaleza de la contraseña: \ref{PasStrength})
+
+\label{errorRegister}
+
+Es necesario configurar el servidor correctamente para que se puedan crear cuentas nuevas de usuario, esto es, tiene que existir una carpeta users con permisos 777, para que se puedan crear las carpetas de los usuarios.
 
 \paragraph{Login}
 
@@ -232,6 +237,13 @@ Ya ha sido comentado en la sección de los ficheros de PHP  (\ref{Carrito}).
 \subsubsection{Usuarios online}
 
 Esta funcionalidad se encuentra en el pie de la página. El controlador de Angular \textit{footerController} realiza una petición al servidor (un GET a \textit{api/webinfo.php}) y actualiza las variables que son mostradas en el html.
+
+
+\subsubsection{Página de error}
+
+La única forma de llegar a está página de error es si no se ha podido crear la carpeta del usuario (\ref{errorRegister}). Esto puede suceder porque los permisos de la carpeta \textit{users} no sean 777. Una vez solucionado este problema, el resto de errores se gestionan dinámicamente sin redireccionar a una página de error. 
+
+El mensaje mostrado en la página de error es un elemento del arra asociativo \textit{\$\_SESSION}.
 
 \section{Fuentes externas}
 
