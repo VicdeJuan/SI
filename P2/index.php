@@ -29,7 +29,7 @@
 						<p class="movie-price">{{movie.price}} €</p>
 						<p class="movie-buy">
 							<a data-ng-click="addToCart(movie)" href="">
-								<img  alt="Añadir al carrito" src="/img/cart.svg" class="movie-cart" />
+								<img  alt="Añadir al carrito" src="<?php echo $applicationBaseDir; ?>img/cart.svg" class="movie-cart" />
 							</a>
 						</p>
 					</div>
