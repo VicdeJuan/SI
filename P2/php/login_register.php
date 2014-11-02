@@ -11,6 +11,10 @@ if (isset($_POST['email'])) {
   $input = json_decode($json, true);      
 }
 
+$dir = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users";
+if (!is_dir($dir)) {
+  mkdir($dir,0777);
+}
 
 $dir = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users/".$input['email'];
 $filename = $dir."/"."datos.dat";
@@ -42,7 +46,7 @@ if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist
   $_SESSION['email'] = $email;
 
   if(createHistory($dir) == 404)
-    header("Location ".$applicationBaseDir."dfmkals.html");
+    header("Location ".$applicationBaseDir."base/error.html");
 
   header("Location: ".$applicationBaseDir."index.php");
 }else{      /* Now, if we come from a login */
