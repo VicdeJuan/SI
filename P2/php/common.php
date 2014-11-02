@@ -1,6 +1,6 @@
 <?php
 
-$applicationBaseDir = "/";
+$applicationBaseDir = $_SERVER['CONTEXT_PREFIX'];
 
 function asAbsolutePath($path) 
 {
