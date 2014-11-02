@@ -2,10 +2,10 @@
 
 <div class="body-container" data-ng-controller="movieListController">
 	<aside class="menu">
-			<div data-filter title="Título" value="search.title" name="titleFilter" fallback="emptyStrObject" allow-custom="string"></div>			
-			<div data-filter title="Género" filters="genres" value="search.genre" name="genreFilter" fallback="emptyStrObject" allow-custom="string"></div> 
-			<div data-filter title="Año" filters="years" value="search.year" name="yearFilter" fallback="defaultRange" allow-custom="range"></div>
-			<div data-filter title="Precio" filters="prices" value="search.price" name="priceFilter" fallback="defaultRange" allow-custom="range"></div>	
+			<div data-filter data-title="Título" data-value="search.title" data-name="titleFilter" data-fallback="emptyStrObject" data-allow-custom="string"></div>			
+			<div data-filter data-title="Género" data-filters="genres" data-value="search.genre" data-name="genreFilter" data-fallback="emptyStrObject" data-allow-custom="string"></div> 
+			<div data-filter data-title="Año" data-filters="years" data-value="search.year" data-name="yearFilter" data-fallback="defaultRange" data-allow-custom="range"></div>
+			<div data-filter data-title="Precio" data-filters="prices" data-value="search.price" data-name="priceFilter" data-fallback="defaultRange" data-allow-custom="range"></div>	
 	</aside>
 
 	<div class="scroller">
