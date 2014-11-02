@@ -55,7 +55,7 @@
 		<div class="cart">
 			<div class="cartItem" data-ng-repeat="item in cartItems">
 				<a href="" data-ng-click="removeFromCart(item)" class="deleteButton"><img alt="Cerrar" src="img/close.svg"></a>
-				<img alt="Imagen de la pelicula" class="cartItemImage" ng-src="{{item.image}}" src="" />
+				<img alt="Imagen de la pelicula" class="cartItemImage" ng-src="{{item.image}}" src="//:0" />
 				<div class="cartItemPrice"><p>{{item.quantity}} x {{item.price}}€</p></div>
 				<div class="cartItemTitle"><p>{{item.title}}</p></div>
 			</div>
