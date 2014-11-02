@@ -5,9 +5,9 @@
 * Acento: C13100 
 */
 
-@import url('/style/purchases.css');
-@import url('/style/filter.css');
-@import url('/style/movies.css');
+@import url('purchases.css');
+@import url('filter.css');
+@import url('movies.css');
 
 html, body {
 	height: 100%;
