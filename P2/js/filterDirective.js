@@ -21,6 +21,8 @@ mainApp.directive('filter', function() {
                 $scope.filtersDisabledClass = "filters-disabled";
             }
 
+            $scope.closeImagePath = serverRoot + 'img/close.svg';
+
             $scope.customValue = {};
 
             $scope.customRangeEnabled = $scope.allowCustom === "range";

@@ -1,5 +1,5 @@
 <div class="filter" data-ng-init="showFilters = false">
-	<img alt="Cerrar" src="<?php echo $applicationBaseDir; ?>img/close.svg" class="close-indicator" data-ng-show="showFilters" />
+	<img alt="Cerrar" src="about:blank" data-ng-src="{{closeImagePath}}" class="close-indicator" data-ng-show="showFilters" />
 
 	<a href="" data-ng-click="showFilters = !showFilters" class="filter-title" >
 		{{title}}
