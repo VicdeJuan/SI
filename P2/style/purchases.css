@@ -29,7 +29,7 @@
 	padding-left: 10px;
 	-webkit-transition: all linear 0.2s;
 	transition: all linear 0.2s;
-	max-height: auto;
+	max-height: none;
 }
 
 .purchase-item {

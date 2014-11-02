@@ -35,7 +35,7 @@
 	-webkit-transition: max-height cubic-bezier(0.215, 0.61, 0.355, 1) 0.4s, opacity linear 0.1s;
 	transition: max-height cubic-bezier(0.215, 0.61, 0.355, 1) 0.4s, opacity linear 0.1s;
 	opacity: 1;
-	max-height: auto;	
+	max-height: none;	
 }
 
 .filter-items.ng-hide {

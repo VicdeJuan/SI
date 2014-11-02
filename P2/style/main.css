@@ -83,7 +83,7 @@ h3, h2 {
 	width:28%;
 	min-width: 350px;
 	min-height: 110px;
-	padding: 30px 0 15 10px;
+	padding: 30px 0 15px 10px;
 	border: 2px;
 	border-radius: 5px;
 	display: block;
@@ -182,7 +182,7 @@ h3, h2 {
 	font-size: 50px;
 	height: 100%;
 	text-align: center;
-	vertical-align: center;
+	vertical-align: middle;
 	display: table-cell;
 	float: left;
 	margin-top: -30px;
@@ -201,7 +201,7 @@ h3, h2 {
 	padding-bottom: 5px;
 	bottom: 0;
 	height: 30px;
-	vertical-align: center;
+	vertical-align: middle;
 	font-size: 13px;
 }
 .header-options a {
@@ -253,7 +253,6 @@ h3, h2 {
 	max-height: 350px;
 }
 .cartBuy {
-	float: bottom;
 	height: 50px;
 	width: 300px;
 	box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.05);
@@ -308,10 +307,6 @@ h3, h2 {
 .deleteButton img {
 	height: 100%;
 	width: 100%;
-	fill: #C60;
-}
-.deletButton img .closePath {
-	fill: #C60;
 }
 .footer-text {
 	text-align: center;
@@ -320,7 +315,7 @@ h3, h2 {
 	font-weight: lighter;
 }
 .animate-show {
-	max-height: auto;
+	max-height: none;
 	opacity: 1;
 }
 
