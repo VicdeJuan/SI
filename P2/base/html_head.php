@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app="mainApp">
 <head>
-<link rel="stylesheet" type="text/css" href="style/main.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $applicationBaseDir; ?>style/main.css" />
 <meta charset="utf-8" />
 <title>Ola k ase</title>
 <script type="text/javascript">
