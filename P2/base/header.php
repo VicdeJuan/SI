@@ -34,7 +34,7 @@
 			 		<form data-ng-click="$event.stopPropagation();" data-ng-submit="loginSubmit();" name="login-form"  class="login-form" data-ng-show="showLogin" data-ng-class="errLogin ? login-form-small : login -form-big">
 						<label class="login-label"> Email: </label><input class="login-input" type="email" id="email-login" value="oscarwilde" name="email" data-ng-model="email" > <br>
 						<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" data-ng-model="password" autocomplete="off" required id="passwordfield">
-						<div id="messages" class="login-err-msg" data-ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
+						<div class="login-err-msg" data-ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
 			 			<p>
 				  			<a href="<?php echo $applicationBaseDir; ?>register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
 				  			<input type="submit" value="login" name="login" id="login-button">
