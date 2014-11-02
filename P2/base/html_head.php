@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'].'/php/common.php'; ?>
+<?php require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/common.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en" data-ng-app="mainApp">

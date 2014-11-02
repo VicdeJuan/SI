@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'].'/php/movies.php';
+	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';
 
 	function getHistory($dir){
 

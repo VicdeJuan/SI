@@ -5,7 +5,7 @@
 </head>
 <body>
 	<?php
-	require_once $_SERVER['DOCUMENT_ROOT'].'/php/history.php';
+	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/history.php';
 
 	session_start();
 
@@ -14,7 +14,7 @@
 	function get()
 	{
 		if (isset($_SESSION['email'])) {
-			$clean_email = $_SERVER['DOCUMENT_ROOT']."/users/".$_SESSION['email'];
+			$clean_email = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users/".$_SESSION['email'];
 			echo json_encode(getHistory($clean_email));
 		}else{
 			http_response_code(200);
@@ -27,7 +27,7 @@
 
 		$cart = json_decode($json, true);
 
-		$clean_email = $_SERVER['DOCUMENT_ROOT']."/users/".$_SESSION['email']."/";
+		$clean_email = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users/".$_SESSION['email']."/";
 
 		if (addHistory($clean_email, $cart) == null)
 			http_response_code(404);

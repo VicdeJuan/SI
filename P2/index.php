@@ -1,4 +1,4 @@
-<?php require $_SERVER['DOCUMENT_ROOT'].'/base/header.php'; ?>
+<?php require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/header.php'; ?>
 
 <div class="body-container" data-ng-controller="movieListController">
 	<aside class="menu">
@@ -49,4 +49,4 @@
 	</div>
 </div>
 
-<?php require $_SERVER['DOCUMENT_ROOT'].'/base/footer.php'; ?>
+<?php require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/footer.php'; ?>

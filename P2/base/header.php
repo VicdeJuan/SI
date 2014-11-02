@@ -1,4 +1,4 @@
-<?php require $_SERVER['DOCUMENT_ROOT'].'/base/html_head.php'; ?>
+<?php require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/html_head.php'; ?>
 
 <?php
 	session_start();
