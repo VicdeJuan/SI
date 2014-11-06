@@ -1,0 +1,46 @@
+<div class="filter" data-ng-init="showFilters = false">
+	<img alt="Cerrar" src="about:blank" data-ng-src="{{closeImagePath}}" class="close-indicator" data-ng-show="showFilters" />
+
+	<a href="" data-ng-click="showFilters = !showFilters" class="filter-title" >
+		{{title}}
+	</a>
+	
+	<ul class="filter-items" data-ng-show="showFilters">
+		<li data-ng-repeat="filter in filters">
+			<input 
+			type="radio" 
+			value="{{filter.value}}" 
+			class="filter-item" 
+			data-ng-model="$parent.internalValue" 
+			name="{{name}}">
+				{{filter.name}}
+		</li>
+
+		<li>
+			<input type="radio" 
+			value="custom"
+			class="filter-item" 
+			data-ng-model="internalValue" 
+			name="{{name}}" data-ng-show="filtersEnabled">
+				<span data-ng-show="filtersEnabled">Personalizado:<br /></span>
+			<div class="custom-selector" data-ng-show="customRangeEnabled" data-ng-class="filtersDisabledClass">
+				<input type="number" data-ng-model="customValue.min" /><br /> 
+				<span>hasta</span><br />
+				<input type="number" data-ng-model="customValue.max" />
+			</div>
+			<div class="custom-selector" data-ng-show="customTextEnabled" data-ng-class="filtersDisabledClass">
+				<input type="text" data-ng-model="customValue.str" />
+			</div>
+		</li>
+
+		<li data-ng-show="filtersEnabled">
+			<input 
+			type="radio" 
+			value="{{defaultValue}}" 
+			class="filter-item" 
+			data-ng-model="internalValue" 
+			name="{{name}}">
+				Todos
+		</li>
+	</ul>
+</div>

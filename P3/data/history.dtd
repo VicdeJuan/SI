@@ -1,0 +1,6 @@
+    <!ELEMENT catalog (pedido)*>
+        <!ELEMENT pedido (movie)*>
+        <!ELEMENT movie (id|quantity|date)*>
+        <!ELEMENT id (#PCDATA)>
+        <!ELEMENT quantity (#PCDATA)>
+        <!ELEMENT date (#PCDATA)>
