@@ -205,4 +205,17 @@ select * from orders where totalamount=0 limit 10;
 (5 rows)
  */
 
+CREATE OR REPLACE FUNCTION getTopMonths(bigint, numeric)
+  RETURNS TABLE(year int, month int, sales bigint, revenue numeric) AS
+  '
+    SELECT EXTRACT(year FROM orders.orderdate)::int as year, 
+      EXTRACT(month FROM orders.orderdate)::int as month,
+      SUM(quantity) AS sales, SUM(totalamount) AS revenue 
+
+      FROM orders 
+        LEFT JOIN orderdetail ON orderdetail.orderid = orders.orderid
+      GROUP BY EXTRACT(year FROM orders.orderdate), EXTRACT(month FROM orders.orderdate)
+      HAVING SUM(quantity) >= $1 OR sum(totalamount) >= $2;
+  '
+language 'sql';
 
