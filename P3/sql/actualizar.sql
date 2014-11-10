@@ -250,7 +250,7 @@ CREATE OR REPLACE FUNCTION updInventory() RETURNS trigger as $updInventory$
 $updInventory$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS updInventory ON orders;
-CREATE TRIGGER updInventory BEFORE INSERT OR UPDATE ON orders 
+CREATE TRIGGER updInventory BEFORE INSERT ON orders 
   FOR EACH ROW EXECUTE PROCEDURE updInventory();
         
 
