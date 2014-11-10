@@ -1,0 +1,85 @@
+graph ER {
+	node [shape=box]; countries;imdb_movies;customers;imdb_directors;inventory;products;languages;genres;orderdetail;orders;imdb_actors;
+
+	node [shape=ellipse]; {node [label="genre"] genre1; genre2;};language;country;movietitle;year;directorname;actorname;genre2;{node [label="price"]price1; price2;};description;stock;sales;orderdate;netamount;totalamount;tax;status;quantity;firstname;lastname;email;"...";
+
+	node [shape=doublecircle];{node [label="prod_id"] prod_id1; prod_id2;}; languageid;countryid;genreid;directorid;movieid;actorid;orderid;customerid;"prod_id,orderid";
+
+	node [shape=diamond,style=filled,color=lightgrey]; "imdb_moviecountries";"imdb_moviegenres";"imdb_movielanguages";"imdb_actormovies";"imdb_directormovies";
+
+
+	language -- languages[len=1.5];
+	languageid -- languages[len=1.9];
+
+	country -- countries[len=1.5];
+	countryid -- countries[len=1.9];
+
+	genre1 -- genres[len=1.5];
+	genreid -- genres[len=1.9];
+
+	countries -- imdb_moviecountries [label="m",len=3.0];
+	imdb_moviecountries -- imdb_movies [label="n",len=2.6];
+
+	genres -- imdb_moviegenres [label="m",len=3.0];
+	imdb_moviegenres -- imdb_movies [label="n",len=2.6];
+
+	languages -- imdb_movielanguages [label="m",len=3.0];
+	imdb_movielanguages -- imdb_movies [label="n",len=2.6];
+
+	
+	imdb_directors -- imdb_directormovies [label="m",len=3.0];
+	imdb_directormovies -- imdb_movies [label="n",len=2.6];
+
+	imdb_actors -- imdb_actormovies [label="m",len=3.0];
+	imdb_actormovies -- imdb_movies [label="n",len=2.6];
+
+
+	imdb_movies -- products [label="1 - 1",len=1.50];
+	products -- inventory [label="n - 1",len=1.50];
+	inventory -- orderdetail [label="m",len=1.50];
+	orderdetail -- orders [label="n",len=1.50];
+	orders -- customers [label="n - m",len=1.50];
+
+
+	movieid -- 	imdb_movies [len=1.9];
+	movietitle -- 	imdb_movies [len=1.20];
+	year -- 	imdb_movies [len=1.20];
+
+	directorid -- 	imdb_directors [len=1.9];
+	directorname -- imdb_directors [len=1.20];
+
+	actorid -- 	imdb_actors [len=1.9];
+	actorname -- 	imdb_actors [len=1.20];
+	genre2 -- 	imdb_actors [len=1.20];
+
+
+	prod_id1 -- 	products [len=1.9];
+	price1 -- 	products [len=1.20];
+	description -- 	products [len=1.20];
+
+	prod_id2 -- inventory[len=1.9];
+	stock -- inventory[len=1.20];
+	sales -- inventory[len=1.20];
+
+	orderid -- 	orders [len=1.9];
+	orderdate -- 	orders [len=1.20];
+	netamount -- 	orders [len=1.20];
+	totalamount -- 	orders [len=1.20];
+	tax -- 	orders [len=1.20];
+	status -- 	orders [len=1.20];
+
+
+
+	"prod_id,orderid" -- orderdetail[len=1.9];
+	price2 -- 	orderdetail [len=1.20];
+	quantity -- 	orderdetail [len=1.20];
+
+	customerid -- 	customers [len=1.9];
+	firstname  -- 	customers [len=1.20];
+	lastname  -- 	customers [len=1.20];
+	email  -- 	customers [len=1.20];
+	"..."  -- 	customers [len=1.20];
+
+
+
+}
