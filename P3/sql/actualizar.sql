@@ -205,10 +205,13 @@ select * from orders where totalamount=0 limit 10;
 (5 rows)
  */
 
+/** getTopMonths **/
+
 CREATE OR REPLACE FUNCTION getTopMonths(bigint, numeric)
   RETURNS TABLE(year int, month int, sales bigint, revenue numeric) AS
   '
-    SELECT EXTRACT(year FROM orders.orderdate)::int as year, 
+    SELECT 
+      EXTRACT(year FROM orders.orderdate)::int as year, 
       EXTRACT(month FROM orders.orderdate)::int as month,
       SUM(quantity) AS sales, SUM(totalamount) AS revenue 
 
@@ -218,4 +221,37 @@ CREATE OR REPLACE FUNCTION getTopMonths(bigint, numeric)
       HAVING SUM(quantity) >= $1 OR sum(totalamount) >= $2;
   '
 language 'sql';
+
+/** updInventory **/
+
+CREATE OR REPLACE FUNCTION updInventory() RETURNS trigger as $updInventory$
+  DECLARE 
+    orderItem record;
+    itemStock integer;
+  BEGIN
+    FOR orderItem IN SELECT prod_id, quantity FROM orderdetail WHERE orderdetail.orderid = NEW.orderID 
+    LOOP  
+      SELECT inventory.stock INTO itemStock::int FROM inventory WHERE inventory.prod_id = orderItem.prod_id;
+
+      IF itemStock - orderItem.quantity < 0 THEN
+        RAISE EXCEPTION 'Not enough items of product %', orderItem.prod_id;
+      ELSIF itemStock - orderItem.quantity = 0 THEN
+        INSERT INTO alerts VALUES (DEFAULT, 'stock zero', orderItem.prod_id);
+      END IF;
+      
+      UPDATE inventory SET 
+        stock = stock - orderItem.quantity,
+        sales = sales + orderItem.quantity
+        WHERE inventory.prod_id = orderItem.prod_id;
+    END LOOP;
+    NEW.orderdate := current_timestamp;
+    RETURN NEW;
+  END;
+$updInventory$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS updInventory ON orders;
+CREATE TRIGGER updInventory BEFORE INSERT OR UPDATE ON orders 
+  FOR EACH ROW EXECUTE PROCEDURE updInventory();
+        
+
 
