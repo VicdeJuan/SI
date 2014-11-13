@@ -1,28 +1,14 @@
-/* Versión 1: SQL puro
+/**
+ *	Ejercicio BD-2 de sistemas informáticos.
+ *
+ *	Autores: Víctor de Juan Sanz y Guillermo Julián Moreno 
+ * 
+ */
 
-MAL: 
-create or replace view top_protagonicos as 
-	select agno,actor_id,nombre,count(ord) as totalpro  
-		from reparto,actor,pelicula 
-		where pelicula.id = reparto.pelicula_id AND 
-			reparto.actor_id = actor.id AND 
-			ord = 1 
-		group by agno, actor_id, nombre 
-		order by agno desc; 
 
-create or replace view top_no_protagonicos as 
-	select agno,actor_id,nombre,count(ord) as totalnopro 
-		from reparto,actor,pelicula 
-		where pelicula.id = reparto.pelicula_id AND 
-			reparto.actor_id = actor.id AND 
-			ord > 1 
-		group by agno, actor_id, nombre 
-		order by agno desc; 
 
-select top_protagonicos.actor_id,top_protagonicos.nombre,top_protagonicos.agno,totalpro as maximo 
-	from top_no_protagonicos join top_protagonicos 
-		on top_protagonicos.actor_id = top_no_protagonicos.actor_id 
-	where totalpro > totalnopro AND top_protagonicos.agno = top_no_protagonicos.agno;  */
+
+/* Versión 1: SQL puro*/
 
 create or replace view masprotas AS
 	select menosprotas.nombre as nombre, masprotas.actor_id as actor_id, masprotas.totalpro as maximo

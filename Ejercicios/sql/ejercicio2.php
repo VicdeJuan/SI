@@ -1,4 +1,14 @@
 <?php
+
+/**
+ *	Ejercicio BD-2 de sistemas informáticos.
+ *
+ *	Autores: Víctor de Juan Sanz y Guillermo Julián Moreno 
+ * 
+ */
+
+
+
 // Conexion, seleccion de base de datos
 $conn = pg_connect("host=localhost dbname=pelis user=alumnodb password=alumnodb")
  or die('No pudo conectarse: ' . pg_last_error());

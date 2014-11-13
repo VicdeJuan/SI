@@ -1,3 +1,11 @@
+/**
+ *	Ejercicio BD-1 de sistemas informáticos.
+ *
+ *	Autores: Guillermo Julián Moreno y Víctor de Juan Sanz
+ * 
+ */
+
+
 /* Creación de la vista: */
 create or replace view top10protas as select actor_id,sum(ord) as num_protagonista 
 	from reparto,actor,pelicula
