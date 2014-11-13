@@ -159,17 +159,26 @@ ALTER TABLE imdb_movies ALTER COLUMN year SET DATA TYPE Integer USING year::Inte
 
 /* ¿Pasa algo porque sea sql y no ¿pgpgpsgpspgsl??*/
 
-CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula text, venta bigint) AS
-'SELECT movies_filtered.year AS año, movies_filtered.movietitle AS pelicula, movies_filtered.quantity AS venta 
+/* Fatal, hay que coger el año de ventas no de la pelicula. */
+CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula text, venta numeric) AS
+'
+SELECT
+  EXTRACT(year FROM orders.orderdate)::int as year, 
+  movies_filtered.movietitle AS pelicula, 
+  sum(movies_filtered.quantity) AS venta 
 FROM 
-  (SELECT movies.year,movies.movietitle,COUNT(orderdetail.quantity) AS quantity 
+  (SELECT orderdetail.orderid, movies.year,movies.movietitle,SUM(orderdetail.quantity) AS quantity 
   FROM 
     imdb_movies AS movies, 
     products,
     orderdetail 
-  WHERE products.movieid=movies.movieid AND orderdetail.prod_id = products.prod_id AND movies.year>=$1
-  GROUP BY movies.movieid ORDER BY quantity DESC LIMIT 1) 
-AS movies_filtered;' 
+  WHERE products.movieid=movies.movieid AND orderdetail.prod_id = products.prod_id
+  GROUP BY orderdetail.orderid, movies.movieid ) 
+AS movies_filtered join orders using (orderid) 
+where EXTRACT(year FROM orders.orderdate)::int >= $1
+group by orders.orderdate,movies_filtered.movietitle, movies_filtered.quantity
+ORDER BY movies_filtered.quantity DESC;
+' 
 language 'sql';
 
 
@@ -182,7 +191,7 @@ DECLARE
   tmp record;
 
 BEGIN
-UPDATE orders SET netamount = 0;
+
 FOR tmp IN SELECT orderid,SUM(price * quantity) FROM orderdetail GROUP BY orderid LOOP
   UPDATE orders SET netamount=tmp.sum WHERE orders.orderid = tmp.orderid;
 END LOOP;
