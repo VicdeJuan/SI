@@ -26,8 +26,8 @@ CREATE TABLE  TOP10 as select actor_id,sum(ord) as num_protagonista
 
 
 
-DROP FUNCTION modificacion2() cascade;
-CREATE FUNCTION modificacion2() RETURNS TRIGGER AS '
+DROP FUNCTION Ejercicio1() cascade;
+CREATE FUNCTION Ejercicio1() RETURNS TRIGGER AS '
 DECLARE 
 	boolaux boolean;
   	iterator record;
@@ -50,6 +50,6 @@ BEGIN
 RETURN NEW; END;'LANGUAGE 'plpgsql';
 
 
-DROP TRIGGER t_modificacion2 on reparto;
-CREATE TRIGGER t_modificacion2 AFTER INSERT ON reparto
-FOR EACH ROW EXECUTE PROCEDURE modificacion2();
+DROP TRIGGER t_Ejercicio1 on reparto;
+CREATE TRIGGER t_Ejercicio1 AFTER INSERT ON reparto
+FOR EACH ROW EXECUTE PROCEDURE Ejercicio1();

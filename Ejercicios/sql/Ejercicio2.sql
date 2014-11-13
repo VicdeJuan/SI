@@ -59,7 +59,7 @@ select DISTINCT ON (ids_max.actor_id,ids_max.maximo) ids_max.*
 		as just_ids
 		left outer join	ids_max on ids_max.actor_id = just_ids.actor_id 
 		where ids_max.maximo = just_ids.max 
-		order by ids_max.maximo desc;
+		order by ids_max.maximo desc,ids_max.actor_id;
 
 /* Versión 2: Procedimiento almacenado de PostgreSQL */ 
 
@@ -78,7 +78,7 @@ CREATE OR REPLACE FUNCTION Ejercicio2()
 	END;'
 language 'plpgsql';
 
-SELECT * FROM Ejercicio2();
+SELECT * FROM Ejercicio2() order by maximo desc,actor_id;
 
 
 /* Versión 3: Script de php */
