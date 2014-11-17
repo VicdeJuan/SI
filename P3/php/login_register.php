@@ -4,6 +4,25 @@
 require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/common.php';
 require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/history.php';
 
+/*
+Campos de customers: 
+customerid | firstname | lastname | address1 | address2 | city | state | zip | country | | email | phone | creditcardtype | creditcard | creditcardexpiration | username | password | age | income | gender 
+ */
+$username = "alumnodb";
+$password = "alumnodb";
+
+$dbh = newPDO( "pgsql:dbname=olakase; host=localhost", $username, $password) ;
+$stmt = $dbh->prepare( "SELECT username,password FROM customers " + "WHERE username = :customer_username AND password = :customer_password" );
+
+$stmt->bindParam(':customer_username', $customer_username, PDO::PARAM_STRING);
+$stmt->bindParam(':customer_password', $customer_password, PDO::PARAM_STRING);
+
+
+
+pg_free_result($resultado);
+pg_close($conn);
+
+
 if (isset($_POST['email'])) {
   $input = $_POST;
 }else{
