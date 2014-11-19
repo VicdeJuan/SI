@@ -6,21 +6,16 @@ require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/history.php';
 
 /*
 Campos de customers: 
-customerid | firstname | lastname | address1 | address2 | city | state | zip | country | | email | phone | creditcardtype | creditcard | creditcardexpiration | username | password | age | income | gender 
+customerid , firstname , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" 
  */
-$username = "alumnodb";
-$password = "alumnodb";
-
-$dbh = newPDO( "pgsql:dbname=olakase; host=localhost", $username, $password) ;
-$stmt = $dbh->prepare( "SELECT username,password FROM customers " + "WHERE username = :customer_username AND password = :customer_password" );
-
-$stmt->bindParam(':customer_username', $customer_username, PDO::PARAM_STRING);
-$stmt->bindParam(':customer_password', $customer_password, PDO::PARAM_STRING);
+$db_username = "alumnodb";
+$db_password = "alumnodb";
 
 
+$dbh =  new PDO( "pgsql:dbname=olakase; host=localhost", $db_username, $db_password) ;
+$stmt = $dbh->prepare( "SELECT email,username,password FROM customers WHERE email = :email AND password = :password" );
 
-pg_free_result($resultado);
-pg_close($conn);
+
 
 
 if (isset($_POST['email'])) {
@@ -30,37 +25,31 @@ if (isset($_POST['email'])) {
   $input = json_decode($json, true);      
 }
 
-$dir = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users";
-if (!is_dir($dir)) {
-  mkdir($dir,0777);
-}
+/* Exeute query */
+$name = $input['name']; 
+$email = $input['email'];
+$password = $input['password'];
 
-$dir = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users/".$input['email'];
-$filename = $dir."/"."datos.dat";
+$stmt->bindParam(':email', $email, PDO::PARAM_STR);
+$stmt->bindParam(':password', $password, PDO::PARAM_STR);
+
+$stmt->execute();
+$result = $stmt->fetchAll();
+
 
 if (!session_start())
   header("Location: ".$applicationBaseDir."exit.html");
 
-if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist so we create it.*/
-  if (!mkdir($dir,0777,true)){
-    $_SESSION['error'] = "No se ha podido crear el directorio de usuario. Por favor, contacte con el administrador (o de permisos 777 a la carpeta users)";
-    header("Location: ".$applicationBaseDir."pages/error.php");
-    die();
-  }
-  
-  $myfile = fopen($filename, "w");
-  $txt = $input['name']."\n";
-  $txt = $txt.$input['email']."\n";
-  $txt = $txt.md5($input['password'])."\n";
-  $txt = $txt.$input['creditCard']."\n";
-  $txt = $txt.$input['CSV']."\n";
-  $txt = $txt.$input['expireDate']."\n";
-  $txt = $txt.date('d/m/Y', time())."\n";
-  fwrite($myfile, $txt);
-  fclose($myfile);
+if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not exist so we create it.*/
 
-  $name = $input['name']; 
-  $email = $input['email'];
+  $stmt_create = $dbh->prepare( "INSERT INTO customers (firstname , lastname , address1 , address2 , city , state , zip , country,region,  email , phone , creditcardtype , creditcard , creditcardexpiration , username , password , age , income , gender)  values (:username , 'lastname' , 'address1' , 'address2' , 'city' , 'state' , 28030 , 'country' , 'region', :email , 'phone' , 'cctype' , :creditCard, :expireCard , 'username' , :password , 21 , 5 , 'M'); " );
+  $stmt_create->bindParam(':username',$name,PDO::PARAM_STR);
+  $stmt_create->bindParam(':email',$email,PDO::PARAM_STR);
+  $stmt_create->bindParam(':creditCard',$input['creditCard'],PDO::PARAM_STR);
+  $stmt_create->bindParam(':expireCard',$input['expireDate'],PDO::PARAM_STR);
+  $stmt_create->bindParam(':password',$password,PDO::PARAM_STR);
+
+  $stmt_create->execute();
 
   $_SESSION['name'] = $name;
   $_SESSION['email'] = $email;
@@ -72,18 +61,15 @@ if (!is_dir($dir) and isset($_POST['creditCard'])){        /*User does not exist
 
   header("Location: ".$applicationBaseDir."index.php");
 }else{      /* Now, if we come from a login */
-  $myfile = fopen($filename, "r");
-  if ($myfile){
-    $name = fgets($myfile);
-    $name = trim(preg_replace('/\s+/', ' ', $name));
-
-    $email = fgets($myfile);
-    $email = trim(preg_replace('/\s+/', ' ', $email));
+  
+  if (count($result == 1)){
+   
     
-    $password = strstr(fgets($myfile),"\n",true);
-    $password = trim(preg_replace('/\s+/', ' ', $password));
+    $password = $result[0]['password'];
+    $email = $result[0]['email'];
+    $name = $result[0]['username'];
 
-    if (0 == strcmp($password,md5($input['password']))){
+    if (0 == strcmp($password,$input['password'])){
       $_SESSION['name'] = $name;
       $_SESSION['email'] = $email;
       $output = array( "name" => $name );

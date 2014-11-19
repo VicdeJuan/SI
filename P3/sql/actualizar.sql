@@ -55,11 +55,6 @@ ALTER TABLE inventory
 
 
 
-
-
-
-
-
 /*SEPARAR TABLAS */
 
 

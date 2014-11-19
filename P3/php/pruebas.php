@@ -5,12 +5,12 @@
 $db_username = "alumnodb";
 $db_password = "alumnodb";
 
-$username = "'latino'";
-$password = "'neva'";
+$username = "latino";
+$password = "neva";
 
 $dbh = 	new PDO( "pgsql:dbname=olakase; host=localhost", $db_username, $db_password) ;
 
-$stmt = $dbh->prepare( "SELECT username,password FROM customers " + "WHERE username  ?' AND password = ?" );
+$stmt = $dbh->prepare( "SELECT username,password FROM customers WHERE username = :username AND password = :password" );
 
 echo "username: ";
 echo $username;
@@ -20,8 +20,8 @@ echo $password;
 echo "<br>dbh: ";
 echo var_dump($dbh);
 
-$stmt->bindParam(1, $username, PDO::PARAM_STR,25);
-$stmt->bindParam(2, $password, PDO::PARAM_STR,25);
+$stmt->bindParam(':username', $username, PDO::PARAM_STR);
+$stmt->bindParam(':password', $password, PDO::PARAM_STR);
 
 $stmt->execute();
 $result = $stmt->fetchAll();
@@ -34,10 +34,11 @@ if ($result === FALSE){
 	echo "tumadre bien no?";
 	print_r($dbh->errorInfo());
 }
+echo $result[0]['username']; 
 
 foreach( $result as $row ) {
-	echo var_dump($row);
-	echo "<br>";
+  echo var_dump($row['username']);
+  echo "<br>";
 }
 
 ?>

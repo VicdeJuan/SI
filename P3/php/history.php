@@ -89,7 +89,7 @@
 	}
 
 	function createHistory($dir){
-		$file = fopen($dir."/history.xml", "w");
+		/*$file = fopen($dir."/history.xml", "w");
 
 		if ($file == null) {
 			fclose($file);
@@ -99,7 +99,9 @@
 			fclose($file);
 			return 200;
 		}
-
+		*/
+		/* Crear historial */ 
+		return 200;
 	}
 
 
