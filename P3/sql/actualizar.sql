@@ -143,30 +143,36 @@ ALTER TABLE imdb_movies ALTER COLUMN year SET DATA TYPE Integer USING year::Inte
 /* ¿Pasa algo porque sea sql y no ¿pgpgpsgpspgsl??*/
 /* Procedimiento normal. Juntado para la función:
 
-
 create or replace view orders_years as (
   select orderid, EXTRACT(year from orders.orderdate)::int as year 
   from orders 
   where EXTRACT(year from orders.orderdate)::int >= 2009);
 
 create or replace view prod_years as (
-  select orderid,prod_id,year,quantity 
-  from orders_years join orderdetail using (orderid));
+  select movieid,orders_years.year,sum(quantity) as quantity 
+  from
+    orders_years join 
+    orderdetail using(orderid) join 
+    products using (prod_id) 
+  group by year,movieid);
 
 create or replace view topventas_ids as (
-  select distinct on (year,quantity) year_max.year as year,prod_id,quantity 
-    from 
-      (
-        select year,max(quantity) as max from prod_years group by year)
-      as year_max 
-      join prod_years on max = quantity and year_max.year = prod_years.year);
+  select distinct on (year,quantity) year_max.year as year,movieid,quantity 
+  from 
+    (
+      select year,max(quantity) as max from prod_years group by year
+    ) as year_max join 
+    prod_years  on max = quantity and year_max.year = prod_years.year);
 
-select topventas_ids.year,movietitle,quantity from 
-  topventas_ids join 
-  products using (prod_id) join 
-  imdb_movies using(movieid);
+create or replace view topventas as (
+  select topventas_ids.year,movietitle,quantity 
+  from topventas_ids  
+  join imdb_movies using(movieid));
+
+
 
 */
+/*
 CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula text, venta integer) AS
 '
 
@@ -203,13 +209,32 @@ select topventas_ids.year,movietitle,quantity
     ) as topventas_ids join products using (prod_id) join imdb_movies using(movieid) order by topventas_ids.year desc;
 ' 
 language 'sql';
+*/
+/* b) */
+
+CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula character varying(255), venta bigint) AS
+'
+DECLARE 
+year_var record;
+BEGIN
+FOR year_var in (select distinct(EXTRACT(year from orders.orderdate)) as year from orders where EXTRACT(year from orders.orderdate) >= $1 order by year) LOOP
+  return query select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,movietitle,sum(quantity) as quantity from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = year_var.year group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+END LOOP;
+END;
+'
+language 'plpgsql';
 
 /* Para solo la peli más vendida:
 
-create or replace view orders_years as (select orderid, EXTRACT(year from orders.orderdate)::int as year from orders where EXTRACT(year from orders.orderdate)::int = 2011);
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2006 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2007 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2008 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2009 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2010 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2011 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2012 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
 
-select 2011 as year,movietitle,max from (select prod_id,max(quantity) as max from (select * from orders_years join orderdetail using (orderid)) as foo group by prod_id order by max desc limit 1) as topventa join products using (prod_id) join imdb_movies using (movieid);
-
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int >= 2009 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity;
  */
 
 
