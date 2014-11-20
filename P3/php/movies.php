@@ -15,8 +15,7 @@ function findMovie($movieList, $id)
 
 function getAllMovies()
 {
-	$path = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/data/movies.xml";
-	$movies = json_decode(json_encode(simplexml_load_file($path)), true)['movie'];
+
 
 	foreach ($movies as &$movie) {
 		$movie['image'] = asAbsoluteUrl($movie['image']);
@@ -27,16 +26,44 @@ function getAllMovies()
 
 function getMovies($from, $count)
 {
-	$movieArray = getAllMovies();
+	$db_username = "alumnodb";
+	$db_password = "alumnodb";
+
+	$dbh = new PDO( "pgsql:dbname=olakase; host=localhost", $db_username, $db_password) ;
+
+	$query = <<<SQL
+SELECT * FROM (
+	SELECT * FROM(
+		SELECT imdb_movies.movieid as id, movietitle as title, year, string_agg(genre, ',') as genre, prod_id, price
+			FROM imdb_movies
+			JOIN imdb_moviegenres ON imdb_moviegenres.movieid = imdb_movies.movieid
+			JOIN products on products.movieid = imdb_movies.movieid
+			JOIN genres on genres.genreid = imdb_moviegenres.genreid
+			GROUP BY imdb_movies.movieid, movietitle, year, prod_id, price
+			ORDER BY imdb_movies.movieid
+			LIMIT :count_end) AS cut_end
+		ORDER BY id DESC
+		LIMIT :page_size) as cut_begin
+	ORDER BY id;
+SQL
 	
-	$count = min($count, count($movieArray));
+	
+	$stmt = $dbh->prepare($query);
+	$stmt->bindParam(':count_end', $from + $count);
+	$stmt->bindParam(':page_size', $count);
+
+	$stmt->execute();	
+	
+	$dbMovieCount = getTableRowCount($dbh, "imdb_movies");
+
+	$count = min($count, $dbMovieCount);
 	$next = $from + $count;
 
-	if($next >= count($movieArray))
+	if($next >= $dbMovieCount)
 		$next = -1;
 
 	return array(
-		'movies' => array_splice($movieArray, $from, $count),
+		'movies' => json_decode(json_encode($stmt->fetchAll())),
 		'next' => $next
 	);
 }

@@ -17,4 +17,12 @@ function asAbsoluteUrl($url)
 	return $applicationBaseDir.$url;
 }
 
+function getTableRowCount($pdo, $table)
+{
+	$sql = "SELECT count(*) FROM ".$table." WHERE foo = bar"; 
+	$result = $pdo->prepare($sql); 
+	$result->execute(); 
+	return $result->fetchColumn(); 	
+}
+
 ?>
