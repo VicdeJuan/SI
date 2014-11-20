@@ -14,7 +14,17 @@ $db_password = "alumnodb";
 
 $dbh =  new PDO( "pgsql:dbname=olakase; host=localhost", $db_username, $db_password) ;
 $stmt = $dbh->prepare( "SELECT email,username,password FROM customers WHERE email = :email AND password = :password" );
-$stmt_create = $dbh->prepare( "INSERT INTO customers (firstname , lastname , address1 , address2 , city , state , zip , country,region,  email , phone , creditcardtype , creditcard , creditcardexpiration , username , password , age , income , gender)  values (:username , 'lastname' , 'address1' , 'address2' , 'city' , 'state' , 28030 , 'country' , 'region', :email , 'phone' , 'cctype' , :creditCard, :expireCard , 'username' , :password , 21 , 5 , 'M'); " );
+$stmt_create = $dbh->prepare( "INSERT INTO customers (
+    firstname ,lastname ,address1 ,address2 ,city ,state ,ip ,country,region,email ,phone ,
+    creditcardtype ,creditcard ,creditcardexpiration ,username ,password ,age ,income ,gender)
+  values 
+    (:username ,'lastname' ,'address1' ,'address2' ,'city' ,'state' ,28030 ,'country' ,'region',
+     :email ,'phone' ,'cctype' ,
+     :creditCard,
+     :expireCard ,
+     :username ,
+     :password ,21 ,5 ,'M'); 
+  " );
 
 
 
@@ -23,7 +33,7 @@ if (isset($_POST['email'])) {
   $input = $_POST;
 }else{
   $json = file_get_contents('php://input');
-  $input = json_decode($json, true);      
+  $input = json_decode($json,true);      
 }
 
 /* Exeute query */
@@ -31,6 +41,7 @@ $name = $input['name'];
 $email = $input['email'];
 $password = $input['password'];
 
+$stmt->bindParam(':name', $name, PDO::PARAM_STR);
 $stmt->bindParam(':email', $email, PDO::PARAM_STR);
 $stmt->bindParam(':password', $password, PDO::PARAM_STR);
 
