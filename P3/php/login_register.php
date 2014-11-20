@@ -14,6 +14,7 @@ $db_password = "alumnodb";
 
 $dbh =  new PDO( "pgsql:dbname=olakase; host=localhost", $db_username, $db_password) ;
 $stmt = $dbh->prepare( "SELECT email,username,password FROM customers WHERE email = :email AND password = :password" );
+$stmt_create = $dbh->prepare( "INSERT INTO customers (firstname , lastname , address1 , address2 , city , state , zip , country,region,  email , phone , creditcardtype , creditcard , creditcardexpiration , username , password , age , income , gender)  values (:username , 'lastname' , 'address1' , 'address2' , 'city' , 'state' , 28030 , 'country' , 'region', :email , 'phone' , 'cctype' , :creditCard, :expireCard , 'username' , :password , 21 , 5 , 'M'); " );
 
 
 
@@ -42,7 +43,6 @@ if (!session_start())
 
 if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not exist so we create it.*/
 
-  $stmt_create = $dbh->prepare( "INSERT INTO customers (firstname , lastname , address1 , address2 , city , state , zip , country,region,  email , phone , creditcardtype , creditcard , creditcardexpiration , username , password , age , income , gender)  values (:username , 'lastname' , 'address1' , 'address2' , 'city' , 'state' , 28030 , 'country' , 'region', :email , 'phone' , 'cctype' , :creditCard, :expireCard , 'username' , :password , 21 , 5 , 'M'); " );
   $stmt_create->bindParam(':username',$name,PDO::PARAM_STR);
   $stmt_create->bindParam(':email',$email,PDO::PARAM_STR);
   $stmt_create->bindParam(':creditCard',$input['creditCard'],PDO::PARAM_STR);
@@ -54,10 +54,6 @@ if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not 
   $_SESSION['name'] = $name;
   $_SESSION['email'] = $email;
 
-  if(createHistory($dir) == 404){
-    $_SESSION['error'] = "No se ha podido crear el historial del usuario. Es probable que se deba a un problema de configuración del servidor en cuanto a los permisos de las carpetas";
-    header("Location ".$applicationBaseDir."base/error.php");
-  }
 
   header("Location: ".$applicationBaseDir."index.php");
 }else{      /* Now, if we come from a login */

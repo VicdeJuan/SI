@@ -5,19 +5,7 @@ DELETE FROM orderdetail WHERE 	(orderid,prod_id) IN (SELECT orderid,prod_id FROM
 
 /*  Obtenemos los huecos en la secuencia de id's de inventory */
 /*  Rellenamos  esos huecos, para poder añadir claves foráneas que referencien a filas que existan. */
-CREATE or replace VIEW faltan_id_inventory AS (SELECT  prod_id + 1 as id FROM inventory mo 
-  WHERE NOT EXISTS (SELECT  NULL FROM    inventory mi WHERE   mi.prod_id = mo.prod_id + 1)
-  ORDER BY prod_id);
-INSERT INTO inventory (select *,0,0 from faltan_id_inventory where  faltan_id_inventory.id <= 6656);
-/* Es necesario hacerlo 2 veces, porque la vista esta no obtiene todos los que debería. */
-CREATE or replace VIEW faltan_id_inventory AS (SELECT  prod_id + 1 as id FROM inventory mo 
-	WHERE NOT EXISTS (SELECT  NULL FROM    inventory mi	WHERE   mi.prod_id = mo.prod_id + 1)
-	ORDER BY prod_id);
-INSERT INTO inventory (select *,0,0 from faltan_id_inventory where  faltan_id_inventory.id <= 6656);
-
-
-/* contar id's que no existen en inventory y si en orderdetail (323) inicialmente, ahora debería ser 0 */
-/*select count(*) from (select orderdetail.prod_id,orderdetail.prod_id from faltan_id_inventory, orderdetail where orderdetail.prod_id = faltan_id_inventory.id group by orderdetail.prod_id) as foo;*/
+INSERT INTO inventory (select prod_id,0,0 from products outter left join inventory using (prod_id) where stock is null);
 
 
 
@@ -153,28 +141,76 @@ UPDATE imdb_movies SET year=substr(year,0,5) WHERE length(year) > 4;
 ALTER TABLE imdb_movies ALTER COLUMN year SET DATA TYPE Integer USING year::Integer;
 
 /* ¿Pasa algo porque sea sql y no ¿pgpgpsgpspgsl??*/
+/* Procedimiento normal. Juntado para la función:
 
-/* Fatal, hay que coger el año de ventas no de la pelicula. */
-CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula text, venta numeric) AS
+
+create or replace view orders_years as (
+  select orderid, EXTRACT(year from orders.orderdate)::int as year 
+  from orders 
+  where EXTRACT(year from orders.orderdate)::int >= 2009);
+
+create or replace view prod_years as (
+  select orderid,prod_id,year,quantity 
+  from orders_years join orderdetail using (orderid));
+
+create or replace view topventas_ids as (
+  select distinct on (year,quantity) year_max.year as year,prod_id,quantity 
+    from 
+      (
+        select year,max(quantity) as max from prod_years group by year)
+      as year_max 
+      join prod_years on max = quantity and year_max.year = prod_years.year);
+
+select topventas_ids.year,movietitle,quantity from 
+  topventas_ids join 
+  products using (prod_id) join 
+  imdb_movies using(movieid);
+
+*/
+CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula text, venta integer) AS
 '
-SELECT
-  EXTRACT(year FROM orders.orderdate)::int as year, 
-  movies_filtered.movietitle AS pelicula, 
-  sum(movies_filtered.quantity) AS venta 
-FROM 
-  (SELECT orderdetail.orderid, movies.year,movies.movietitle,SUM(orderdetail.quantity) AS quantity 
-  FROM 
-    imdb_movies AS movies, 
-    products,
-    orderdetail 
-  WHERE products.movieid=movies.movieid AND orderdetail.prod_id = products.prod_id
-  GROUP BY orderdetail.orderid, movies.movieid ) 
-AS movies_filtered join orders using (orderid) 
-where EXTRACT(year FROM orders.orderdate)::int >= $1
-group by orders.orderdate,movies_filtered.movietitle, movies_filtered.quantity
-ORDER BY movies_filtered.quantity DESC;
+
+select topventas_ids.year,movietitle,quantity 
+  from
+    (
+      select distinct on (year,quantity) year_max.year as year,prod_id,quantity 
+      from 
+        (
+        select year,max(quantity) as max 
+        from 
+          (
+          select orderid,prod_id,year,quantity 
+          from 
+            (
+              select orderid, EXTRACT(year from orders.orderdate)::int as year 
+                from orders where EXTRACT(year from orders.orderdate)::int >= $1
+            ) as orders_years 
+            join orderdetail using (orderid)
+        ) as prod_years group by year
+      ) as year_max 
+      join 
+        (
+          select orderid,prod_id,year,quantity 
+          from 
+            (
+              select orderid, EXTRACT(year from orders.orderdate)::int as year 
+              from orders 
+              where EXTRACT(year from orders.orderdate)::int >= $1
+            ) as orders_years
+          join orderdetail using (orderid)
+        ) as prod_years 
+      on max = quantity and year_max.year = prod_years.year
+    ) as topventas_ids join products using (prod_id) join imdb_movies using(movieid) order by topventas_ids.year desc;
 ' 
 language 'sql';
+
+/* Para solo la peli más vendida:
+
+create or replace view orders_years as (select orderid, EXTRACT(year from orders.orderdate)::int as year from orders where EXTRACT(year from orders.orderdate)::int = 2011);
+
+select 2011 as year,movietitle,max from (select prod_id,max(quantity) as max from (select * from orders_years join orderdetail using (orderid)) as foo group by prod_id order by max desc limit 1) as topventa join products using (prod_id) join imdb_movies using (movieid);
+
+ */
 
 
 
