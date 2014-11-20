@@ -43,6 +43,8 @@ ALTER TABLE inventory
 
 
 
+ALTER TABLE imdb_movies ADD COLUMN url_to_img character varying(255);
+UPDATE imdb_movies SET url_to_img="http://img2.wikia.nocookie.net/__cb20110130000348/tarzan/images/5/50/Tarzan.jpg";
 /*SEPARAR TABLAS */
 
 
@@ -54,7 +56,6 @@ CREATE TABLE genres(
 
 ALTER TABLE genres ADD CONSTRAINT genre_pkey PRIMARY KEY (genreid);
 INSERT INTO genres (genre) SELECT DISTINCT genre FROM imdb_moviegenres;
-
 ALTER TABLE imdb_moviegenres ADD COLUMN genreid Integer;
 
 CREATE OR REPLACE FUNCTION change_genres () RETURNS void

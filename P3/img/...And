@@ -1,0 +1,51 @@
+--2014-11-20 17:08:33--  http://se/
+Resolving se (se)... failed: No address associated with hostname.
+wget: unable to resolve host address ‘se’
+--2014-11-20 17:08:34--  http://justice/
+Resolving justice (justice)... failed: Name or service not known.
+wget: unable to resolve host address ‘justice’
+--2014-11-20 17:08:34--  http://for/
+Resolving for (for)... failed: Name or service not known.
+wget: unable to resolve host address ‘for’
+--2014-11-20 17:08:34--  http://all/
+Resolving all (all)... failed: Name or service not known.
+wget: unable to resolve host address ‘all’
+--2014-11-20 17:08:34--  http://5901-900/
+Resolving 5901-900 (5901-900)... failed: Name or service not known.
+wget: unable to resolve host address ‘5901-900’
+--2014-11-20 17:08:34--  http://90810/
+Resolving 90810 (90810)... 0.1.98.186
+Connecting to 90810 (90810)|0.1.98.186|:80... failed: Invalid argument.
+--2014-11-20 17:08:34--  http://things/
+Resolving things (things)... failed: Name or service not known.
+wget: unable to resolve host address ‘things’
+--2014-11-20 17:08:34--  http://i/
+Resolving i (i)... failed: Name or service not known.
+wget: unable to resolve host address ‘i’
+--2014-11-20 17:08:34--  http://hate/
+Resolving hate (hate)... failed: Name or service not known.
+wget: unable to resolve host address ‘hate’
+--2014-11-20 17:08:34--  http://about/
+Resolving about (about)... failed: Name or service not known.
+wget: unable to resolve host address ‘about’
+--2014-11-20 17:08:34--  http://you/
+Resolving you (you)... failed: Name or service not known.
+wget: unable to resolve host address ‘you’
+--2014-11-20 17:08:34--  http://992101/
+Resolving 992101 (992101)... 0.15.35.101
+Connecting to 992101 (992101)|0.15.35.101|:80... failed: Invalid argument.
+--2014-11-20 17:08:34--  http://dalmatians/
+Resolving dalmatians (dalmatians)... failed: Name or service not known.
+wget: unable to resolve host address ‘dalmatians’
+--2014-11-20 17:08:34--  http://125712/
+Resolving 125712 (125712)... 0.1.235.16
+Connecting to 125712 (125712)|0.1.235.16|:80... failed: Invalid argument.
+--2014-11-20 17:08:34--  http://angry/
+Resolving angry (angry)... failed: Name or service not known.
+wget: unable to resolve host address ‘angry’
+--2014-11-20 17:08:34--  http://men/
+Resolving men (men)... failed: Name or service not known.
+wget: unable to resolve host address ‘men’
+--2014-11-20 17:08:34--  http://1415/
+Resolving 1415 (1415)... 0.0.5.135
+Connecting to 1415 (1415)|0.0.5.135|:80... failed: Invalid argument.
