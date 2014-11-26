@@ -32,7 +32,10 @@ ALTER TABLE orders
   ADD CONSTRAINT customer_fkey FOREIGN KEY (customerid) REFERENCES customers (customerid)
    ON UPDATE CASCADE ON DELETE NO ACTION;
 
+
+
 alter sequence customers_customerid_seq restart with 14094;
+ALTER TABLE customers ADD CONSTRAINT unique_email UNIQUE (email);
 
 /* Invetory y order detail clave foránea de products. */
 

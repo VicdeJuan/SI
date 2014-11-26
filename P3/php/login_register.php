@@ -25,6 +25,7 @@ $stmt_create = $dbh->prepare( "INSERT INTO customers (
      :username ,
      :password ,21 ,5 ,'M'); 
   " );
+$stmt_getid = $dbh->prepare( "SELECT customerid FROM customers WHERE email = :email" );
 
 
 
@@ -62,8 +63,12 @@ if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not 
 
   $stmt_create->execute();
 
+
+
   $_SESSION['name'] = $name;
   $_SESSION['email'] = $email;
+  $stmt_getid->execute();
+  $_SESSION['id'] = $stmt_getid->fetchAll();;
 
 
   header("Location: ".$applicationBaseDir."index.php");
