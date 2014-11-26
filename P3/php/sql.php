@@ -14,9 +14,9 @@
 		}
 
 
-		function stmtQuert(stmt){
+		function stmtQuery($stmt){
 			$stmt->execute();
-			return $stmt->fecthAll();
+			return $stmt->fetchAll();
 		}
 
 ?>

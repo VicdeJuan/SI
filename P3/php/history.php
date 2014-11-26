@@ -27,7 +27,7 @@
 
 			$result = stmtQuery($stmt_getMovies);
 
-			foreach ($moviesPurchased as $movie) {
+			foreach ($result as $movie) {
 				array_push($purchasesArray, $movie);
 			}
 

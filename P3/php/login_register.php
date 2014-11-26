@@ -11,7 +11,9 @@ customerid , firstname , "firstname" , "firstname" , "firstname" , "firstname" ,
  */
 
 
-$dbh =  new PDO( "pgsql:dbname=olakase; host=localhost", $db_username, $db_password) ;
+$dbh =  DBConnect_PDO();
+
+
 $stmt = $dbh->prepare( "SELECT email,username,password FROM customers WHERE email = :email AND password = :password" );
 $stmt_create = $dbh->prepare( "INSERT INTO customers (
     firstname ,lastname ,address1 ,address2 ,city ,state ,ip ,country,region,email ,phone ,
@@ -66,8 +68,9 @@ if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not 
 
   $_SESSION['name'] = $name;
   $_SESSION['email'] = $email;
+  $stmt_getid->bindParam(':email',$email,PDO::PARAM_STR);
   $stmt_getid->execute();
-  $_SESSION['id'] = $stmt_getid->fetchAll();;
+  $_SESSION['id'] = $stmt_getid->fetchAll();
 
 
   header("Location: ".$applicationBaseDir."index.php");
@@ -83,6 +86,10 @@ if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not 
     if (0 == strcmp($password,$input['password'])){
       $_SESSION['name'] = $name;
       $_SESSION['email'] = $email;
+      $stmt_getid->bindParam(':email',$email,PDO::PARAM_STR);
+      $stmt_getid->execute();
+      $_SESSION['id'] = $stmt_getid->fetchAll();
+
       $output = array( "name" => $name );
       echo json_encode($output);
       http_response_code(200);

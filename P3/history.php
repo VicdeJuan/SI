@@ -11,7 +11,7 @@
 			<?php
 				require_once 'php/history.php';
 
-				$purchases = getHistory("users/".$_SESSION['email']);
+				$purchases = getHistory();
 
 				foreach ($purchases as $purchase) 
 				{

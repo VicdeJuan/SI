@@ -1,4 +1,4 @@
-    <!ELEMENT catalog (pedido)*>
+<!ELEMENT catalog (pedido)*>
         <!ELEMENT pedido (movie)*>
         <!ELEMENT movie (id|quantity|date)*>
         <!ELEMENT id (#PCDATA)>

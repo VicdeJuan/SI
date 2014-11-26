@@ -14,8 +14,7 @@
 	function get()
 	{
 		if (isset($_SESSION['email'])) {
-			$clean_email = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users/".$_SESSION['email'];
-			echo json_encode(getHistory($clean_email));
+			echo json_encode(getHistory());
 		}else{
 			http_response_code(200);
 		}
