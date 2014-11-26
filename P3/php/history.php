@@ -7,8 +7,8 @@
 
 		$dbh = DBConnect_PDO();
 
-		$stmt_getOrderIds = $dbh->prepare("select distinct orderid,orders.orderdate as date from orders join orderdetail using(orderid) where customerid = :customerid; " );
-		$stmt_getOrderIds->bindParam(':customerid', $_SESSION['id'], PDO::PARAM_STR);
+		$stmt_getOrderIds = $dbh->prepare("select distinct orderid,orders.orderdate as date from orders join orderdetail using (orderid) where customerid = :customerid;" );
+		$stmt_getOrderIds->bindParam(':customerid', $_SESSION['id'], PDO::PARAM_INT);
 		
 		$result = stmtQuery($stmt_getOrderIds);
 
@@ -25,75 +25,17 @@
 			$purchasesArray = array();
 			$stmt_getMovies->bindParam(':orderid', $order['orderid'], PDO::PARAM_STR);
 
-			$result = stmtQuery($stmt_getMovies);
+			$moviesPurchased = stmtQuery($stmt_getMovies);
 
-			foreach ($result as $movie) {
-				array_push($purchasesArray, $movie);
-			}
 
 			array_push($history, array(
-				"movies" => $purchasesArray,
+				"movies" => $moviesPurchased,
 				"date" => (string) $order['date']
 			));
 
 		}
 
-
 		return $history;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		foreach ($purchases as $purchase) 
-		{
-			$purchaseMovies = array();
-
-			foreach ($purchase->movie as $purchaseItem) 
-			{
-				$movieId = (string) $purchaseItem->id;
-				$movieReference = findMovie($movies, $movieId);
-				$movieImage = "";
-				$movieTitle = "unknown";
-
-				if ($movieReference != null)
-				{
-					$movieImage = $movieReference['image'];
-					$movieTitle = $movieReference['title'];
-				}
-
-				$movie = array(
-					"id" => $movieId,
-					"price" => (int) $purchaseItem->price,
-					"quantity" => (int) $purchaseItem->quantity,
-					"image" => $movieImage,
-					"title" => $movieTitle,
-				);
-
-				array_push($purchaseMovies, $movie);
-			}
-
-			array_push($purchasesArray, array(
-				"movies" => $purchaseMovies,
-				"date" => (string) $purchase->date
-			));
-		}
-
-		return $purchasesArray;
 	}
 
 	function _searchForId($id, $array) {
@@ -111,26 +53,43 @@
 
 	function addHistory($dir,$cartItems)
 	{
-			$current = simplexml_load_file($dir."history.xml");	
-			$currArr = (array) $current;
+			$tax = 15;
+				
+
+			$dbh = DBConnect_PDO();
+			$stmt_order = $dbh->prepare("insert into orders (orderdate,customerid,tax,status) values (now(),:customerid,:tax,'Paid');");
+			$stmt_order->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
+			$stmt_order->bindParam(':tax',$tax,PDO::PARAM_INT);
+			$stmt_order->execute();
 			
-			$purchase = $current->addChild('pedido');
-			
+			$stmt_getOrderId = $dbh->prepare("select orderid from orders where customerid=:customerid order by orderid desc limit 1");
+			$stmt_getOrderId->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
+			$orderid = stmtQuery($stmt_getOrderId);
+
+			$stmt_getProdId = $dbh->prepare("select prod_id from products where movieid=:movieid;");
+			$stmt_insertDetail = $dbh->prepare("insert into orderdetail (orderid,prod_id,price,quantity) values (:orderid,:prod_id,:price,:quantity);");
+
 			foreach ($cartItems as $movie) 
 			{
-				$xmlMovie = $purchase->addChild('movie');
-				$xmlMovie->addChild('id',$movie['id']);
-				$xmlMovie->addChild('quantity',$movie['quantity']);
-				$xmlMovie->addChild('price', $movie['price']);	
+				$stmt_insertDetail->bindParam(':quantity',$movie['quantity'],PDO::PARAM_INT);
+				$stmt_insertDetail->bindParam(':price',$movie['price'],PDO::PARAM_INT);
+
+				$stmt_getProdId->bindParam(':movieid',$movie['id'],PDO::PARAM_STR);
+				$prodId = stmtQuery($stmt_getProdId);
+
+				$netamount = $movie['price'] * $movie['quantity'];
+
+				$stmt_insertDetail->bindParam(':prod_id',$prodId);
+				$stmt_insertDetail->bindParam(':orderid',$orderid);
+				$stmt_insertDetail->execute();
+
 			}
 
-			$purchase->addChild('date',date(DATE_ATOM));			
+			$stmt_insertDetail->bindParam(':netamount',$netamount,PDO::PARAM_INT);
+			$totalamount = $tax * $netamount;
+			$stmt_insertDetail->bindParam(':totalamount',$totalamount,PDO::PARAM_INT);
 
-
-			$current->asXML($dir."/history.xml");
-
-
-			return $current;
+			return $tax;
 
 	}
 

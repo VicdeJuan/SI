@@ -37,6 +37,9 @@ ALTER TABLE orders
 alter sequence customers_customerid_seq restart with 14094;
 ALTER TABLE customers ADD CONSTRAINT unique_email UNIQUE (email);
 
+alter sequence orders_orderid_seq restart with 181790;
+
+
 /* Invetory y order detail clave foránea de products. */
 
 
@@ -146,76 +149,7 @@ UPDATE imdb_movies SET year=substr(year,0,5) WHERE length(year) > 4;
 ALTER TABLE imdb_movies ALTER COLUMN year SET DATA TYPE Integer USING year::Integer;
 
 /* ¿Pasa algo porque sea sql y no ¿pgpgpsgpspgsl??*/
-/* Procedimiento normal. Juntado para la función:
-
-create or replace view orders_years as (
-  select orderid, EXTRACT(year from orders.orderdate)::int as year 
-  from orders 
-  where EXTRACT(year from orders.orderdate)::int >= 2009);
-
-create or replace view prod_years as (
-  select movieid,orders_years.year,sum(quantity) as quantity 
-  from
-    orders_years join 
-    orderdetail using(orderid) join 
-    products using (prod_id) 
-  group by year,movieid);
-
-create or replace view topventas_ids as (
-  select distinct on (year,quantity) year_max.year as year,movieid,quantity 
-  from 
-    (
-      select year,max(quantity) as max from prod_years group by year
-    ) as year_max join 
-    prod_years  on max = quantity and year_max.year = prod_years.year);
-
-create or replace view topventas as (
-  select topventas_ids.year,movietitle,quantity 
-  from topventas_ids  
-  join imdb_movies using(movieid));
-
-
-
-*/
-/*
-CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula text, venta integer) AS
-'
-
-select topventas_ids.year,movietitle,quantity 
-  from
-    (
-      select distinct on (year,quantity) year_max.year as year,prod_id,quantity 
-      from 
-        (
-        select year,max(quantity) as max 
-        from 
-          (
-          select orderid,prod_id,year,quantity 
-          from 
-            (
-              select orderid, EXTRACT(year from orders.orderdate)::int as year 
-                from orders where EXTRACT(year from orders.orderdate)::int >= $1
-            ) as orders_years 
-            join orderdetail using (orderid)
-        ) as prod_years group by year
-      ) as year_max 
-      join 
-        (
-          select orderid,prod_id,year,quantity 
-          from 
-            (
-              select orderid, EXTRACT(year from orders.orderdate)::int as year 
-              from orders 
-              where EXTRACT(year from orders.orderdate)::int >= $1
-            ) as orders_years
-          join orderdetail using (orderid)
-        ) as prod_years 
-      on max = quantity and year_max.year = prod_years.year
-    ) as topventas_ids join products using (prod_id) join imdb_movies using(movieid) order by topventas_ids.year desc;
-' 
-language 'sql';
-*/
-/* b) */
+/* Procedimiento normal. Juntado para la función:*/
 
 CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula character varying(255), venta bigint) AS
 '
@@ -325,3 +259,5 @@ CREATE TRIGGER updInventory BEFORE INSERT ON orders
         
 
 
+
+insert into orders (orderdate,customerid,netamount,tax,totalamount,status) values (now(),19,0,15,0,'Paid');

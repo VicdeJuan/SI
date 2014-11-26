@@ -9,7 +9,7 @@
 		<h3>Pedidos</h3>
 		<div class="main-container">
 			<?php
-				require_once 'php/history.php';
+			require_once 'php/history.php';
 
 				$purchases = getHistory();
 
