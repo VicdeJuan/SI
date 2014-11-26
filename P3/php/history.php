@@ -1,17 +1,63 @@
 <?php
-	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';
+	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';	
+	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/sql.php';	
 
-	function getHistory($dir){
 
-		$filename = $dir."/"."history.xml";
-		$file = fopen($dir."/history.xml", "r");
+	function getHistory(){
 
-		if (!file_exists($filename))
+		$dbh = DBConnect_PDO();
+
+		$stmt_getOrderIds = $dbh->prepare("select distinct orderid,orders.orderdate as date from orders join orderdetail using(orderid) where customerid = :customerid; " );
+		$stmt_getOrderIds->bindParam(':customerid', $_SESSION['id'], PDO::PARAM_STR);
+		
+		$result = stmtQuery($stmt_getOrderIds);
+
+		$stmt_getMovies = $dbh->prepare("select movieid as id,movietitle as title,url_to_img as image,orderdetail.price,quantity from orderdetail join products using (prod_id) join imdb_movies using(movieid)  where orderid = :orderid;");
+
+
+		if (count($result) == 0) {
 			return array();
+		}
 
-		$movies = getAllMovies();
-		$purchases = simplexml_load_file($filename)->xpath('pedido');	
-		$purchasesArray = array();
+		$history = array();
+
+		foreach ($result as $order) {
+			$purchasesArray = array();
+			$stmt_getMovies->bindParam(':orderid', $order['orderid'], PDO::PARAM_STR);
+
+			$result = stmtQuery($stmt_getMovies);
+
+			foreach ($moviesPurchased as $movie) {
+				array_push($purchasesArray, $movie);
+			}
+
+			array_push($history, array(
+				"movies" => $purchasesArray,
+				"date" => (string) $order['date']
+			));
+
+		}
+
+
+		return $history;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		foreach ($purchases as $purchase) 
 		{

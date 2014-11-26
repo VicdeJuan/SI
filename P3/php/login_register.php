@@ -3,13 +3,12 @@
 
 require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/common.php';
 require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/history.php';
+require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/sql.php';
 
 /*
 Campos de customers: 
 customerid , firstname , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" , "firstname" 
  */
-$db_username = "alumnodb";
-$db_password = "alumnodb";
 
 
 $dbh =  new PDO( "pgsql:dbname=olakase; host=localhost", $db_username, $db_password) ;
