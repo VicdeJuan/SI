@@ -1,53 +1,41 @@
 <?php
-	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';
+	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';	
+	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/sql.php';	
 
-	function getHistory($dir){
 
-		$filename = $dir."/"."history.xml";
-		$file = fopen($dir."/history.xml", "r");
+	function getHistory(){
 
-		if (!file_exists($filename))
+		$dbh = DBConnect_PDO();
+
+		$stmt_getOrderIds = $dbh->prepare("select distinct orderid,orders.orderdate as date from orders join orderdetail using (orderid) where customerid = :customerid;" );
+		$stmt_getOrderIds->bindParam(':customerid', $_SESSION['id'], PDO::PARAM_INT);
+		
+		$result = stmtQuery($stmt_getOrderIds);
+
+		$stmt_getMovies = $dbh->prepare("select movieid as id,movietitle as title,url_to_img as image,orderdetail.price,quantity from orderdetail join products using (prod_id) join imdb_movies using(movieid)  where orderid = :orderid;");
+
+
+		if (count($result) == 0) {
 			return array();
+		}
 
-		$movies = getAllMovies();
-		$purchases = simplexml_load_file($filename)->xpath('pedido');	
-		$purchasesArray = array();
+		$history = array();
 
-		foreach ($purchases as $purchase) 
-		{
-			$purchaseMovies = array();
 
-			foreach ($purchase->movie as $purchaseItem) 
-			{
-				$movieId = (string) $purchaseItem->id;
-				$movieReference = findMovie($movies, $movieId);
-				$movieImage = "";
-				$movieTitle = "unknown";
 
-				if ($movieReference != null)
-				{
-					$movieImage = $movieReference['image'];
-					$movieTitle = $movieReference['title'];
-				}
+		foreach ($result as $order) {
+			$purchasesArray = array();
+			$stmt_getMovies->bindParam(':orderid', $order['orderid'], PDO::PARAM_STR);
 
-				$movie = array(
-					"id" => $movieId,
-					"price" => (int) $purchaseItem->price,
-					"quantity" => (int) $purchaseItem->quantity,
-					"image" => $movieImage,
-					"title" => $movieTitle,
-				);
+			$moviesPurchased = stmtQuery($stmt_getMovies);
 
-				array_push($purchaseMovies, $movie);
-			}
-
-			array_push($purchasesArray, array(
-				"movies" => $purchaseMovies,
-				"date" => (string) $purchase->date
+			array_push($history, array(
+				"movies" => $moviesPurchased,
+				"date" => (string) $order['date']
 			));
 		}
 
-		return $purchasesArray;
+		return $history;
 	}
 
 	function _searchForId($id, $array) {
@@ -65,26 +53,43 @@
 
 	function addHistory($dir,$cartItems)
 	{
-			$current = simplexml_load_file($dir."history.xml");	
-			$currArr = (array) $current;
+			$tax = 15;
+				
+
+			$dbh = DBConnect_PDO();
+			$stmt_order = $dbh->prepare("insert into orders (orderid,orderdate,customerid,tax,status) values (default,now(),:customerid,:tax,'Paid');");
+			$stmt_order->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
+			$stmt_order->bindParam(':tax',$tax,PDO::PARAM_INT);
+			$stmt_order->execute();
 			
-			$purchase = $current->addChild('pedido');
-			
+			$stmt_getOrderId = $dbh->prepare("select orderid from orders where customerid=:customerid order by orderid desc limit 1");
+			$stmt_getOrderId->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
+			$orderid = stmtQuery($stmt_getOrderId);
+
+			$stmt_getProdId = $dbh->prepare("select prod_id from products where movieid=:movieid;");
+			$stmt_insertDetail = $dbh->prepare("insert into orderdetail (orderid,prod_id,price,quantity) values (:orderid,:prod_id,:price,:quantity);");
+
 			foreach ($cartItems as $movie) 
 			{
-				$xmlMovie = $purchase->addChild('movie');
-				$xmlMovie->addChild('id',$movie['id']);
-				$xmlMovie->addChild('quantity',$movie['quantity']);
-				$xmlMovie->addChild('price', $movie['price']);	
+				$stmt_insertDetail->bindParam(':quantity',$movie['quantity'],PDO::PARAM_INT);
+				$stmt_insertDetail->bindParam(':price',$movie['price'],PDO::PARAM_INT);
+
+				$stmt_getProdId->bindParam(':movieid',$movie['id'],PDO::PARAM_STR);
+				$prodId = stmtQuery($stmt_getProdId);
+
+				$netamount = $movie['price'] * $movie['quantity'];
+
+				$stmt_insertDetail->bindParam(':prod_id',$prodId);
+				$stmt_insertDetail->bindParam(':orderid',$orderid);
+				$stmt_insertDetail->execute();
+
 			}
 
-			$purchase->addChild('date',date(DATE_ATOM));			
+			$stmt_insertDetail->bindParam(':netamount',$netamount,PDO::PARAM_INT);
+			$totalamount = $tax * $netamount;
+			$stmt_insertDetail->bindParam(':totalamount',$totalamount,PDO::PARAM_INT);
 
-
-			$current->asXML($dir."/history.xml");
-
-
-			return $current;
+			return $tax;
 
 	}
 

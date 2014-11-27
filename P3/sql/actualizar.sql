@@ -33,6 +33,30 @@ ALTER TABLE orders
    ON UPDATE CASCADE ON DELETE NO ACTION;
 
 
+
+ALTER TABLE customers ADD CONSTRAINT unique_email UNIQUE (email);
+CREATE OR REPLACE FUNCTION alter_sequences () RETURNS void
+AS ' 
+DECLARE 
+  order_seq orders.orderid%TYPE;
+  customer_seq int;
+BEGIN
+  order_seq := EXECUTE(''select orderid from orders order by orderid desc limit 1'');
+  EXECUTE(''alter sequence orders_orderid_seq restart with $1 using order_seq'');
+
+  customer_seq := EXECUTE(''select customerid from customers order by customerid desc limit 1'');
+  EXECUTE(''alter sequence customers_customerid_seq restart with $1 using customer_seq'');
+  END;
+'LANGUAGE 'plpgsql';
+
+SELECT * FROM alter_sequences();
+
+
+
+
+alter sequence orders_orderid_seq restart with 181791;
+
+
 /* Invetory y order detail clave foránea de products. */
 
 
@@ -43,6 +67,8 @@ ALTER TABLE inventory
 
 
 
+ALTER TABLE imdb_movies ADD COLUMN url_to_img character varying(255);
+UPDATE imdb_movies SET url_to_img="http://img2.wikia.nocookie.net/__cb20110130000348/tarzan/images/5/50/Tarzan.jpg";
 /*SEPARAR TABLAS */
 
 
@@ -54,7 +80,6 @@ CREATE TABLE genres(
 
 ALTER TABLE genres ADD CONSTRAINT genre_pkey PRIMARY KEY (genreid);
 INSERT INTO genres (genre) SELECT DISTINCT genre FROM imdb_moviegenres;
-
 ALTER TABLE imdb_moviegenres ADD COLUMN genreid Integer;
 
 CREATE OR REPLACE FUNCTION change_genres () RETURNS void
@@ -141,75 +166,31 @@ UPDATE imdb_movies SET year=substr(year,0,5) WHERE length(year) > 4;
 ALTER TABLE imdb_movies ALTER COLUMN year SET DATA TYPE Integer USING year::Integer;
 
 /* ¿Pasa algo porque sea sql y no ¿pgpgpsgpspgsl??*/
-/* Procedimiento normal. Juntado para la función:
+/* Procedimiento normal. Juntado para la función:*/
 
-
-create or replace view orders_years as (
-  select orderid, EXTRACT(year from orders.orderdate)::int as year 
-  from orders 
-  where EXTRACT(year from orders.orderdate)::int >= 2009);
-
-create or replace view prod_years as (
-  select orderid,prod_id,year,quantity 
-  from orders_years join orderdetail using (orderid));
-
-create or replace view topventas_ids as (
-  select distinct on (year,quantity) year_max.year as year,prod_id,quantity 
-    from 
-      (
-        select year,max(quantity) as max from prod_years group by year)
-      as year_max 
-      join prod_years on max = quantity and year_max.year = prod_years.year);
-
-select topventas_ids.year,movietitle,quantity from 
-  topventas_ids join 
-  products using (prod_id) join 
-  imdb_movies using(movieid);
-
-*/
-CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula text, venta integer) AS
+CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula character varying(255), venta bigint) AS
 '
-
-select topventas_ids.year,movietitle,quantity 
-  from
-    (
-      select distinct on (year,quantity) year_max.year as year,prod_id,quantity 
-      from 
-        (
-        select year,max(quantity) as max 
-        from 
-          (
-          select orderid,prod_id,year,quantity 
-          from 
-            (
-              select orderid, EXTRACT(year from orders.orderdate)::int as year 
-                from orders where EXTRACT(year from orders.orderdate)::int >= $1
-            ) as orders_years 
-            join orderdetail using (orderid)
-        ) as prod_years group by year
-      ) as year_max 
-      join 
-        (
-          select orderid,prod_id,year,quantity 
-          from 
-            (
-              select orderid, EXTRACT(year from orders.orderdate)::int as year 
-              from orders 
-              where EXTRACT(year from orders.orderdate)::int >= $1
-            ) as orders_years
-          join orderdetail using (orderid)
-        ) as prod_years 
-      on max = quantity and year_max.year = prod_years.year
-    ) as topventas_ids join products using (prod_id) join imdb_movies using(movieid) order by topventas_ids.year desc;
-' 
-language 'sql';
+DECLARE 
+year_var record;
+BEGIN
+FOR year_var in (select distinct(EXTRACT(year from orders.orderdate)) as year from orders where EXTRACT(year from orders.orderdate) >= $1 order by year) LOOP
+  return query select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,movietitle,sum(quantity) as quantity from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = year_var.year group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+END LOOP;
+END;
+'
+language 'plpgsql';
 
 /* Para solo la peli más vendida:
 
-create or replace view orders_years as (select orderid, EXTRACT(year from orders.orderdate)::int as year from orders where EXTRACT(year from orders.orderdate)::int = 2011);
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2006 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2007 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2008 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2009 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2010 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2011 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2012 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
 
-select 2011 as year,movietitle,max from (select prod_id,max(quantity) as max from (select * from orders_years join orderdetail using (orderid)) as foo group by prod_id order by max desc limit 1) as topventa join products using (prod_id) join imdb_movies using (movieid);
-
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int >= 2009 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity;
  */
 
 
@@ -295,3 +276,5 @@ CREATE TRIGGER updInventory BEFORE INSERT ON orders
         
 
 
+
+insert into orders (orderdate,customerid,netamount,tax,totalamount,status) values (now(),19,0,15,0,'Paid');

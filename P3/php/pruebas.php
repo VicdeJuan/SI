@@ -2,7 +2,9 @@
 
 <?php 
 
-$db_username = "alumnodb";
+require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/history.php';
+
+/*$db_username = "alumnodb";
 $db_password = "alumnodb";
 
 $username = "latino";
@@ -19,12 +21,6 @@ echo "pass: ";
 echo $password;
 echo "<br>dbh: ";
 echo var_dump($dbh);
-
-$stmt->bindParam(':username', $username, PDO::PARAM_STR);
-$stmt->bindParam(':password', $password, PDO::PARAM_STR);
-
-$stmt->execute();
-$result = $stmt->fetchAll();
 echo "result:";
 echo var_dump($stmt);
 echo "stmt:";
@@ -35,11 +31,20 @@ if ($result === FALSE){
 	print_r($dbh->errorInfo());
 }
 echo $result[0]['username']; 
-
+$stmt->bindParam(':username', $username, PDO::PARAM_STR);
 foreach( $result as $row ) {
   echo var_dump($row['username']);
   echo "<br>";
 }
+$stmt->bindParam(':password', $password, PDO::PARAM_STR);
+
+$stmt->execute();
+$result = $stmt->fetchAll();
+*/
+
+session_start();
+$_SESSION['id'] = 693;
+echo var_dump(getHistory());
 
 ?>
 

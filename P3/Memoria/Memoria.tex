@@ -1,0 +1,38 @@
+\documentclass[nochap]{apuntes}
+
+\title{Sistemas informáticos - práctica 3}
+\author{Guillermo Julián, Víctor de Juan}
+\date{Noviembre- 2014}
+
+\begin{document}
+
+\pagestyle{plain}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Diseño de la base de datos}
+\subsection{Entidad - relación}
+
+\subsection{Modificaciones sobre la base de datos}
+
+\section{Consultas, procedimientos almacenados y triggers}
+\subsection{setItemPrice}
+\subsection{setOrderAmount}
+\subsection{getTopVentas}
+\subsection{getTopMonth}
+\subsection{updOrders}
+\subsection{updInventory}
+
+\section{Modificaciones sobre el HTML, JS y PHP}
+En general no ha habido que realizar grandes cambios, debido a que intentamos ser lo más modulares posibles.
+
+\subsection{Registrarse y Login}
+
+Solo ha sido necesario cambiar el fichero \textit{/php/login_register.php} en el que se realizan las comprobaciones de login y registrarse. Utilizamos un \textit{PDO} para poder preparar las consultas, ya que siempre serán del mismo tipo, cambiando algún argumento, para lo que utilizamos el método \textit{bindParams}.
+
+\subsection{Películas}
+\subsection{Historial}
+
+\end{document}
