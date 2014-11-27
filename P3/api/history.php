@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	<?php
+<?php
 	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/history.php';
 
 	session_start();
@@ -46,7 +40,4 @@
 		http_response_code(501);
 };
 
-?>	
-
-</body>
-</html>
+?>
