@@ -1,17 +1,19 @@
 <?php
 
 require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';
+require_once $_SERVER['CONTEXT_DOCUMENT_ROOT']."/php/sql.php";
 
-$movies = getAllMovies();
+$pdo = DBConnect_PDO();
 
-$genres = [];
+$stmt = $pdo->prepare("SELECT genre FROM genres;");
 
-foreach ($movies as $movie) {
-	$genre = $movie['genre'];
+$genres = stmtQuery($stmt);
 
-	if(!in_array($genre, $genres))
-		array_push($genres, $genre);
+function get_genre($row)
+{
+	return $row['genre'];
 }
 
-echo json_encode($genres);
+echo json_encode(array_map("get_genre", $genres));
+
 ?>
