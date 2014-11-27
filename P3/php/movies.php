@@ -1,10 +1,11 @@
 <?php
 
 require_once $_SERVER['CONTEXT_DOCUMENT_ROOT']."/php/common.php";
+require_once $_SERVER['CONTEXT_DOCUMENT_ROOT']."/php/sql.php";
 
 function findMovie($movieList, $id)
 {
-	foreach ($movieList as $movie) 
+	foreach ($movieList as $movie)
 	{
 		if ($movie['id'] === $id)
 			return $movie;
@@ -13,23 +14,20 @@ function findMovie($movieList, $id)
 	return null;
 }
 
-function getAllMovies()
+function removeNumericValue($row)
 {
-
-
-	foreach ($movies as &$movie) {
-		$movie['image'] = asAbsoluteUrl($movie['image']);
+	foreach($row as $key => $value)
+	{
+		if(is_numeric($key))
+			unset($row[$key]);
 	}
 
-	return $movies;
+	return $row;
 }
 
 function getMovies($from, $count)
 {
-	$db_username = "alumnodb";
-	$db_password = "alumnodb";
-
-	$dbh = new PDO( "pgsql:dbname=olakase; host=localhost", $db_username, $db_password) ;
+	$pdo = DBConnect_PDO();
 
 	$query = <<<SQL
 SELECT * FROM (
@@ -45,16 +43,16 @@ SELECT * FROM (
 		ORDER BY id DESC
 		LIMIT :page_size) as cut_begin
 	ORDER BY id;
-SQL
-	
-	
-	$stmt = $dbh->prepare($query);
-	$stmt->bindParam(':count_end', $from + $count);
+SQL;
+
+	$stmt = $pdo->prepare($query);
+	$count_end = $from + $count;
+	$stmt->bindParam(':count_end', $count_end);
 	$stmt->bindParam(':page_size', $count);
 
-	$stmt->execute();	
-	
-	$dbMovieCount = getTableRowCount($dbh, "imdb_movies");
+	$movies = stmtQuery($stmt);
+
+	$dbMovieCount = getTableRowCount($pdo, "imdb_movies");
 
 	$count = min($count, $dbMovieCount);
 	$next = $from + $count;
@@ -63,7 +61,7 @@ SQL
 		$next = -1;
 
 	return array(
-		'movies' => json_decode(json_encode($stmt->fetchAll())),
+		'movies' => array_map("removeNumericValue", $movies),
 		'next' => $next
 	);
 }

@@ -19,10 +19,10 @@ function asAbsoluteUrl($url)
 
 function getTableRowCount($pdo, $table)
 {
-	$sql = "SELECT count(*) FROM ".$table." WHERE foo = bar";
+	$sql = "SELECT count(*) FROM ".$table.";";
 	$result = $pdo->prepare($sql);
-	$result->query();
-	return $result->fetchColumn();
+	$result->execute();
+	return $result->fetchAll()[0][0];
 }
 
 ?>
