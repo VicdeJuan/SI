@@ -34,10 +34,27 @@ ALTER TABLE orders
 
 
 
-alter sequence customers_customerid_seq restart with 14094;
 ALTER TABLE customers ADD CONSTRAINT unique_email UNIQUE (email);
+CREATE OR REPLACE FUNCTION alter_sequences () RETURNS void
+AS ' 
+DECLARE 
+  order_seq orders.orderid%TYPE;
+  customer_seq int;
+BEGIN
+  order_seq := EXECUTE(''select orderid from orders order by orderid desc limit 1'');
+  EXECUTE(''alter sequence orders_orderid_seq restart with $1 using order_seq'');
 
-alter sequence orders_orderid_seq restart with 181790;
+  customer_seq := EXECUTE(''select customerid from customers order by customerid desc limit 1'');
+  EXECUTE(''alter sequence customers_customerid_seq restart with $1 using customer_seq'');
+  END;
+'LANGUAGE 'plpgsql';
+
+SELECT * FROM alter_sequences();
+
+
+
+
+alter sequence orders_orderid_seq restart with 181791;
 
 
 /* Invetory y order detail clave foránea de products. */
