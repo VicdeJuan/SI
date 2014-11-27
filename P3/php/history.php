@@ -12,7 +12,12 @@
 		
 		$result = stmtQuery($stmt_getOrderIds);
 
-		$stmt_getMovies = $dbh->prepare("select movieid as id,movietitle as title,url_to_img as image,orderdetail.price,quantity from orderdetail join products using (prod_id) join imdb_movies using(movieid)  where orderid = :orderid;");
+		$stmt_getMovies = $dbh->prepare("
+			SELECT movieid AS id,movietitle AS title,url_to_img AS image,orderdetail.price,quantity 
+			FROM orderdetail 
+				JOIN products USING (prod_id) 
+				JOIN imdb_movies USING(movieid) 
+			WHERE orderid = :orderid;");
 
 
 		if (count($result) == 0) {
@@ -57,7 +62,7 @@
 				
 
 			$dbh = DBConnect_PDO();
-			$stmt_order = $dbh->prepare("insert into orders (orderid,orderdate,customerid,tax,status) values (default,now(),:customerid,:tax,'Paid');");
+			$stmt_order = $dbh->prepare("insert into orders (orderid,orderdate,customerid,tax,status) values (default,now(),:customerid,:tax,'Processed');");
 			$stmt_order->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
 			$stmt_order->bindParam(':tax',$tax,PDO::PARAM_INT);
 			$stmt_order->execute();
@@ -66,7 +71,6 @@
 			$stmt_getOrderId->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
 			$orderid = stmtQuery($stmt_getOrderId);
 
-			$stmt_getProdId = $dbh->prepare("select prod_id from products where movieid=:movieid;");
 			$stmt_insertDetail = $dbh->prepare("insert into orderdetail (orderid,prod_id,price,quantity) values (:orderid,:prod_id,:price,:quantity);");
 
 			foreach ($cartItems as $movie) 
@@ -74,18 +78,15 @@
 				$stmt_insertDetail->bindParam(':quantity',$movie['quantity'],PDO::PARAM_INT);
 				$stmt_insertDetail->bindParam(':price',$movie['price'],PDO::PARAM_INT);
 
-				$stmt_getProdId->bindParam(':movieid',$movie['id'],PDO::PARAM_STR);
-				$prodId = stmtQuery($stmt_getProdId);
-
 				$netamount = $movie['price'] * $movie['quantity'];
 
-				$stmt_insertDetail->bindParam(':prod_id',$prodId);
+				$stmt_insertDetail->bindParam(':prod_id',$cartItems['prod_id']);
 				$stmt_insertDetail->bindParam(':orderid',$orderid);
 				$stmt_insertDetail->execute();
 
 			}
 
-			$stmt_final = $dbh->prepare("update orders set netamount=:netamount and totalamount=:totalamount where orderid=:orderid");
+			$stmt_final = $dbh->prepare("update orders set netamount=:netamount and totalamount=:totalamount and status='Paid' where orderid=:orderid");
 			$stmt_final->bindParam(':netamount',$netamount,PDO::PARAM_INT);
 			$totalamount = $tax * $netamount;
 			$stmt_final->bindParam(':totalamount',$totalamount,PDO::PARAM_INT);

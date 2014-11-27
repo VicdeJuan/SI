@@ -3,7 +3,6 @@
 DELETE FROM orderdetail WHERE 	(orderid,prod_id) IN (SELECT orderid,prod_id FROM orderdetail T2 GROUP BY orderid,prod_id HAVING count(*) > 1); 
 
 
-/*  Obtenemos los huecos en la secuencia de id's de inventory */
 /*  Rellenamos  esos huecos, para poder añadir claves foráneas que referencien a filas que existan. */
 INSERT INTO inventory (select prod_id,0,0 from products outter left join inventory using (prod_id) where stock is null);
 
@@ -34,32 +33,8 @@ ALTER TABLE orders
 
 
 
-ALTER TABLE customers ADD CONSTRAINT unique_email UNIQUE (email);
-CREATE OR REPLACE FUNCTION alter_sequences () RETURNS void
-AS ' 
-DECLARE 
-  order_seq orders.orderid%TYPE;
-  customer_seq int;
-BEGIN
-  order_seq := EXECUTE(''select orderid from orders order by orderid desc limit 1'');
-  EXECUTE(''alter sequence orders_orderid_seq restart with $1 using order_seq'');
-
-  customer_seq := EXECUTE(''select customerid from customers order by customerid desc limit 1'');
-  EXECUTE(''alter sequence customers_customerid_seq restart with $1 using customer_seq'');
-  END;
-'LANGUAGE 'plpgsql';
-
-SELECT * FROM alter_sequences();
-
-
-
-
-alter sequence orders_orderid_seq restart with 181791;
-
 
 /* Invetory y order detail clave foránea de products. */
-
-
 ALTER TABLE inventory
 	ADD CONSTRAINT product_fkey FOREIGN KEY (prod_id) REFERENCES products (prod_id)
 	ON UPDATE CASCADE ON DELETE NO ACTION;
@@ -67,11 +42,35 @@ ALTER TABLE inventory
 
 
 
+ALTER TABLE customers ADD CONSTRAINT unique_email UNIQUE (email);
+
+CREATE OR REPLACE FUNCTION alter_sequences () RETURNS void
+AS $$
+DECLARE 
+  order_seq orders.orderid%TYPE;
+  customer_seq customers.customerid%TYPE;
+BEGIN
+  select orderid into order_seq from orders order by orderid desc limit 1;
+  execute 'alter sequence orders_orderid_seq restart with  ' || order_seq +1;
+
+  select customerid into customer_seq from customers order by customerid desc limit 1;
+  execute 'alter sequence customers_customerid_seq restart with  ' || customer_seq +1;
+
+  END;
+$$ LANGUAGE 'plpgsql';
+
+SELECT * FROM alter_sequences();
+
+
+
+
 ALTER TABLE imdb_movies ADD COLUMN url_to_img character varying(255);
 UPDATE imdb_movies SET url_to_img="http://img2.wikia.nocookie.net/__cb20110130000348/tarzan/images/5/50/Tarzan.jpg";
-/*SEPARAR TABLAS */
 
 
+
+
+/************************** Separación de tablas de géneros, idiomas y países ****************/
 
 /** Generos: */
 CREATE TABLE genres(
@@ -165,11 +164,10 @@ ALTER TABLE imdb_movielanguages ADD CONSTRAINT movielanguage_fkey FOREIGN KEY (l
 UPDATE imdb_movies SET year=substr(year,0,5) WHERE length(year) > 4;
 ALTER TABLE imdb_movies ALTER COLUMN year SET DATA TYPE Integer USING year::Integer;
 
-/* ¿Pasa algo porque sea sql y no ¿pgpgpsgpspgsl??*/
-/* Procedimiento normal. Juntado para la función:*/
+/************************************ Funciones y procedimientos  *******************************/
 
 CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula character varying(255), venta bigint) AS
-'
+$$
 DECLARE 
 year_var record;
 BEGIN
@@ -177,21 +175,18 @@ FOR year_var in (select distinct(EXTRACT(year from orders.orderdate)) as year fr
   return query select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,movietitle,sum(quantity) as quantity from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = year_var.year group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
 END LOOP;
 END;
-'
+$$
 language 'plpgsql';
 
-/* Para solo la peli más vendida:
-
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2006 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2007 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2008 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2009 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2010 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2011 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int = 2012 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity desc limit 1;
-
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle from orders join orderdetail using(orderid) join products using (prod_id) join imdb_movies using (movieid) where EXTRACT(year from orders.orderdate)::int >= 2009 group by EXTRACT(year from orders.orderdate)::int, movietitle order by quantity;
- */
+/* Para solo la película más vendida:
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle 
+  from orders
+      join orderdetail using(orderid) 
+      join products using (prod_id) 
+      join imdb_movies using (movieid) 
+  where EXTRACT(year from orders.orderdate)::int = 2006 
+  group by EXTRACT(year from orders.orderdate)::int, movietitle 
+  order by quantity desc limit 1; */
 
 
 
@@ -213,18 +208,6 @@ END;
 
 SELECT * FROM setOrderAmount();
 
-/*
-Hay 5 orders que no tienen orderdetail....
-select * from orders where totalamount=0 limit 10;                                                                                           
- orderid | orderdate  | customerid | netamount | tax |      totalamount       |  status   
----------+------------+------------+-----------+-----+------------------------+-----------
-   31502 | 2009-03-14 |       2413 |         0 |  15 | 0.00000000000000000000 | Processed
-   41847 | 2007-10-15 |       3179 |         0 |  15 | 0.00000000000000000000 | Shipped
-   62797 | 2008-04-30 |       4822 |         0 |  15 | 0.00000000000000000000 | Shipped
-   68893 | 2010-03-25 |       5291 |         0 |  15 | 0.00000000000000000000 | Processed
-  100924 | 2011-10-03 |       7793 |         0 |  18 | 0.00000000000000000000 | Shipped
-(5 rows)
- */
 
 /** getTopMonths **/
 
@@ -271,10 +254,6 @@ CREATE OR REPLACE FUNCTION updInventory() RETURNS trigger as $updInventory$
 $updInventory$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS updInventory ON orders;
-CREATE TRIGGER updInventory BEFORE INSERT ON orders 
+CREATE TRIGGER updInventory BEFORE UPDATE OF status ON orders 
   FOR EACH ROW EXECUTE PROCEDURE updInventory();
         
-
-
-
-insert into orders (orderdate,customerid,netamount,tax,totalamount,status) values (now(),19,0,15,0,'Paid');
