@@ -85,28 +85,15 @@
 
 			}
 
-			$stmt_insertDetail->bindParam(':netamount',$netamount,PDO::PARAM_INT);
+			$stmt_final = $dbh->prepare("update orders set netamount=:netamount and totalamount=:totalamount where orderid=:orderid");
+			$stmt_final->bindParam(':netamount',$netamount,PDO::PARAM_INT);
 			$totalamount = $tax * $netamount;
-			$stmt_insertDetail->bindParam(':totalamount',$totalamount,PDO::PARAM_INT);
+			$stmt_final->bindParam(':totalamount',$totalamount,PDO::PARAM_INT);
+			$stmt_final->bindParam('orderid',$orderid,PDO::PARAM_STR);
 
+			$stmt_final->execute();
 			return $tax;
 
-	}
-
-	function createHistory($dir){
-		/*$file = fopen($dir."/history.xml", "w");
-
-		if ($file == null) {
-			fclose($file);
-			return 404;
-		}else{
-			fwrite($file,"<?xml version=".'"'."1.0".'"'." encoding=".'"'."UTF-8".'"'."?>\n<!DOCTYPE catalog SYSTEM ".'"'."/data/history.dtd".'"'.">\n<catalog>\n</catalog>\n");
-			fclose($file);
-			return 200;
-		}
-		*/
-		/* Crear historial */ 
-		return 200;
 	}
 
 
