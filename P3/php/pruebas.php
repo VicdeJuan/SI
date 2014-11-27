@@ -43,8 +43,15 @@ $result = $stmt->fetchAll();
 */
 
 session_start();
-$_SESSION['id'] = 693;
-echo var_dump(getHistory());
+
+$dbh =  DBConnect_PDO();
+$stmt = $dbh->prepare( "SELECT customerid as id, username as name  FROM customers WHERE email = :email" );
+$email = 'pup.nosh@kran.com';
+$stmt->bindParam(':email',$email,PDO::PARAM_STR);
+
+$res = stmtQuery($stmt);
+
+echo $res[0]['id'];
 
 ?>
 

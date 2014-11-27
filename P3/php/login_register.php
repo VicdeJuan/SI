@@ -26,7 +26,7 @@ $stmt_create = $dbh->prepare( "INSERT INTO customers (
      :username ,
      :password ,21 ,5 ,'M'); 
   " );
-$stmt_getid = $dbh->prepare( "SELECT customerid FROM customers WHERE email = :email" );
+$stmt_getid = $dbh->prepare( "SELECT customerid as id, username as name  FROM customers WHERE email = :email" );
 
 
 
@@ -39,11 +39,9 @@ if (isset($_POST['email'])) {
 }
 
 /* Exeute query */
-$name = $input['name']; 
 $email = $input['email'];
 $password = $input['password'];
 
-$stmt->bindParam(':name', $name, PDO::PARAM_STR);
 $stmt->bindParam(':email', $email, PDO::PARAM_STR);
 $stmt->bindParam(':password', $password, PDO::PARAM_STR);
 
@@ -65,12 +63,14 @@ if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not 
   $stmt_create->execute();
 
 
-
   $_SESSION['name'] = $name;
   $_SESSION['email'] = $email;
   $stmt_getid->bindParam(':email',$email,PDO::PARAM_STR);
-  $stmt_getid->execute();
-  $_SESSION['id'] = $stmt_getid->fetchAll();
+
+  $result_id_name = $stmtQuery($stmt_getid);
+
+  $_SESSION['id'] = $result_id_name[0]['id'];
+  $_SESSION['name'] = $result_id_name[0]['name'];
 
 
   header("Location: ".$applicationBaseDir."index.php");
@@ -87,8 +87,11 @@ if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not 
       $_SESSION['name'] = $name;
       $_SESSION['email'] = $email;
       $stmt_getid->bindParam(':email',$email,PDO::PARAM_STR);
-      $stmt_getid->execute();
-      $_SESSION['id'] = $stmt_getid->fetchAll();
+
+      $result_id_name = stmtQuery($stmt_getid);
+
+      $_SESSION['id'] = $result_id_name[0]['id'];
+
 
       $output = array( "name" => $name );
       echo json_encode($output);
@@ -99,7 +102,6 @@ if (count($result) == 0 && isset($_POST['creditCard'])){        /*User does not 
       $name="";
       http_response_code(404);
     }
-    fclose($myfile);
 
   } else{
     http_response_code(404); 
