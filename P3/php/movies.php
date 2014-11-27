@@ -1,10 +1,11 @@
 <?php
 
 require_once $_SERVER['CONTEXT_DOCUMENT_ROOT']."/php/common.php";
+require_once $_SERVER['CONTEXT_DOCUMENT_ROOT']."/php/sql.php";
 
 function findMovie($movieList, $id)
 {
-	foreach ($movieList as $movie) 
+	foreach ($movieList as $movie)
 	{
 		if ($movie['id'] === $id)
 			return $movie;
@@ -13,30 +14,54 @@ function findMovie($movieList, $id)
 	return null;
 }
 
-function getAllMovies()
+function removeNumericValue($row)
 {
-	$path = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/data/movies.xml";
-	$movies = json_decode(json_encode(simplexml_load_file($path)), true)['movie'];
-
-	foreach ($movies as &$movie) {
-		$movie['image'] = asAbsoluteUrl($movie['image']);
+	foreach($row as $key => $value)
+	{
+		if(is_numeric($key))
+			unset($row[$key]);
 	}
 
-	return $movies;
+	return $row;
 }
 
 function getMovies($from, $count)
 {
-	$movieArray = getAllMovies();
-	
-	$count = min($count, count($movieArray));
+	$pdo = DBConnect_PDO();
+
+	$query = <<<SQL
+SELECT * FROM (
+	SELECT * FROM(
+		SELECT imdb_movies.movieid as id, movietitle as title, year, string_agg(genre, ',') as genre, prod_id, price
+			FROM imdb_movies
+			JOIN imdb_moviegenres ON imdb_moviegenres.movieid = imdb_movies.movieid
+			JOIN products on products.movieid = imdb_movies.movieid
+			JOIN genres on genres.genreid = imdb_moviegenres.genreid
+			GROUP BY imdb_movies.movieid, movietitle, year, prod_id, price
+			ORDER BY imdb_movies.movieid
+			LIMIT :count_end) AS cut_end
+		ORDER BY id DESC
+		LIMIT :page_size) as cut_begin
+	ORDER BY id;
+SQL;
+
+	$stmt = $pdo->prepare($query);
+	$count_end = $from + $count;
+	$stmt->bindParam(':count_end', $count_end);
+	$stmt->bindParam(':page_size', $count);
+
+	$movies = stmtQuery($stmt);
+
+	$dbMovieCount = getTableRowCount($pdo, "imdb_movies");
+
+	$count = min($count, $dbMovieCount);
 	$next = $from + $count;
 
-	if($next >= count($movieArray))
+	if($next >= $dbMovieCount)
 		$next = -1;
 
 	return array(
-		'movies' => array_splice($movieArray, $from, $count),
+		'movies' => array_map("removeNumericValue", $movies),
 		'next' => $next
 	);
 }
