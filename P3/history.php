@@ -12,12 +12,10 @@
 			require_once 'php/history.php';
 
 				$purchases = getHistory();
-
 				foreach ($purchases as $purchase) 
 				{
 					$price = 0;
 					$movieCount = 0;
-
 					foreach ($purchase['movies'] as $movie) 
 					{
 						$price += $movie['quantity'] * $movie['price'];
@@ -48,8 +46,7 @@
 				</div>
 
 				<div class="purchase-date"><?php 
-					$date = DateTime::createFromFormat(DATE_ATOM, $purchase['date']);
-					echo $date->format('d F Y, H:i');
+					echo $purchase['date'];
 				?></div>
 			</div>	
 			<?php } ?>

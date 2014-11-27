@@ -21,18 +21,18 @@
 
 		$history = array();
 
+
+
 		foreach ($result as $order) {
 			$purchasesArray = array();
 			$stmt_getMovies->bindParam(':orderid', $order['orderid'], PDO::PARAM_STR);
 
 			$moviesPurchased = stmtQuery($stmt_getMovies);
 
-
 			array_push($history, array(
 				"movies" => $moviesPurchased,
 				"date" => (string) $order['date']
 			));
-
 		}
 
 		return $history;
@@ -57,7 +57,7 @@
 				
 
 			$dbh = DBConnect_PDO();
-			$stmt_order = $dbh->prepare("insert into orders (orderdate,customerid,tax,status) values (now(),:customerid,:tax,'Paid');");
+			$stmt_order = $dbh->prepare("insert into orders (orderid,orderdate,customerid,tax,status) values (default,now(),:customerid,:tax,'Paid');");
 			$stmt_order->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
 			$stmt_order->bindParam(':tax',$tax,PDO::PARAM_INT);
 			$stmt_order->execute();
