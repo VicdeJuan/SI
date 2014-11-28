@@ -14,6 +14,7 @@
 
 \section{Diseño de la base de datos}
 \subsection{Entidad - relación}
+\includegraphics[scale=0.2]{ER.png}
 
 \subsection{Modificaciones sobre la base de datos}
 
@@ -34,7 +35,7 @@ Al principio se encuentran las \textit{constraint} necesarias, como claves forá
 
 \item Hemos separado también las tablas de género (de película), país e idiomas. 
 
-\item Por último, hay que actualizar el valor de las sequencias de las tablas en las que insertamos cuya clave primaria es un serial, es decir, en \textit{orders} y en \textit{customers}. Para ello hemos creado un procedimieto llamado \textit{alter_sequences()}.
+\item Por último, hay que actualizar el valor de las sequencias de las tablas en las que insertamos cuya clave primaria es un serial, es decir, en \textit{orders} y en \textit{customers}. Para ello hemos creado un procedimieto llamado \textit{alter\_sequences()}.
 \end{itemize}
 
 
@@ -76,7 +77,7 @@ Sólo hemos tenido que cambiar el lado del servidor (como ya hemos mencionado) y
 
 \subsection{Registrarse y Login}
 
-Solo ha sido necesario cambiar el fichero \textit{/php/login_register.php} en el que se realizan las comprobaciones de login y registrarse. Utilizamos un \textit{PDO} para poder preparar las consultas, ya que siempre serán del mismo tipo, cambiando algún argumento, para lo que utilizamos el método \textit{bindParams}.
+Solo ha sido necesario cambiar el fichero \textit{/php/login\_register.php} en el que se realizan las comprobaciones de login y registrarse. Utilizamos un \textit{PDO} para poder preparar las consultas, ya que siempre serán del mismo tipo, cambiando algún argumento, para lo que utilizamos el método \textit{bindParams}.
 
 
 
