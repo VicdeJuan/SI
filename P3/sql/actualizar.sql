@@ -1,6 +1,6 @@
 
 /* Borrar los registros repetidos para poder añadir una clave primaria */
-DELETE FROM orderdetail WHERE 	(orderid,prod_id) IN (SELECT orderid,prod_id FROM orderdetail T2 GROUP BY orderid,prod_id HAVING count(*) > 1); 
+DELETE FROM orderdetail WHERE 	(orderid,prod_id) IN (SELECT orderid,prod_id FROM orderdetail T2 GROUP BY orderid,prod_id HAVING count(*) > 1);
 
 
 /*  Rellenamos  esos huecos, para poder añadir claves foráneas que referencien a filas que existan. */
@@ -46,7 +46,7 @@ ALTER TABLE customers ADD CONSTRAINT unique_email UNIQUE (email);
 
 CREATE OR REPLACE FUNCTION alter_sequences () RETURNS void
 AS $$
-DECLARE 
+DECLARE
   order_seq orders.orderid%TYPE;
   customer_seq customers.customerid%TYPE;
 BEGIN
@@ -65,7 +65,7 @@ SELECT * FROM alter_sequences();
 
 
 ALTER TABLE imdb_movies ADD COLUMN url_to_img character varying(255);
-UPDATE imdb_movies SET url_to_img="http://img2.wikia.nocookie.net/__cb20110130000348/tarzan/images/5/50/Tarzan.jpg";
+UPDATE imdb_movies SET url_to_img = 'http://img2.wikia.nocookie.net/__cb20110130000348/tarzan/images/5/50/Tarzan.jpg';
 
 
 
@@ -82,8 +82,8 @@ INSERT INTO genres (genre) SELECT DISTINCT genre FROM imdb_moviegenres;
 ALTER TABLE imdb_moviegenres ADD COLUMN genreid Integer;
 
 CREATE OR REPLACE FUNCTION change_genres () RETURNS void
-AS ' 
-DECLARE 
+AS '
+DECLARE
   temporalgenre record;
 BEGIN
 
@@ -111,8 +111,8 @@ INSERT INTO countries (country) SELECT DISTINCT country FROM imdb_moviecountries
 ALTER TABLE imdb_moviecountries ADD COLUMN countryid Integer;
 
 CREATE OR REPLACE FUNCTION change_countries () RETURNS void
-AS ' 
-DECLARE 
+AS '
+DECLARE
   temporalcountry record;
 BEGIN
 
@@ -141,8 +141,8 @@ INSERT INTO languages (language) SELECT DISTINCT language FROM imdb_movielanguag
 ALTER TABLE imdb_movielanguages ADD COLUMN languageid Integer;
 
 CREATE OR REPLACE FUNCTION change_languages () RETURNS void
-AS ' 
-DECLARE 
+AS '
+DECLARE
   temporallanguage record;
 BEGIN
 
@@ -168,7 +168,7 @@ ALTER TABLE imdb_movies ALTER COLUMN year SET DATA TYPE Integer USING year::Inte
 
 CREATE OR REPLACE FUNCTION getTopVentas(int) RETURNS TABLE(Año int,Pelicula character varying(255), venta bigint) AS
 $$
-DECLARE 
+DECLARE
 year_var record;
 BEGIN
 FOR year_var in (select distinct(EXTRACT(year from orders.orderdate)) as year from orders where EXTRACT(year from orders.orderdate) >= $1 order by year) LOOP
@@ -179,13 +179,13 @@ $$
 language 'plpgsql';
 
 /* Para solo la película más vendida:
-select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle 
+select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as year,sum(quantity) as quantity, movietitle
   from orders
-      join orderdetail using(orderid) 
-      join products using (prod_id) 
-      join imdb_movies using (movieid) 
-  where EXTRACT(year from orders.orderdate)::int = 2006 
-  group by EXTRACT(year from orders.orderdate)::int, movietitle 
+      join orderdetail using(orderid)
+      join products using (prod_id)
+      join imdb_movies using (movieid)
+  where EXTRACT(year from orders.orderdate)::int = 2006
+  group by EXTRACT(year from orders.orderdate)::int, movietitle
   order by quantity desc limit 1; */
 
 
@@ -194,7 +194,7 @@ select distinct on (year,quantity) EXTRACT(year from orders.orderdate)::int as y
 
 CREATE OR REPLACE FUNCTION setOrderAmount() RETURNS void
 AS '
-DECLARE 
+DECLARE
   tmp record;
 
 BEGIN
@@ -214,12 +214,12 @@ SELECT * FROM setOrderAmount();
 CREATE OR REPLACE FUNCTION getTopMonths(bigint, numeric)
   RETURNS TABLE(year int, month int, sales bigint, revenue numeric) AS
   '
-    SELECT 
-      EXTRACT(year FROM orders.orderdate)::int as year, 
+    SELECT
+      EXTRACT(year FROM orders.orderdate)::int as year,
       EXTRACT(month FROM orders.orderdate)::int as month,
-      SUM(quantity) AS sales, SUM(totalamount) AS revenue 
+      SUM(quantity) AS sales, SUM(totalamount) AS revenue
 
-      FROM orders 
+      FROM orders
         LEFT JOIN orderdetail ON orderdetail.orderid = orders.orderid
       GROUP BY EXTRACT(year FROM orders.orderdate), EXTRACT(month FROM orders.orderdate)
       HAVING SUM(quantity) >= $1 OR sum(totalamount) >= $2;
@@ -229,12 +229,12 @@ language 'sql';
 /** updInventory **/
 
 CREATE OR REPLACE FUNCTION updInventory() RETURNS trigger as $updInventory$
-  DECLARE 
+  DECLARE
     orderItem record;
     itemStock integer;
   BEGIN
-    FOR orderItem IN SELECT prod_id, quantity FROM orderdetail WHERE orderdetail.orderid = NEW.orderID 
-    LOOP  
+    FOR orderItem IN SELECT prod_id, quantity FROM orderdetail WHERE orderdetail.orderid = NEW.orderID
+    LOOP
       SELECT inventory.stock INTO itemStock::int FROM inventory WHERE inventory.prod_id = orderItem.prod_id;
 
       IF itemStock - orderItem.quantity < 0 THEN
@@ -242,8 +242,8 @@ CREATE OR REPLACE FUNCTION updInventory() RETURNS trigger as $updInventory$
       ELSIF itemStock - orderItem.quantity = 0 THEN
         INSERT INTO alerts VALUES (DEFAULT, 'stock zero', orderItem.prod_id);
       END IF;
-      
-      UPDATE inventory SET 
+
+      UPDATE inventory SET
         stock = stock - orderItem.quantity,
         sales = sales + orderItem.quantity
         WHERE inventory.prod_id = orderItem.prod_id;
@@ -254,6 +254,6 @@ CREATE OR REPLACE FUNCTION updInventory() RETURNS trigger as $updInventory$
 $updInventory$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS updInventory ON orders;
-CREATE TRIGGER updInventory BEFORE UPDATE OF status ON orders 
+CREATE TRIGGER updInventory BEFORE UPDATE OF status ON orders
   FOR EACH ROW EXECUTE PROCEDURE updInventory();
-        
+

@@ -32,7 +32,8 @@ function getMovies($from, $count)
 	$query = <<<SQL
 SELECT * FROM (
 	SELECT * FROM(
-		SELECT imdb_movies.movieid as id, movietitle as title, year, string_agg(genre, ',') as genre, prod_id, price
+		SELECT imdb_movies.movieid AS id, movietitle AS title, year, string_agg(genre, ',')
+			AS genre, prod_id, price, url_to_img as image
 			FROM imdb_movies
 			JOIN imdb_moviegenres ON imdb_moviegenres.movieid = imdb_movies.movieid
 			JOIN products on products.movieid = imdb_movies.movieid
