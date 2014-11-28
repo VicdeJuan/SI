@@ -13,7 +13,7 @@ ALTER TABLE orderdetail
   ADD CONSTRAINT orders_fkey FOREIGN KEY (orderid) REFERENCES orders (orderid)
   ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE orderdetail
-   ADD CONSTRAINT product_fkey FOREIGN KEY (prod_id) REFERENCES inventory (prod_id)
+   ADD CONSTRAINT product_fkey FOREIGN KEY (prod_id) REFERENCES products (prod_id)
     ON UPDATE CASCADE ON DELETE CASCADE;
 
 

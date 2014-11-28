@@ -25,4 +25,4 @@ for i in xrange(1,len(movies)):
 
 			#para actualizar la db
 			command = "psql olakase -c \"update imdb_movies set url_to_img = \'{0}\' where movieid={1}\"".format(string,movieid)
-			os.system(command);
+			print "update imdb_movies set url_to_img = \'{0}\' where movieid={1};".format(string,movieid)
