@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	<?php
+<?php
 	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/history.php';
 
 	session_start();
@@ -34,6 +28,13 @@
 		http_response_code(200);
 	}
 
+	if(!isset($_SESSION['id']))
+	{
+		echo '{ "error": "Not logged in." }';
+		http_send_status(403);
+		return;
+	}
+
 	/* Main process */
 	switch($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
@@ -46,7 +47,4 @@
 		http_response_code(501);
 };
 
-?>	
-
-</body>
-</html>
+?>
