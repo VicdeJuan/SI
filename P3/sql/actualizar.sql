@@ -34,7 +34,7 @@ ALTER TABLE orders
 
 
 
-/* Invetory y order detail clave foránea de products. */
+/* Invetory y orderdetail clave foránea de products. */
 ALTER TABLE inventory
 	ADD CONSTRAINT product_fkey FOREIGN KEY (prod_id) REFERENCES products (prod_id)
 	ON UPDATE CASCADE ON DELETE NO ACTION;
@@ -65,7 +65,7 @@ SELECT * FROM alter_sequences();
 
 
 ALTER TABLE imdb_movies ADD COLUMN url_to_img character varying(255);
-UPDATE imdb_movies SET url_to_img="http://img2.wikia.nocookie.net/__cb20110130000348/tarzan/images/5/50/Tarzan.jpg";
+UPDATE imdb_movies SET url_to_img='http://img2.wikia.nocookie.net/__cb20110130000348/tarzan/images/5/50/Tarzan.jpg';
 
 
 

@@ -31,7 +31,7 @@ Al principio se encuentran las \textit{constraint} necesarias, como claves forá
 
 \item Hemos añadido un \textit{UNIQUE} al email de customers para asegurarnos que podemos hacer consultas de búsquedas de clientes por el email. Además, le hemos puesto un índice para optimizar las consultas de búsqueda en el login.
 
-\item Hemos añadido una columna a la tabla \textit{imdb\_movies} llamada \textit{url\_to\_img} para mejorar la interfaz. Hay un archivo llamado \textit{images.sql} que inserta en la tabla las url de las imágenes (que hemos obtenido de imdb.com con un script en python). Las películas de las que no hayamos encontrado imagen en imdb.com tendrán una por defecto.
+\item Hemos añadido una columna a la tabla \textit{imdb\_movies} llamada \textit{url\_to\_img} para mejorar la interfaz. Pensábamos enlazar a imdb.com pero no lo permiten, por lo que nos hemos descargado unas cuantas imágenes, por lo menos de las primeras películas. El resto tienen una imagen por defecto.
 
 \item Hemos separado también las tablas de género (de película), país e idiomas. 
 
