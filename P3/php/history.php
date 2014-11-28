@@ -1,101 +1,118 @@
 <?php
-	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';	
-	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/sql.php';	
+require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';
+require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/sql.php';
 
 
-	function getHistory(){
+function getHistory(){
 
-		$dbh = DBConnect_PDO();
+	$dbh = DBConnect_PDO();
 
-		$stmt_getOrderIds = $dbh->prepare("select distinct orderid,orders.orderdate as date from orders join orderdetail using (orderid) where customerid = :customerid;" );
-		$stmt_getOrderIds->bindParam(':customerid', $_SESSION['id'], PDO::PARAM_INT);
-		
-		$result = stmtQuery($stmt_getOrderIds);
+	$stmt_getOrderIds = $dbh->prepare("select distinct orderid,orders.orderdate as date from orders join orderdetail using (orderid) where customerid = :customerid;" );
+	$stmt_getOrderIds->bindParam(':customerid', $_SESSION['id'], PDO::PARAM_INT);
 
-		$stmt_getMovies = $dbh->prepare("
-			SELECT movieid AS id,movietitle AS title,url_to_img AS image,orderdetail.price,quantity 
-			FROM orderdetail 
-				JOIN products USING (prod_id) 
-				JOIN imdb_movies USING(movieid) 
-			WHERE orderid = :orderid;");
+	$result = stmtQuery($stmt_getOrderIds);
 
-
-		if (count($result) == 0) {
-			return array();
-		}
-
-		$history = array();
+	$stmt_getMovies = $dbh->prepare("
+		SELECT movieid AS id,movietitle AS title,url_to_img AS image,orderdetail.price,quantity
+		FROM orderdetail
+			JOIN products USING (prod_id)
+			JOIN imdb_movies USING(movieid)
+		WHERE orderid = :orderid;");
 
 
-
-		foreach ($result as $order) {
-			$purchasesArray = array();
-			$stmt_getMovies->bindParam(':orderid', $order['orderid'], PDO::PARAM_STR);
-
-			$moviesPurchased = stmtQuery($stmt_getMovies);
-
-			array_push($history, array(
-				"movies" => $moviesPurchased,
-				"date" => (string) $order['date']
-			));
-		}
-
-		return $history;
+	if (count($result) == 0) {
+		return array();
 	}
 
-	function _searchForId($id, $array) {
-		$i = -1;
-	   foreach ($array as $val) {
-	       $i++;
-	       $val = (array) $val;
+	$history = array();
 
-	       if ($val['id'] == $id) {
-	           return $i;
-	       }
-	   }
-	   return -1;
+
+
+	foreach ($result as $order) {
+		$purchasesArray = array();
+		$stmt_getMovies->bindParam(':orderid', $order['orderid'], PDO::PARAM_STR);
+
+		$moviesPurchased = stmtQuery($stmt_getMovies);
+
+		array_push($history, array(
+			"movies" => $moviesPurchased,
+			"date" => (string) $order['date']
+		));
 	}
 
-	function addHistory($dir,$cartItems)
+	return $history;
+}
+
+function _searchForId($id, $array) {
+	$i = -1;
+   foreach ($array as $val) {
+       $i++;
+       $val = (array) $val;
+
+       if ($val['id'] == $id) {
+           return $i;
+       }
+   }
+   return -1;
+}
+
+function addHistory($dir,$cartItems)
+{
+	$tax = 15;
+
+	$sql_order = <<<SQL
+		INSERT INTO orders (orderid, orderdate, customerid, tax, status)
+		VALUES (default, now(), :customerid, :tax, 'Created');
+SQL;
+
+	$sql_getOrderId = <<<SQL
+		SELECT orderid FROM orders
+			WHERE customerid = :customerid
+			ORDER BY orderid DESC
+			LIMIT 1;
+SQL;
+
+	$sql_insertDetail = <<<SQL
+		INSERT INTO orderdetail (orderid,prod_id,price,quantity)
+		VALUES (:orderid,:prod_id,:price,:quantity);
+SQL;
+
+	$dbh = DBConnect_PDO();
+	$stmt_order = $dbh->prepare($sql_order);
+	$stmt_order->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
+	$stmt_order->bindParam(':tax',$tax,PDO::PARAM_INT);
+	$stmt_order->execute();
+
+	$stmt_getOrderId = $dbh->prepare($sql_getOrderId);
+	$stmt_getOrderId->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
+	$orderid = stmtQuery($stmt_getOrderId)[0][0];
+
+	$stmt_insertDetail = $dbh->prepare($sql_insertDetail);
+
+	$netamount = 0;
+
+	foreach ($cartItems as $movie)
 	{
-			$tax = 15;
-				
+		$stmt_insertDetail->bindParam(':quantity',$movie['quantity'],PDO::PARAM_INT);
+		$stmt_insertDetail->bindParam(':price',$movie['price'],PDO::PARAM_INT);
 
-			$dbh = DBConnect_PDO();
-			$stmt_order = $dbh->prepare("insert into orders (orderid,orderdate,customerid,tax,status) values (default,now(),:customerid,:tax,'Processed');");
-			$stmt_order->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
-			$stmt_order->bindParam(':tax',$tax,PDO::PARAM_INT);
-			$stmt_order->execute();
-			
-			$stmt_getOrderId = $dbh->prepare("select orderid from orders where customerid=:customerid order by orderid desc limit 1");
-			$stmt_getOrderId->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
-			$orderid = stmtQuery($stmt_getOrderId);
+		$netamount += $movie['price'] * $movie['quantity'];
 
-			$stmt_insertDetail = $dbh->prepare("insert into orderdetail (orderid,prod_id,price,quantity) values (:orderid,:prod_id,:price,:quantity);");
-
-			foreach ($cartItems as $movie) 
-			{
-				$stmt_insertDetail->bindParam(':quantity',$movie['quantity'],PDO::PARAM_INT);
-				$stmt_insertDetail->bindParam(':price',$movie['price'],PDO::PARAM_INT);
-
-				$netamount = $movie['price'] * $movie['quantity'];
-
-				$stmt_insertDetail->bindParam(':prod_id',$cartItems['prod_id']);
-				$stmt_insertDetail->bindParam(':orderid',$orderid);
-				$stmt_insertDetail->execute();
-
-			}
-
-			$stmt_final = $dbh->prepare("update orders set netamount=:netamount and totalamount=:totalamount and status='Paid' where orderid=:orderid");
-			$stmt_final->bindParam(':netamount',$netamount,PDO::PARAM_INT);
-			$totalamount = $tax * $netamount;
-			$stmt_final->bindParam(':totalamount',$totalamount,PDO::PARAM_INT);
-			$stmt_final->bindParam('orderid',$orderid,PDO::PARAM_STR);
-
-			$stmt_final->execute();
-			return $tax;
-
+		$stmt_insertDetail->bindParam(':prod_id',$movie['prod_id']);
+		$stmt_insertDetail->bindParam(':orderid',$orderid);
+		$stmt_insertDetail->execute();
 	}
+
+	$stmt_final = $dbh->prepare("update orders set netamount=:netamount, totalamount=:totalamount, status='Paid' where orderid=:orderid");
+	$stmt_final->bindParam(':netamount',$netamount,PDO::PARAM_INT);
+	$totalamount = $tax * $netamount;
+	$stmt_final->bindParam(':totalamount',$totalamount,PDO::PARAM_INT);
+	$stmt_final->bindParam(':orderid', $orderid,PDO::PARAM_STR);
+
+	$stmt_final->execute();
+	return $tax;
+
+}
 
 
 ?>

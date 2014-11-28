@@ -28,6 +28,13 @@
 		http_response_code(200);
 	}
 
+	if(!isset($_SESSION['id']))
+	{
+		echo '{ "error": "Not logged in." }';
+		http_send_status(403);
+		return;
+	}
+
 	/* Main process */
 	switch($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
