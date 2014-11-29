@@ -222,7 +222,8 @@ CREATE OR REPLACE FUNCTION getTopMonths(bigint, numeric)
       FROM orders
         LEFT JOIN orderdetail ON orderdetail.orderid = orders.orderid
       GROUP BY EXTRACT(year FROM orders.orderdate), EXTRACT(month FROM orders.orderdate)
-      HAVING SUM(quantity) >= $1 OR sum(totalamount) >= $2;
+      HAVING SUM(quantity) >= $1 OR sum(totalamount) >= $2
+      ORDER BY year,month ;
   '
 language 'sql';
 

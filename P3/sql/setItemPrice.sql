@@ -7,6 +7,7 @@ CREATE TEMP TABLE newprices
 		INNER JOIN orders ON orderdetail.orderid = orders.orderid
 		INNER JOIN products ON orderdetail.prod_id = products.prod_id;
 
+/* Añadimos una clave primaria para optimizar la consulta del UPDATE, ya que sin ella tardaría demasiado.*/
 ALTER TABLE newprices ADD constraint newprices_pkey PRIMARY kEY (orderid,prod_id);
 
 UPDATE orderdetail SET price=newprices.price from newprices WHERE orderdetail.orderid = newprices.orderid; 
