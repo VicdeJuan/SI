@@ -23,9 +23,9 @@
 		$clean_email = dirname(__FILE__).'/../users/'.$_SESSION['email']."/";
 
 		if (addHistory($clean_email, $cart) == null)
-			http_response_code(404);
+			http_send_status(404);
 
-		http_response_code(200);
+		http_send_status(200);
 	}
 
 	if(!isset($_SESSION['id']))
