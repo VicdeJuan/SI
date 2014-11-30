@@ -92,7 +92,10 @@ function delete()
 
 switch($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
-		get();
+		if(isset($_GET['delete']))
+			delete();
+		else
+			get();
 		break;
 	case 'POST':
 		post();

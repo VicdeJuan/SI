@@ -131,7 +131,7 @@ var cart = {
             });
     },
     removeAll: function($http) {
-        $http.delete(serverRoot + 'php/cart.php?all').success(function(){
+        $http.get(serverRoot + 'php/cart.php?delete=1&all').success(function(){
             cart.items.length = 0;
         });
     }
@@ -154,7 +154,7 @@ mainApp.controller('headerController', ['$scope', '$http', '$timeout',
         $scope.moviesIds = [];
 
         $scope.removeFromCart = function(item) {
-            $http.delete(serverRoot + 'php/cart.php?itemId=' + item['id'])
+            $http.get(serverRoot + 'php/cart.php?delete=1&itemId=' + item['id'])
                 .success(function(data, status) {
                     cart.remove(item);
                 })
@@ -163,7 +163,7 @@ mainApp.controller('headerController', ['$scope', '$http', '$timeout',
                 });
         };
 
- 
+
         $scope.processPurchase = function(){
             if($scope.cartItems.length > 0){
                 $http.post(serverRoot + 'api/history.php',$scope.cartItems)
@@ -182,9 +182,9 @@ mainApp.controller('headerController', ['$scope', '$http', '$timeout',
 
         $scope.showLogin = false;
         $scope.errLogin = false;
-        
+
         $scope.loginTitleControl = function(logged){
-            
+
             if (!$scope.logged) {
                 $scope.loginLink = "";
                 $scope.showLogin = true;
@@ -234,7 +234,7 @@ mainApp.controller('registerController', ['$scope',
         $scope.strength = 1;
         $scope.strengthMsg = "";
         $scope.show = false;
-        $scope.valid = false;   
+        $scope.valid = false;
 
 
         $scope.matching = function(str){
@@ -264,7 +264,7 @@ mainApp.controller('registerController', ['$scope',
         }
 
 
-        $scope.checkPass = function(){    
+        $scope.checkPass = function(){
             $scope.show = $scope.password && $scope.password.length > 0;
 
             if(!$scope.show)
@@ -280,13 +280,13 @@ mainApp.controller('registerController', ['$scope',
             }
 
             if ($scope.strength >= 4){
-                $scope.strengthMsg = " Muy fuerte"; 
+                $scope.strengthMsg = " Muy fuerte";
             }
             else if ($scope.strength >= 3){
-                $scope.strengthMsg = "Fuerte"; 
+                $scope.strengthMsg = "Fuerte";
             }
             else if ($scope.strength >= 2){
-                $scope.strengthMsg = "Media"; 
+                $scope.strengthMsg = "Media";
             }
             else if ($scope.strength >= 1){
                 $scope.strengthMsg = "Debil";
@@ -369,7 +369,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
             range('> 2010', 2010, Infinity)
         ];
 
-        $scope.prices = [ 
+        $scope.prices = [
             range('Gratis', 0, 0),
             range('1 - 5 €', 1, 5),
             range('5 - 10 €', 5, 10)
@@ -444,7 +444,7 @@ mainApp.controller('movieListController', ['$scope', '$http', '$filter',
 ]);
 
 mainApp.controller('loginSubmitController', ['$scope','$http','$timeout', function($scope,$http) {
-	
+
 }]);
 
 mainApp.controller('historyController', function($scope) { });
