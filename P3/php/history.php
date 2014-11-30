@@ -7,7 +7,7 @@ function getHistory(){
 
 	$dbh = DBConnect_PDO();
 
-	$stmt_getOrderIds = $dbh->prepare("select distinct orderid,orders.orderdate as date from orders join orderdetail using (orderid) where customerid = :customerid;" );
+	$stmt_getOrderIds = $dbh->prepare("select distinct orderid,orders.orderdate as date from orders join orderdetail using (orderid) where customerid = :customerid order by date desc;" );
 	$stmt_getOrderIds->bindParam(':customerid', $_SESSION['id'], PDO::PARAM_INT);
 
 	$result = stmtQuery($stmt_getOrderIds);
