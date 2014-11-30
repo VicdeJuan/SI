@@ -24,7 +24,8 @@ function post()
 {
 	$cart = get_cart();
 	$json = file_get_contents('php://input');
-	$toAdd = json_decode($json, true)['item'];
+	$toAdd = json_decode($json, true);
+    $toAdd = $toAdd['item'];
 	$found = false;
 
 	foreach ($cart as &$item) {
@@ -47,7 +48,7 @@ function post()
 
 function remove_from_array($array, $item)
 {
-	
+
 }
 
 function delete()
@@ -87,7 +88,7 @@ function delete()
 	{
 		http_response_code(404);
 	}
-}	
+}
 
 switch($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
