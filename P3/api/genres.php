@@ -1,7 +1,7 @@
 <?php
 
-require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';
-require_once $_SERVER['CONTEXT_DOCUMENT_ROOT']."/php/sql.php";
+require_once dirname(__FILE__).'/../php/movies.php';
+require_once dirname(__FILE__).'/../php/sql.php';
 
 $pdo = DBConnect_PDO();
 

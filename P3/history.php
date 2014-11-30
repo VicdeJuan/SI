@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/header.php'; ?>
+<?php require_once dirname(__FILE__).'/base/header.php'; ?>
 
 
 <div class="body-container" data-ng-controller="historyController">
@@ -12,15 +12,15 @@
 			require_once 'php/history.php';
 
 				$purchases = getHistory();
-				foreach ($purchases as $purchase) 
+				foreach ($purchases as $purchase)
 				{
 					$price = 0;
 					$movieCount = 0;
-					foreach ($purchase['movies'] as $movie) 
+					foreach ($purchase['movies'] as $movie)
 					{
 						$price += $movie['quantity'] * $movie['price'];
 						$movieCount += $movie['quantity'];
-					} 
+					}
 			?>
 			<div class="purchase" data-ng-init="showItems<?php echo $movie['id']; ?> = false">
 				<div class="purchase-info">
@@ -45,10 +45,10 @@
 					<?php } ?>
 				</div>
 
-				<div class="purchase-date"><?php 
+				<div class="purchase-date"><?php
 					echo $purchase['date'];
 				?></div>
-			</div>	
+			</div>
 			<?php } ?>
 		</div>
 	</div>

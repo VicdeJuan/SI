@@ -1,17 +1,17 @@
-<?php require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/header.php'; ?>
+<?php require dirname(__FILE__).'/base/header.php'; ?>
 
 <div class="body-container" data-ng-controller="movieListController">
 	<aside class="menu">
-			<div data-filter data-title="Título" data-value="search.title" data-name="titleFilter" data-fallback="emptyStrObject" data-allow-custom="string"></div>			
-			<div data-filter data-title="Género" data-filters="genres" data-value="search.genre" data-name="genreFilter" data-fallback="emptyStrObject" data-allow-custom="string"></div> 
+			<div data-filter data-title="Título" data-value="search.title" data-name="titleFilter" data-fallback="emptyStrObject" data-allow-custom="string"></div>
+			<div data-filter data-title="Género" data-filters="genres" data-value="search.genre" data-name="genreFilter" data-fallback="emptyStrObject" data-allow-custom="string"></div>
 			<div data-filter data-title="Año" data-filters="years" data-value="search.year" data-name="yearFilter" data-fallback="defaultRange" data-allow-custom="range"></div>
-			<div data-filter data-title="Precio" data-filters="prices" data-value="search.price" data-name="priceFilter" data-fallback="defaultRange" data-allow-custom="range"></div>	
+			<div data-filter data-title="Precio" data-filters="prices" data-value="search.price" data-name="priceFilter" data-fallback="defaultRange" data-allow-custom="range"></div>
 	</aside>
 
 	<div class="scroller">
 		<div class="scroller-top">
 			<div class="pagination-control">
-				<a href="" class="page-control" data-ng-class="prevDisabled" data-ng-click="prevPage()">‹</a> 
+				<a href="" class="page-control" data-ng-class="prevDisabled" data-ng-click="prevPage()">‹</a>
 				<span>{{startIndex}} - {{startIndex + filtered.length}}</span>
 				<a href="" class="page-control" data-ng-class="nextDisabled" data-ng-click="nextPage()">›</a>
 			</div>
@@ -49,4 +49,4 @@
 	</div>
 </div>
 
-<?php require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/footer.php'; ?>
+<?php require dirname(__FILE__).'/base/footer.php'; ?>

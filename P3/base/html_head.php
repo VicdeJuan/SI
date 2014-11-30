@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/common.php'; ?>
+<?php require_once dirname(__FILE__).'/../php/common.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en" data-ng-app="mainApp">
@@ -9,7 +9,7 @@
 <script type="text/javascript">
 	var serverRoot = "<?php echo $applicationBaseDir; ?>";
 </script>
-<script src="<?php echo $applicationBaseDir; ?>lib/angular.min.js" type="text/javascript"> 
+<script src="<?php echo $applicationBaseDir; ?>lib/angular.min.js" type="text/javascript">
 </script>
 <script src="<?php echo $applicationBaseDir; ?>lib/angular-animate.min.js" type="text/javascript">
 </script>

@@ -3,7 +3,7 @@
 <head>
 <body>
   <?php
-  	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/common.php';
+  	require_once dirname(__FILE__).'/common.php';
 
   	session_start();
   	unset($_SESSION['name']);

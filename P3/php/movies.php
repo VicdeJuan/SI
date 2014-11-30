@@ -1,7 +1,7 @@
 <?php
 
-require_once $_SERVER['CONTEXT_DOCUMENT_ROOT']."/php/common.php";
-require_once $_SERVER['CONTEXT_DOCUMENT_ROOT']."/php/sql.php";
+require_once dirname(__FILE__)."/common.php";
+require_once dirname(__FILE__)."sql.php";
 
 function findMovie($movieList, $id)
 {

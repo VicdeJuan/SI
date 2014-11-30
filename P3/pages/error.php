@@ -1,4 +1,4 @@
-<?php require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/header.php'; ?>
+<?php require dirname(__FILE__).'/../base/header.php'; ?>
 
 
 <body>
@@ -6,8 +6,8 @@
 	<aside class="menu">
 	</aside>
 	<div class="scroller">
-		<div class="scroller-top">	
-			<?php	
+		<div class="scroller-top">
+			<?php
 				session_start();
 				echo "Lo sentimos. "."\n"."Se ha producido el siguiente error: ";
 				if (isset($_SESSION['error'])) {
@@ -21,4 +21,4 @@
 
 
 
-<?php require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/footer.php'; ?>
+<?php require dirname(__FILE__).'/../base/footer.php'; ?>

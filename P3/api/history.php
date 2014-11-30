@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/history.php';
+	require_once dirname(__FILE__).'/../php/history.php';
 
 	session_start();
 
@@ -20,7 +20,7 @@
 
 		$cart = json_decode($json, true);
 
-		$clean_email = $_SERVER['CONTEXT_DOCUMENT_ROOT']."/users/".$_SESSION['email']."/";
+		$clean_email = dirname(__FILE__).'/../users/'.$_SESSION['email']."/";
 
 		if (addHistory($clean_email, $cart) == null)
 			http_response_code(404);

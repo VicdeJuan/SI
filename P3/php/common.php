@@ -1,9 +1,14 @@
 <?php
 
-
 $applicationBaseDir = $_SERVER['CONTEXT_PREFIX'];
 
-if(strlen($applicationBaseDir) == 0 || substr($applicationBaseDir, -1) !== "/")
+if (!isset($applicationBaseDir))
+{
+	if(preg_match("//home/(\\w+)/public_html.*/u", $_SERVER['SCRIPT_FILENAME'], $matches) === TRUE)
+		$applicationBaseDir = "/~{$matches[1]}/";
+}
+
+if(!isset($applicationBaseDir) || strlen($applicationBaseDir) == 0 || substr($applicationBaseDir, -1) !== "/")
 	$applicationBaseDir .= '/';
 
 function asAbsolutePath($path)
@@ -22,7 +27,8 @@ function getTableRowCount($pdo, $table)
 	$sql = "SELECT count(*) FROM ".$table.";";
 	$result = $pdo->prepare($sql);
 	$result->execute();
-	return $result->fetchAll()[0][0];
+	$rows = $result->fetchAll();
+	return $rows[0][0];
 }
 
 ?>

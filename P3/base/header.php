@@ -1,4 +1,4 @@
-<?php require $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/base/html_head.php'; ?>
+<?php require dirname(__FILE__).'/html_head.php'; ?>
 
 <?php
 	session_start();
@@ -25,7 +25,7 @@
 	</div>
 
 	<div class="header-options">
-		<ul>	
+		<ul>
 			<li>
 				<a data-ng-click="loginTitleControl(<?php echo $logged; ?>);" data-ng-href="{{ loginLink }}">
 					{{ loginTitle }}
@@ -36,12 +36,12 @@
 						<label class="login-label"> Contraseña:</label><input class="login-input" type="password" name="password" data-ng-model="password" autocomplete="off" required id="passwordfield">
 						<div class="login-err-msg" data-ng-show="errLogin" > El email y la contraseña no se encuentran en la base de datos. </div>
 			 			<p>
-				  			<a href="<?php echo $applicationBaseDir; ?>register.php" id="NewRegister">¿No tienes cuenta todavía?</a>		
+				  			<a href="<?php echo $applicationBaseDir; ?>register.php" id="NewRegister">¿No tienes cuenta todavía?</a>
 				  			<input type="submit" value="login" name="login" id="login-button">
-						</p>			
+						</p>
 			 		</form>
 			 	</div>
-			</li>	
+			</li>
 
 			<li>
 				<a href="" data-ng-click="showCart = !showCart">Carrito ({{cartItems.length}})</a>

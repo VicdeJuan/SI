@@ -1,6 +1,6 @@
 <?php
-require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/movies.php';
-require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'].'/php/sql.php';
+require_once dirname(__FILE__).'/movies.php';
+require_once dirname(__FILE__).'/sql.php';
 
 
 function getHistory(){
