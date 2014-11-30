@@ -4,7 +4,7 @@ $applicationBaseDir = $_SERVER['CONTEXT_PREFIX'];
 
 if (!isset($applicationBaseDir))
 {
-	if(preg_match("//home/(\\w+)/public_html.*/u", $_SERVER['SCRIPT_FILENAME'], $matches) === TRUE)
+	if(preg_match("@/home/(\\w+)/public_html.*@", $_SERVER['SCRIPT_FILENAME'], $matches) === 1)
 		$applicationBaseDir = "/~{$matches[1]}/";
 }
 
