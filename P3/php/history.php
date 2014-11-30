@@ -85,7 +85,8 @@ SQL;
 
 	$stmt_getOrderId = $dbh->prepare($sql_getOrderId);
 	$stmt_getOrderId->bindParam(':customerid',$_SESSION['id'],PDO::PARAM_STR);
-	$orderid = stmtQuery($stmt_getOrderId)[0][0];
+	$orderid = stmtQuery($stmt_getOrderId);
+	$orderid = $orderid[0][0];
 
 	$stmt_insertDetail = $dbh->prepare($sql_insertDetail);
 
