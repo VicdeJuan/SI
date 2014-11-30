@@ -1,4 +1,8 @@
-<?php require dirname(__FILE__).'/base/header.php'; ?>
+<?php
+require_once dirname(__FILE__).'/base/header.php';
+require_once dirname(__FILE__).'/php/common.php';
+require_once dirname(__FILE__).'/php/sql.php';
+?>
 
 <div class="body-container" data-ng-controller="movieListController">
 	<aside class="menu">
@@ -6,6 +10,30 @@
 			<div data-filter data-title="Género" data-filters="genres" data-value="search.genre" data-name="genreFilter" data-fallback="emptyStrObject" data-allow-custom="string"></div>
 			<div data-filter data-title="Año" data-filters="years" data-value="search.year" data-name="yearFilter" data-fallback="defaultRange" data-allow-custom="range"></div>
 			<div data-filter data-title="Precio" data-filters="prices" data-value="search.price" data-name="priceFilter" data-fallback="defaultRange" data-allow-custom="range"></div>
+
+			<div class="sales-info">
+				<h4>Top Ventas</h4>
+				<?php
+
+				$pdo = DBConnect_PDO();
+				$year = date("Y");
+				$min_year_info = $year - 2; // 3 years: years - 0, years - 1, years -2.
+
+				$stmt = $pdo->prepare("SELECT * FROM getTopVentas(:year);");
+				$stmt->bindParam(':year', $min_year_info, PDO::PARAM_INT);
+
+				$result = stmtQuery($stmt);
+
+				foreach ($result as $record) {
+					?>
+					<li><span class="sales-year"><?php echo $record['año']; ?></span>: <?php echo $record['pelicula']; ?>
+						- <span class="sales-count"><?php echo $record['venta']; ?></span>
+					</li>
+					<?php
+				}
+
+				?>
+			</div>
 	</aside>
 
 	<div class="scroller">

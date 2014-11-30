@@ -2,7 +2,7 @@
 * Fondo destacado: C60
 * Fondo: FFFBD0
 * F90
-* Acento: C13100 
+* Acento: C13100
 */
 
 @import url('purchases.css');
@@ -370,3 +370,20 @@ h3, h2 {
 	color: gray;
 	cursor: default;
 }
+
+
+.sales-info h4 {
+	font-style: italic;
+}
+
+.sales-info li {
+	font-size: 10pt;
+	list-style: none;
+	font-weight: lighter;
+}
+
+.sales-year {
+	font-weight: normal;
+}
+
+
