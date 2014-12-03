@@ -77,54 +77,61 @@ define("DSN","pgsql:host=localhost;dbname=si1;options='--client_encoding=UTF8'")
       } else {
         try {
           $db = new PDO(DSN,PGUSER,PGPASSWORD);
-
+          $print = false;
           /* consulta 
           $consulta = ...
           */
-          
+          $consulta_1 = "SELECT count(*) as cc FROM (  SELECT DISTINCT customerid   FROM orderdetail JOIN orders using (orderid)   WHERE     EXTRACT(year FROM orders.orderdate)::int = ";
+          $consulta_2 = " AND     EXTRACT(month FROM orders.orderdate)::int = ";
+          $consulta_3 = " AND     totalamount >= ";
+          $consulta_4 = " GROUP BY customerid )AS foo;";
           // Impresion de resultados en HTML
-          echo '<p>Número de clientes distintos con pedidos ';
-          echo ' por encima del valor indicado en el mes ';
-          echo $_REQUEST['mes'].'/'.$_REQUEST['anio'].'</p>';
+          if ($print != false) echo '<p>Número de clientes distintos con pedidos ';
+          if ($print != false) echo ' por encima del valor indicado en el mes ';
+          $month = $_REQUEST['mes'];
+          $year = $_REQUEST['anio'];
+          if ($print != false) echo $month.'/'.$year.'</p>';
           
+
           $umbral = $_REQUEST['minimo'];
+          
           $use_prepare = isset($_REQUEST['prepare']) ? true : false;
           $break0      = isset($_REQUEST['break0']) ? true : false;
+
+          $totalamount = 0;
+
           if ($use_prepare) { 
-              /* Preparamos la consulta 
-              $stmt = ...
-              */
+              $stmt = $db->prepare($consulta_1.":year".$consulta_2.":month".$consulta_3.":totalamount".$consulta_4);
+              $stmt->bindParam(":year",$year,PDO::PARAM_STR);
+              $stmt->bindParam(":month",$month,PDO::PARAM_STR);
           }
           
           // Impresion de resultados en HTML
-          echo '<table><tr><th>Mayor que (euros)</th><th>Número de clientes</th></tr>';
+          if ($print != false) echo '<table><tr><th>Mayor que (euros)</th><th>Número de clientes</th></tr>';
           $niter = 0;
           $intervalo=$_REQUEST['intervalo'];
           $t0 = microtime(true);
           while($niter < $_REQUEST['iter']) {
             if ($use_prepare) {
-              /* ejecución de consulta preparada 
-              ...
-              $linea = ...
-              */
+                $stmt->bindParam(":totalamount",$umbral);
+                $stmt->execute();
+                $linea = $stmt->fetchAll()[0]; 
             }
             else {
-              /* ejecución de consulta no preparada
-              $linea = ...
-              */
+                $db->query($consulta_1.$year.$consulta_2.$month.$consulta_3.$umbral.$consulta_4);
             }
-            echo '<tr><td>'.$umbral.'</td><td>'.$linea['cc'].'</td></tr>';
+            if ($print != false) echo '<tr><td>'.$umbral.'</td><td>'.$linea['cc'].'</td></tr>';
             if ($break0 && $linea['cc']==0) break;
             $umbral = $umbral + $intervalo;
             $niter = $niter + 1;
           }
-          echo '</table>';
+          if ($print != false) echo '</table>';
           echo '<p>Tiempo: '.round(1000*(microtime(true)-$t0),2).' ms</p>';
           if ($use_prepare) {
-            echo '<p><b>Usando prepare</b></p>';
+            if ($print != false) echo '<p><b>Usando prepare</b></p>';
           }
           
-          echo '<p><a href="listaClientesMes.php">Nueva consulta</a></p>';
+          if ($print) echo '<p><a href="listaClientesMes.php">Nueva consulta</a></p>';
         } catch (PDOException $e) {
           print "Error!: " . $e->getMessage() . "<br/>";
         }

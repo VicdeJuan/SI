@@ -1,0 +1,7 @@
+no INDEX
+prepare on: 84160.36 ms
+prepare off: 84827.76 ms
+
+INDEX
+prepare on: 4141.79 ms 
+prepare off: 4782.57 ms
