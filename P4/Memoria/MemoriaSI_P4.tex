@@ -46,6 +46,8 @@ Es decir, siempre será válida y sacará al menos un registro. El código PHP d
 
 La misma técnica se puede usar para entrar sin saber el nombre de usuario: al usar la cláusula \texttt{OR}, no es siquiera necesario que el nombre de usuario esté en la base de datos, ya que \texttt{1=1} es una condición que siempre es verdadera para cualquier registro.
 
+Para evitar este tipo de ataques, se debe escapar las cadenas que vengan desde el cliente con \texttt{pg\_escape\_string} o bien usar la clase \textit{PDO} con \texttt{prepare}, que automáticamente realiza el escape necesario. Así impediremos que en las cadenas que introduce el usuario haya caracteres que puedan modificar el comportamiento de nuestra consulta SQL.
+
 \subsection{Acceso indebido a información}
 
 
