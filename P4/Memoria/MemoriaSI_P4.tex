@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage[left=3cm, right=2cm, top=3cm, bottom=2cm]{geometry}
+\usepackage{fancyvrb}
 
 \title{Práctica 4 SI}
 \date{\today}
@@ -34,13 +35,11 @@
 
 \subsection{Acceso indebido a un sitio web}
 
-Para acceder al sistema como el usuario \textit{gatsby}, simplement introducimos ese nombre en el campo de usuario y, en contraseña, introducimos \texttt{' OR 1=1; {-}-}. Aprovechamos así el fallo de programación en \textit{xLoginInjection.php}, de tal forma que el código realizará la consulta
+Para acceder al sistema como el usuario \textit{gatsby}, simplement introducimos ese nombre en el campo de usuario y, en contraseña, introducimos \texttt{' OR 1=1; {-}-}. Aprovechamos así el fallo de programación en \textit{xLoginInjection.php}, de tal forma que el código realizará la consulta siguiente
 
-\begin{center}
-\begin{verbatim}
+\begin{Verbatim}[frame = lines]
 SELECT * FROM customers WHERE username='gatsby' AND password='' OR 1 = 1; --
-\end{verbatim}
-\end{center}
+\end{Verbatim}
 
 Es decir, siempre será válida y sacará al menos un registro. El código PHP dará por válido el \textit{login} y entraremos sin saber la contraseña.
 
