@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dropdb olakase
+createdb olakase
+psql olakase < dump_v1.0-P4.sql
