@@ -4,6 +4,7 @@
 \usepackage[spanish]{babel}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage[left=3cm, right=2cm, top=3cm, bottom=2cm]{geometry}
 
 \title{Práctica 4 SI}
 \date{\today}
@@ -32,6 +33,18 @@
 \section{Seguridad}
 
 \subsection{Acceso indebido a un sitio web}
+
+Para acceder al sistema como el usuario \textit{gatsby}, simplement introducimos ese nombre en el campo de usuario y, en contraseña, introducimos \texttt{' OR 1=1; {-}-}. Aprovechamos así el fallo de programación en \textit{xLoginInjection.php}, de tal forma que el código realizará la consulta
+
+\begin{center}
+\begin{verbatim}
+SELECT * FROM customers WHERE username='gatsby' AND password='' OR 1 = 1; --
+\end{verbatim}
+\end{center}
+
+Es decir, siempre será válida y sacará al menos un registro. El código PHP dará por válido el \textit{login} y entraremos sin saber la contraseña.
+
+La misma técnica se puede usar para entrar sin saber el nombre de usuario: al usar la cláusula \texttt{OR}, no es siquiera necesario que el nombre de usuario esté en la base de datos, ya que \texttt{1=1} es una condición que siempre es verdadera para cualquier registro.
 
 \subsection{Acceso indebido a información}
 
