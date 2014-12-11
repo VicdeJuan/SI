@@ -8,7 +8,7 @@ remote_htmlcopy
 *.idx
 *.out
 
-P2/Memoria/MemoriaP2.fdb_latexmk
-P2/Memoria/MemoriaP2.fls
-P2/Memoria/MemoriaP2.ilg
-P2/Memoria/MemoriaP2.ind
+*.fdb_latexmk
+*.fls
+*.ilg
+*.ind
