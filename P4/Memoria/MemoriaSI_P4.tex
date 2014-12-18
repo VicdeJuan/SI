@@ -26,15 +26,142 @@
 
 \subsection{Estudio del impacto de un índice}
 
+La consulta creada es 
+\begin{Verbatim}[frame = lines]
+SELECT count(*) as cc FROM (
+	SELECT DISTINCT customerid 
+	FROM orderdetail JOIN orders using (orderid) 
+	WHERE 
+		EXTRACT(year FROM orders.orderdate)::int = 2012 AND 
+		EXTRACT(month FROM orders.orderdate)::int = 04 AND 
+		totalamount >= 100 GROUP BY customerid
+	)AS foo;
+\end{Verbatim}
+
+Y estos los resultados de ejecutar EXPLAIN sobre la consulta después antes y después de los índices: 
+
+\begin{Verbatim}
+EXPLAIN SELECT * FROM clientesDistintos;
+
+
+				     QUERY PLAN                                                                                                                                
+------------------------------------------------------------------------------------
+ Aggregate  (cost=25017.60..25017.61 rows=1 width=0)
+ ->  HashAggregate  (cost=25017.57..25017.58 rows=1 width=4)
+   ->  HashAggregate  (cost=25017.56..25017.57 rows=1 width=4)
+     ->  Hash Join  (cost=6686.25..25017.54 rows=9 width=4)
+       Hash Cond: (orderdetail.orderid = orders.orderid)
+       ->  Seq Scan on orderdetail  (cost=0.00..15321.60 rows=802560 width=4)
+       ->  Hash  (cost=6686.23..6686.23 rows=2 width=8)
+         ->  Seq Scan on orders  (cost=0.00..6686.23 rows=2 width=8)
+           Filter: ((totalamount >= 100::numeric) AND
+           	(date_part('year'::text, (orderdate)::timestamp without time zone) =
+           		2012::double precision) AND 
+           	(date_part('month'::text, (orderdate)::timestamp without time zone) =
+           		4::double precision))
+(9 rows)
+
+
+CREATE INDEX idx_totalamount ON orders(totalamount);
+
+EXPLAIN SELECT * FROM clientesDistintos;
+
+    				 QUERY PLAN                                                                                                                                
+------------------------------------------------------------------------------------
+
+ Aggregate  (cost=22811.69..22811.70 rows=1 width=0)
+ ->  HashAggregate  (cost=22811.67..22811.68 rows=1 width=4)
+   ->  HashAggregate  (cost=22811.65..22811.66 rows=1 width=4)
+     ->  Hash Join  (cost=4480.34..22811.63 rows=9 width=4)
+       Hash Cond: (orderdetail.orderid = orders.orderid)
+       ->  Seq Scan on orderdetail  (cost=0.00..15321.60 rows=802560 width=4)
+       ->  Hash  (cost=4480.32..4480.32 rows=2 width=8)
+         ->  Bitmap Heap Scan on orders  (cost=1126.90..4480.32 rows=2 width=8)
+           Recheck Cond: (totalamount >= 100::numeric)
+           Filter: ((date_part('year'::text, (orderdate)::timestamp without time zone)
+           		= 2012::double precision)
+           	AND (date_part('month'::text, (orderdate)::timestamp without time zone) 
+           		= 4::double precision))
+           ->  Bitmap Index Scan on idx_totalamount  (cost=0.00..1126.90 rows=60597 width=0)
+             Index Cond: (totalamount >= 100::numeric)
+(12 rows)
+
+
+CREATE INDEX idx_orderdate ON orders(orderdate);
+    				 QUERY PLAN                                                                                                                                
+------------------------------------------------------------------------------------
+Aggregate  (cost=22811.69..22811.70 rows=1 width=0)
+ ->  HashAggregate  (cost=22811.67..22811.68 rows=1 width=4)
+   ->  HashAggregate  (cost=22811.65..22811.66 rows=1 width=4)
+     ->  Hash Join  (cost=4480.34..22811.63 rows=9 width=4)
+       Hash Cond: (orderdetail.orderid = orders.orderid)
+       ->  Seq Scan on orderdetail  (cost=0.00..15321.60 rows=802560 width=4)
+       ->  Hash  (cost=4480.32..4480.32 rows=2 width=8)
+         ->  Bitmap Heap Scan on orders  (cost=1126.90..4480.32 rows=2 width=8)
+           Recheck Cond: (totalamount >= 100::numeric)
+           Filter: ((date_part('year'::text, (orderdate)::timestamp without time zone)
+           		= 2012::double precision) 
+           	AND (date_part('month'::text, (orderdate)::timestamp without time zone) 
+           		= 4::double precision))
+           ->  Bitmap Index Scan on idx_totalamount  
+              (cost=0.00..1126.90 rows=60597 width=0)
+             Index Cond: (totalamount >= 100::numeric)
+(12 rows)
+
+\end{Verbatim}
+
+Podemos comprobar por los tiempos, que una vez agregado el índice en \textit{orders(TOTALAMOUNT)}, el tiempo de ejecución previsto ser reduce de \textit{25017.60..25017.61} a \textit{22811.69..22811.70}. En cambio, el otro posible índice que nos podemos plantear (porque es al otro dato al que se accede) es \textit{orders(ORDERDATE)}, pero al añadir un índice a esta columna, el tiempo previsto no se ve modificado (como podemos comprobar en el tercer \textit{EXPLAIN}).
+
+
+
 \subsection{Estudio del impacto de preparar sentencias SQL}
+Los datos se han obtenido utilizando el script \textit{listaClientesMes.sh}.
 
-\subsection{Estudio del impacto de cambiar la forma de realizar una consulta}
+\begin{Verbatim}
 
-\subsection{Estudio del impacto de la generación de estadísticas}
+no INDEX
+	prepare on: 84160.36 ms
+	prepare off: 84827.76 ms
+
+INDEX
+	prepare on: 4141.79 ms
+	prepare off: 4782.57 ms
+
+\end{Verbatim}
+
+Se observa una ligera mejora al realizar las consultas con prepare. Además del tiempo de ejecución (que tampoco es una diferencia sustaucial) la gran ventaja es que es más seguro porque protege de ataques SQL Injection de nivel 1.
+
+\subsection{Estudio del impacto de cambiar la forma de realizar una consulta y estudio del impacto de la generación de estadísticas}
+
+
+La generación de los datos necesarios para este apartado, los hemos generado con el script \textit{1D.sh} que genera un fichero \textit{countStatus.sql} con las sentencias y sus planes de ejecución, antes y después de añadir los índices. 
+
+El resumen de los datos (extraídos de \textit{countStatus.sql}) es el siguiente:
+
+\begin{tabular}{c|c|c|c}
+& Sin índice & Con índice & POST-ANALYZE \\\hline
+Consulta 1 & 3961.65..4490.81 & 1498.79..2027.96& 2331.34..2860.50\\
+Consulta 2 & 4537.41..4539.91 &2074.55..2077.05&3126.46..3128.96\\
+Consulta 3 & 0.00..4640.83 & 0.00..2177.98 & 0.00..3186.01
+\end{tabular}
+
+\paragraph{C)} Comprobamos que la última consulta es la mejor forma de realizar la query, ya que el mínimo es mucho menor y el máximo un poco superior. Observamos también que la primera forma de realizar la consulta es mejor que la segunda. De esto extraemos la conclusión de que es importante la manera de ejecutar la consulta y merece la pena estudiar las posibilidades, aunque nos parezcan menos intuitivas (como es el caso de la tercera).
+
+\paragraph{D)}
+Podemos comprobar que el índice reduce los tiempos y que el ANALYZE los aumenta, aunque este aumento en realidad es una precisión más real de la estimación del tiempo. Tendríamos que contar la reducción de tiempo a la tercera columna y no a la segunda ya que los datos son más reales.
+
 
 \section{Transacciones y \textit{deadlocks}}
 
 \subsection{Transacciones}
+
+El \textit{dump} ya viene sin las restricciones de \textit{ON DELETE CASCADE}. Aun así, se ha incluido en el código (comentado) las sentencias necesarias para eliminar estas restricciones.
+
+El fichero \textit{borraClienteMal.php} tiene un campo en el form para ejecutar las consultas con error o sin error. 
+
+La página generada es la impresión de los resultados de las consultas, paso tras paso como se pedía. 
+
+Si se quiere realizar el commit intermedio, se comprueba que el borrado de los registros de \textit{orderdetail} se ha producido, aunque se haya hecho un \textit{rollback} (la última sentencia devuelve tabla vacía).
 
 \subsection{Estudio de bloqueos y \textit{deadlocks}}
 

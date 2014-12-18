@@ -135,6 +135,9 @@ if (isset($_GET['enviado'])){
 					1 => "delete from customers  where customerid = :id;",
 					2 => "delete from orders  where customerid = :id;");
 
+	if (isset($_GET['commit']))
+		unset($_GET['bien']);
+
 	if (!isset($_GET['bien'])){
 		if (isset($_GET['PDO'])){
 			$delete = $delete_mal_pdo;
@@ -154,11 +157,13 @@ if (isset($_GET['enviado'])){
 
 
 	if (isset($_GET['PDO'])){
-		$conn->query("BEGIN;");
+		$conn->beginTransaction();
 	}
 	else{
 		$conn->query("BEGIN;");
 	}
+
+	$customerid = $_GET['id'];
 
 	echo "<h2>Begin tran	saction</h2>";
 	PrintTable($conn,FALSE,$id);
@@ -171,9 +176,19 @@ if (isset($_GET['enviado'])){
 				echo "<h2>A procesar: ".$del."</h2>";
 				$dbh->execute();
 				$dbh->fetchAll();
+				if (isset($_GET['commit'])){
+					$dbh->commit();			
+					echo "<h3> Commit intermedio";
+					$dbh->beginTransaction();	
+				}
 			}else{
 				echo "<h2>A procesar: ".$del."</h2>";
 				$res = $conn->query("$del");
+				if (isset($_GET['commit'])){
+					$conn->query("COMMIT;");
+					echo "<h3> Commit intermedio";
+					$conn->query("BEGIN;");
+				}
 			}
 			PrintTable($conn,FALSE,$id);
 		}catch (Exception $e){
@@ -209,7 +224,8 @@ if (isset($_GET['enviado'])){
     <form action="">
 		<label> id </label><input type="numeric" name="id"><br>
 		<input type="checkbox" name="PDO">Utilizar PDO para la transacción.<br>
-		<input type="checkbox" name="bien">Realizar borrado completo o con error.<br>
+		<input type="checkbox" name="bien">Realizar borrado completo (o con error).<br>
+		<input type="checkbox" name="commit">Realizar commit intermedio (implica borrado mal).<br>
 		<input type="submit" name="enviado" value="Enviar">
 
 	</form>
