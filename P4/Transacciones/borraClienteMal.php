@@ -19,7 +19,7 @@ if (isset($_GET['enviado'])){
 
 	$id = $_GET['id'];
 
-	/* 
+	/*
 	El dump viene sin ON DELETE CASCADE
 
 	alter table orderdetail drop constraint orderdetail_orderid_fkey;
@@ -30,10 +30,11 @@ if (isset($_GET['enviado'])){
 
 	 */
 
-
 	function PrintTable($pdo,$new,$id)
-	{	
-		
+	{
+		if(isset($_GET['block']))
+			return;
+
 		$sql_print_customer = "select firstname from customers";
 		$sql_print_order = "select orderid,customerid,totalamount from orders";
 		$sql_print_prod = "select orderid,prod_id,price from orderdetail";
@@ -45,7 +46,7 @@ if (isset($_GET['enviado'])){
 		}else{
 			$new_conn = $pdo;
 		}
-		
+
 		$sql_temp_ctm = $sql_print_customer." where customerid = $id;";
 		$sql_temp_order = $sql_print_order." where customerid = $id;";
 
@@ -56,7 +57,7 @@ if (isset($_GET['enviado'])){
 
 		$sql_temp_prd = $sql_print_prod." where 1=0 ";
 		foreach ($_t_prod_id as $prdid) {
-			$sql_temp_prd = $sql_temp_prd." union ".$sql_print_prod."  where orderid = ".$prdid['orderid'];	
+			$sql_temp_prd = $sql_temp_prd." union ".$sql_print_prod."  where orderid = ".$prdid['orderid'];
 		}
 		$sql_temp_prd = $sql_temp_prd.";";
 
@@ -127,9 +128,9 @@ if (isset($_GET['enviado'])){
 					2 => "delete from orders  where customerid = $id;");
 
 
-	$delete_bien_pdo = array(0 => "delete from orderdetail  where orderid in (select orderid from orders  where customerid = :id);",
-					1 => "delete from orders  where customerid = :id;",
-					2 => "delete from customers  where customerid = :id;" );
+	$delete_bien_pdo = array(0 => "DELETE FROM orderdetail WHERE orderid IN (SELECT orderid FROM orders WHERE customerid = :id);",
+					1 => "DELETE FROM orders WHERE customerid = :id;",
+					2 => "DELETE FROM customers WHERE customerid = :id;");
 
 	$delete_mal_pdo = array(0 => "delete from orderdetail  where orderid in (select orderid from orders  where customerid = :id);",
 					1 => "delete from customers  where customerid = :id;",
@@ -153,8 +154,7 @@ if (isset($_GET['enviado'])){
 		}
 	}
 
-	$err=0;
-
+	$err = 0;
 
 	if (isset($_GET['PDO'])){
 		$conn->beginTransaction();
@@ -165,9 +165,21 @@ if (isset($_GET['enviado'])){
 
 	$customerid = $_GET['id'];
 
-	echo "<h2>Begin tran	saction</h2>";
+	echo "<h2>Begin transaction</h2>";
 	PrintTable($conn,FALSE,$id);
-	foreach ($delete as $del) {
+	$queryNum = 0;
+	$secondsBlock = 10;
+
+	foreach ($delete as $del)
+	{
+		if($queryNum == 2 && isset($_GET['block']))
+		{
+			echo "Bloqueando durante $secondsBlock segundos.";
+			sleep($secondsBlock);
+		}
+
+		$queryNum++;
+
 		try{
 			if (isset($_GET['PDO']))
 			{
@@ -176,22 +188,29 @@ if (isset($_GET['enviado'])){
 				echo "<h2>A procesar: ".$del."</h2>";
 				$dbh->execute();
 				$dbh->fetchAll();
-				if (isset($_GET['commit'])){
-					$dbh->commit();			
+
+				if (isset($_GET['commit']))
+				{
+					$dbh->commit();
 					echo "<h3> Commit intermedio";
-					$dbh->beginTransaction();	
+					$dbh->beginTransaction();
 				}
-			}else{
+			}
+			else
+			{
 				echo "<h2>A procesar: ".$del."</h2>";
 				$res = $conn->query("$del");
-				if (isset($_GET['commit'])){
+
+				if (isset($_GET['commit']))
+				{
 					$conn->query("COMMIT;");
 					echo "<h3> Commit intermedio";
 					$conn->query("BEGIN;");
 				}
 			}
 			PrintTable($conn,FALSE,$id);
-		}catch (Exception $e){
+		}catch (Exception $e)
+		{
 			echo '<h2>Excepción capturada: ',  $e->getMessage(), "<br> Ejecutando roll-back</h2>";
 			if (isset($_GET['PDO'])){
 				$conn->rollBack();

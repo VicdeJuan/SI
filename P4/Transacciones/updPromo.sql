@@ -12,6 +12,8 @@ BEGIN
 		WHERE status IS NULL
 			AND customerid = NEW.customerid;
 
+	PERFORM pg_sleep(10);
+
 	RETURN NEW;
 END
 $updPromo$ language 'plpgsql';
