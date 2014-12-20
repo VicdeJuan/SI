@@ -70,6 +70,12 @@ UPDATE customers
 EOF
 (psql -f /tmp/query && echob "Finished query" && show_locks) &
 
+sleep 1
+
+show_locks
+
+sleep 11
+echob "Deadlock?"
 show_locks
 
 echo
