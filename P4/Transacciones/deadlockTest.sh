@@ -66,12 +66,19 @@ echob "Update customers: set customers[${customerId}].promo = 20"
 cat > /tmp/query <<EOF
 UPDATE customers
 	SET promo = 20
-	WHERE customerid = $customerId
-	;
+	WHERE customerid = $customerId;
 EOF
 (psql -f /tmp/query && echob "Finished query" && show_locks) &
 
 show_locks
+
+echo
+echob "Showing customerid[${customerId}] status: "
+psql <<EOF
+SELECT customerId, promo
+	FROM customers
+	WHERE customerId = $customerId;
+EOF
 
 echob "${tgreen}Intro to finish..."
 read out
