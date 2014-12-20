@@ -26,25 +26,25 @@
 
 \subsection{Estudio del impacto de un índice}
 
-La consulta creada es 
+La consulta creada es
 \begin{Verbatim}[frame = lines]
 SELECT count(*) as cc FROM (
-	SELECT DISTINCT customerid 
-	FROM orderdetail JOIN orders using (orderid) 
-	WHERE 
-		EXTRACT(year FROM orders.orderdate)::int = 2012 AND 
-		EXTRACT(month FROM orders.orderdate)::int = 04 AND 
+	SELECT DISTINCT customerid
+	FROM orderdetail JOIN orders using (orderid)
+	WHERE
+		EXTRACT(year FROM orders.orderdate)::int = 2012 AND
+		EXTRACT(month FROM orders.orderdate)::int = 04 AND
 		totalamount >= 100 GROUP BY customerid
 	)AS foo;
 \end{Verbatim}
 
-Y estos los resultados de ejecutar EXPLAIN sobre la consulta después antes y después de los índices: 
+Y estos los resultados de ejecutar EXPLAIN sobre la consulta después antes y después de los índices:
 
 \begin{Verbatim}
 EXPLAIN SELECT * FROM clientesDistintos;
 
 
-				     QUERY PLAN                                                                                                                                
+				     QUERY PLAN
 ------------------------------------------------------------------------------------
  Aggregate  (cost=25017.60..25017.61 rows=1 width=0)
  ->  HashAggregate  (cost=25017.57..25017.58 rows=1 width=4)
@@ -56,7 +56,7 @@ EXPLAIN SELECT * FROM clientesDistintos;
          ->  Seq Scan on orders  (cost=0.00..6686.23 rows=2 width=8)
            Filter: ((totalamount >= 100::numeric) AND
            	(date_part('year'::text, (orderdate)::timestamp without time zone) =
-           		2012::double precision) AND 
+           		2012::double precision) AND
            	(date_part('month'::text, (orderdate)::timestamp without time zone) =
            		4::double precision))
 (9 rows)
@@ -66,7 +66,7 @@ CREATE INDEX idx_totalamount ON orders(totalamount);
 
 EXPLAIN SELECT * FROM clientesDistintos;
 
-    				 QUERY PLAN                                                                                                                                
+    				 QUERY PLAN
 ------------------------------------------------------------------------------------
 
  Aggregate  (cost=22811.69..22811.70 rows=1 width=0)
@@ -80,7 +80,7 @@ EXPLAIN SELECT * FROM clientesDistintos;
            Recheck Cond: (totalamount >= 100::numeric)
            Filter: ((date_part('year'::text, (orderdate)::timestamp without time zone)
            		= 2012::double precision)
-           	AND (date_part('month'::text, (orderdate)::timestamp without time zone) 
+           	AND (date_part('month'::text, (orderdate)::timestamp without time zone)
            		= 4::double precision))
            ->  Bitmap Index Scan on idx_totalamount  (cost=0.00..1126.90 rows=60597 width=0)
              Index Cond: (totalamount >= 100::numeric)
@@ -88,7 +88,7 @@ EXPLAIN SELECT * FROM clientesDistintos;
 
 
 CREATE INDEX idx_orderdate ON orders(orderdate);
-    				 QUERY PLAN                                                                                                                                
+    				 QUERY PLAN
 ------------------------------------------------------------------------------------
 Aggregate  (cost=22811.69..22811.70 rows=1 width=0)
  ->  HashAggregate  (cost=22811.67..22811.68 rows=1 width=4)
@@ -100,10 +100,10 @@ Aggregate  (cost=22811.69..22811.70 rows=1 width=0)
          ->  Bitmap Heap Scan on orders  (cost=1126.90..4480.32 rows=2 width=8)
            Recheck Cond: (totalamount >= 100::numeric)
            Filter: ((date_part('year'::text, (orderdate)::timestamp without time zone)
-           		= 2012::double precision) 
-           	AND (date_part('month'::text, (orderdate)::timestamp without time zone) 
+           		= 2012::double precision)
+           	AND (date_part('month'::text, (orderdate)::timestamp without time zone)
            		= 4::double precision))
-           ->  Bitmap Index Scan on idx_totalamount  
+           ->  Bitmap Index Scan on idx_totalamount
               (cost=0.00..1126.90 rows=60597 width=0)
              Index Cond: (totalamount >= 100::numeric)
 (12 rows)
@@ -134,7 +134,7 @@ Se observa una ligera mejora al realizar las consultas con prepare. Además del 
 \subsection{Estudio del impacto de cambiar la forma de realizar una consulta y estudio del impacto de la generación de estadísticas}
 
 
-La generación de los datos necesarios para este apartado, los hemos generado con el script \textit{1D.sh} que genera un fichero \textit{countStatus.sql} con las sentencias y sus planes de ejecución, antes y después de añadir los índices. 
+La generación de los datos necesarios para este apartado, los hemos generado con el script \textit{1D.sh} que genera un fichero \textit{countStatus.sql} con las sentencias y sus planes de ejecución, antes y después de añadir los índices.
 
 El resumen de los datos (extraídos de \textit{countStatus.sql}) es el siguiente:
 
@@ -157,13 +157,150 @@ Podemos comprobar que el índice reduce los tiempos y que el ANALYZE los aumenta
 
 El \textit{dump} ya viene sin las restricciones de \textit{ON DELETE CASCADE}. Aun así, se ha incluido en el código (comentado) las sentencias necesarias para eliminar estas restricciones.
 
-El fichero \textit{borraClienteMal.php} tiene un campo en el form para ejecutar las consultas con error o sin error. 
+El fichero \textit{borraClienteMal.php} tiene un campo en el formulario para ejecutar las consultas con error o sin error.
 
-La página generada es la impresión de los resultados de las consultas, paso tras paso como se pedía. 
+La página generada es la impresión de los resultados de las consultas, paso tras paso como se pedía.
 
 Si se quiere realizar el commit intermedio, se comprueba que el borrado de los registros de \textit{orderdetail} se ha producido, aunque se haya hecho un \textit{rollback} (la última sentencia devuelve tabla vacía).
 
 \subsection{Estudio de bloqueos y \textit{deadlocks}}
+
+En el \textit{trigger} de \textit{updPromo.sql} ponemos una sentencia \textit{pg\_sleep} después del \textit{UPDATE}, de tal forma que aunque se haya ejecutado el cambio no acabe la consulta.
+
+Modificamos \textit{borraClienteMal.php} para añadirle un parámetro \textit{GET} - \texttt{block}, de tal forma que podamos activar a voluntad un \textit{sleep} en PHP sin tener que cambiar ficheros.
+
+En el \textit{script} \textit{deadlockTest.sh} ejecutamos los comandos necesarios para demostrar el interbloqueo. Primero se llama al PHP con los parámetros necesarios para borrar un cliente (el 693), que tiene varios carritos con estado \textit{NULL}, usando un objeto PDO y además parándose después de haber borrado los carritos (sentencia \texttt{DELETE FROM orders ...}) y antes de borrar el cliente de la base de datos.
+
+Justo después, ejecutamos a través de \textit{psql} la siguiente consulta:
+
+\begin{Verbatim}[frame = lines]
+UPDATE customers SET promo = 20 WHERE customerid = 693;
+\end{Verbatim}
+
+Esta sentencia disparará el \textit{trigger} creado en \textit{updPromo.sql}, y se producirá un interbloqueo.
+
+Al haber iniciado en PHP una transacción en la que se ha hecho un borrado sobre la tabla \textit{orders}, automáticamente se establece un \texttt{RowExclusiveLock} sobre las filas afectadas. Después, se ejecuta la sentencia \texttt{UPDATE customers ...}, que también adquiere un bloqueo exclusivo sobre la fila del cliente con id 693.
+
+Cuando se ejecuta el \textit{trigger}, éste trata de cambiar los registros borrados de \textit{orders}, que están bloqueados por la transacción del PHP, luego se queda esperando hasta que ese bloqueo se levante.
+
+En ese momento, este es el estado de los bloqueos de la base de datos, donde los \textit{pid} se han cambiado para ser más legibles. La transacción 11426 es la que está ejecutando PHP, y la 11427 la que está ejecutando \textit{psql} desde otra sesión. Se puede ver cómo la sesicón de \textit{psql} está tratando de obtener un \texttt{ShareLock} sobre la transacción de PHP para poder escribir en \textit{orders} (está registrado pero no adquirido ya que el campo \texttt{granted} tiene valor \texttt{f}, falso).
+
+\begin{Verbatim}[frame=lines]
+
+Existing locks:
+   locktype    |    relation    |       mode       |  tid  | vtid  |  pid  | granted
+---------------+----------------+------------------+-------+-------+-------+---------
+ relation      | orders_pkey    | AccessShareLock  |       | 2/377 | PHP   | t
+ relation      | orders_pkey    | RowExclusiveLock |       | 2/377 | PHP   | t
+ relation      | orders         | AccessShareLock  |       | 2/377 | PHP   | t
+ relation      | orders         | RowShareLock     |       | 2/377 | PHP   | t
+ relation      | orders         | RowExclusiveLock |       | 2/377 | PHP   | t
+ relation      | orderdetail    | RowShareLock     |       | 2/377 | PHP   | t
+ relation      | orderdetail    | RowExclusiveLock |       | 2/377 | PHP   | t
+ virtualxid    |                | ExclusiveLock    |       | 2/377 | PHP   | t
+ relation      | orders_pkey    | RowExclusiveLock |       | 3/4   | PSQL  | t
+ relation      | orders         | RowExclusiveLock |       | 3/4   | PSQL  | t
+ relation      | customers_pkey | RowExclusiveLock |       | 3/4   | PSQL  | t
+ relation      | customers      | RowExclusiveLock |       | 3/4   | PSQL  | t
+ virtualxid    |                | ExclusiveLock    |       | 3/4   | PSQL  | t
+ transactionid |                | ExclusiveLock    | 11426 | 2/377 | PHP   | t
+ transactionid |                | ExclusiveLock    | 11427 | 3/4   | PSQL  | t
+ tuple         | orders         | ExclusiveLock    |       | 3/4   | PSQL  | t
+ transactionid |                | ShareLock        | 11426 | 3/4   | PSQL  | f
+(17 rows)
+
+
+Locked queries:
+                   query                   |        state        | waiting |  pid
+-------------------------------------------+---------------------+---------+-------
+ DELETE FROM orders WHERE customerid = $1; | idle in transaction | f       | PHP
+ UPDATE customers                         +| active              | t       | PSQL
+         SET promo = 20                   +|                     |         |
+         WHERE customerid = 693;           |                     |         |
+(2 rows)
+\end{Verbatim}
+
+Pasados unos segundos, acaba el \textit{sleep} de PHP y continúa su transacción. La siguiente consulta es un borrado en la tabla \textit{customers}, que está bloqueada por PSQL. Este es el estado de bloqueos en la base de datos:
+
+\begin{Verbatim}[frame=lines]
+
+Existing locks:
+   locktype    |    relation    |        mode         |  tid  | vtid  |  pid  | granted
+---------------+----------------+---------------------+-------+-------+-------+---------
+ relation      | customers_pkey | RowExclusiveLock    |       | 2/377 | PHP   | t
+ relation      | customers      | RowExclusiveLock    |       | 2/377 | PHP   | t
+ relation      | orders_pkey    | AccessShareLock     |       | 2/377 | PHP   | t
+ relation      | orders_pkey    | RowExclusiveLock    |       | 2/377 | PHP   | t
+ relation      | orders         | AccessShareLock     |       | 2/377 | PHP   | t
+ relation      | orders         | RowShareLock        |       | 2/377 | PHP   | t
+ relation      | orders         | RowExclusiveLock    |       | 2/377 | PHP   | t
+ relation      | orderdetail    | RowShareLock        |       | 2/377 | PHP   | t
+ relation      | orderdetail    | RowExclusiveLock    |       | 2/377 | PHP   | t
+ virtualxid    |                | ExclusiveLock       |       | 2/377 | PHP   | t
+ relation      | orders_pkey    | RowExclusiveLock    |       | 3/4   | PSQL  | t
+ relation      | orders         | RowExclusiveLock    |       | 3/4   | PSQL  | t
+ relation      | customers_pkey | RowExclusiveLock    |       | 3/4   | PSQL  | t
+ relation      | customers      | RowExclusiveLock    |       | 3/4   | PSQL  | t
+ virtualxid    |                | ExclusiveLock       |       | 3/4   | PSQL  | t
+ transactionid |                | ExclusiveLock       | 11426 | 2/377 | PHP   | t
+ transactionid |                | ExclusiveLock       | 11427 | 3/4   | PSQL  | t
+ tuple         | orders         | ExclusiveLock       |       | 3/4   | PSQL  | t
+ transactionid |                | ShareLock           | 11426 | 3/4   | PSQL  | f
+ tuple         | customers      | AccessExclusiveLock |       | 2/377 | PHP   | t
+ transactionid |                | ShareLock           | 11427 | 2/377 | PHP   | f
+(21 rows)
+
+
+Locked queries:
+                    query                     | state  | waiting |  pid
+----------------------------------------------+--------+---------+-------
+ DELETE FROM customers WHERE customerid = $1; | active | t       | PHP
+ UPDATE customers                            +| active | t       | PSQL
+         SET promo = 20                      +|        |         |
+         WHERE customerid = 693;              |        |         |
+(2 rows)
+\end{Verbatim}
+
+Ambas consultas están esperando, ya que ahora PHP está tratando de obtener un \texttt{ShareLock} sobre la transacción del PSQL, que a su vez está esperando a que la transacción de PHP acabe. Se ha producido un interbloqueo, y de hecho PostgreSQL lo detecta, tal y como se puede ver en el siguiente extracto de su registro:
+
+\begin{Verbatim}[frame = lines]
+2014-12-20 13:13:17 CET LOG:  process PHP detected deadlock while waiting
+ for ShareLock on transaction 11427 after 5000.439 ms
+2014-12-20 13:13:17 CET STATEMENT:  DELETE FROM customers WHERE customerid = $1;
+2014-12-20 13:13:17 CET ERROR:  deadlock detected
+2014-12-20 13:13:17 CET DETAIL:  Process PHP waits for ShareLock on
+  transaction 11427; blocked by process PSQL.
+    Process PSQL waits for ShareLock on transaction 11426; blocked by process PHP.
+    Process PHP: DELETE FROM customers WHERE customerid = $1;
+    Process PSQL: UPDATE customers
+      SET promo = 20
+      WHERE customerid = 693;
+\end{Verbatim}
+
+En este momento, los cambios de ninguna de las dos sesiones es visible. De hecho, la salida de \texttt{SELECT customerId, promo FROM customers WHERE customerId = 693;} es la siguiente
+
+\begin{Verbatim}[frame = lines]
+Showing customerid[693] status:
+ customerid | promo
+------------+-------
+        693 |
+(1 row)
+\end{Verbatim}
+
+Para evitar más problemas, PostgreSQL devuelve un error en la consulta en la que se ha generado el interbloqueo, la de PHP. Por lo tanto, se realiza un \textit{rollback}, se libera el bloqueo sobre la tabla \textit{orders} y el \textit{trigger} continúa su ejecución, de tal forma que el registro de \textit{customers} no se habrá borrado pero sí habrá cambiado su columna \textit{promo}.
+
+\begin{Verbatim}[frame=lines]
+ customerid | promo
+------------+-------
+        693 |    20
+(1 row)
+\end{Verbatim}
+
+\subsubsection{Cómo evitar y afrontar problemas de interbloqueos}
+
+Se puede tratar de reducir las probabilidad de que ocurran interbloqueos adquiriendo los bloqueos al principio de la transacción (aislamiento de grado 3) y no entre medias, de forma atómica, de tal forma que si una transacción no va a poder tomar exclusividad sobre una tabla o un registro lo detecte antes de tomar otro bloqueo que pueda generar problemas.
+
+También se puede confiar en la gestión de interbloqueos de PostgreSQL y simplemente preparar el código PHP para reintentar en caso de error, ya que es poco probable que se reproduzca un interbloqueo si las consultas son medianamente rápidas.
 
 \section{Seguridad}
 
