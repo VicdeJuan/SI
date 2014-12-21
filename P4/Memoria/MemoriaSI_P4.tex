@@ -183,7 +183,7 @@ Al haber iniciado en PHP una transacción en la que se ha hecho un borrado sobre
 
 Cuando se ejecuta el \textit{trigger}, éste trata de cambiar los registros borrados de \textit{orders}, que están bloqueados por la transacción del PHP, luego se queda esperando hasta que ese bloqueo se levante.
 
-En ese momento, este es el estado de los bloqueos de la base de datos, donde los \textit{pid} se han cambiado para ser más legibles. La transacción 11426 es la que está ejecutando PHP, y la 11427 la que está ejecutando \textit{psql} desde otra sesión. Se puede ver cómo la sesicón de \textit{psql} está tratando de obtener un \texttt{ShareLock} sobre la transacción de PHP para poder escribir en \textit{orders} (está registrado pero no adquirido ya que el campo \texttt{granted} tiene valor \texttt{f}, falso).
+En ese momento, este es el estado de los bloqueos de la base de datos, donde los \textit{pid} se han cambiado para ser más legibles. La transacción 11426 es la que está ejecutando PHP, y la 11427 la que está ejecutando \textit{psql} desde otra sesión. Se puede ver cómo la sesicón de \textit{psql} está esperando, tratando de obtener un \texttt{ShareLock} sobre la transacción de PHP para poder escribir en \textit{orders} (el bloqueoestá registrado pero no adquirido ya que el campo \texttt{granted} tiene valor \texttt{f}, falso).
 
 \begin{Verbatim}[frame=lines]
 
@@ -206,7 +206,7 @@ Existing locks:
  transactionid |                | ExclusiveLock    | 11426 | 2/377 | PHP   | t
  transactionid |                | ExclusiveLock    | 11427 | 3/4   | PSQL  | t
  tuple         | orders         | ExclusiveLock    |       | 3/4   | PSQL  | t
- transactionid |                | ShareLock        | 11426 | 3/4   | PSQL  | f
+ transactionid |                | ShareLock        | 11426 | 3/4   | PSQL  | f <-
 (17 rows)
 
 
@@ -245,9 +245,9 @@ Existing locks:
  transactionid |                | ExclusiveLock       | 11426 | 2/377 | PHP   | t
  transactionid |                | ExclusiveLock       | 11427 | 3/4   | PSQL  | t
  tuple         | orders         | ExclusiveLock       |       | 3/4   | PSQL  | t
- transactionid |                | ShareLock           | 11426 | 3/4   | PSQL  | f
+ transactionid |                | ShareLock           | 11426 | 3/4   | PSQL  | f <-
  tuple         | customers      | AccessExclusiveLock |       | 2/377 | PHP   | t
- transactionid |                | ShareLock           | 11427 | 2/377 | PHP   | f
+ transactionid |                | ShareLock           | 11427 | 2/377 | PHP   | f <-
 (21 rows)
 
 
